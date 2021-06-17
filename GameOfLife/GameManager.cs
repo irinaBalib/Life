@@ -17,35 +17,48 @@ namespace GameOfLife
         public Field CreateField(int d)
         {
             Generation = new Field(d);
-            FillField(Generation);
+            FillField();
             return Generation;
         }
 
-        public void FillField(Field f)
+        public void FillField()
         {
-            f.Cells = new Cell[f.Height, f.Width];
-            for (int r = 0; r < f.Cells.GetLength(0); r++)
+            Generation.Cells = new Cell[Generation.Height, Generation.Width];
+            for (int r = 0; r < Generation.Cells.GetLength(0); r++)
             {
-                for (int c = 0; c < f.Cells.GetLength(1); c++)
+                for (int c = 0; c < Generation.Cells.GetLength(1); c++)
                 {
-                    f.Cells[r, c] = new Cell();
+                    Generation.Cells[r, c] = new Cell();
                 }
             }
         }
 
-        public void ViewField(Field f)
+        public void SetInitState()
         {
-            for (int r = 0; r < f.Cells.GetLength(0); r++)
+
+        }
+        public void ViewField()
+        {
+            for (int r = 0; r < Generation.Cells.GetLength(0); r++)
             {
-                for (int c = 0; c < f.Cells.GetLength(1); c++)
+                for (int c = 0; c < Generation.Cells.GetLength(1); c++)
                 {
-                    Console.Write(f.Cells[r, c].IsAlive);
+                    if (!Generation.Cells[r, c].IsAlive)
+                    {
+                        Console.Write("O");
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.Cyan;
+                        Console.Write("O");
+                        Console.ResetColor();
+                    }
                 }
                 Console.WriteLine();
             }
         }
 
-        public void UpdateField(Field field)
+        public void UpdateField()
         {
 
             throw new NotImplementedException();

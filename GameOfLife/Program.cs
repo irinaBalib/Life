@@ -30,10 +30,13 @@ namespace GameOfLife
                 }
             }
 
+            Console.Clear();
+
             GameManager manager = new GameManager();
-
-
-            manager.ViewField(manager.CreateField(dimension));
+           
+            manager.CreateField(dimension);
+            manager.SetInitState(); 
+            manager.ViewField();
         }
 
         
