@@ -95,7 +95,6 @@ namespace GameOfLife
                 if (c.IsAlive != c.WillLive)
                 {
                     c.UpdateCurrentState();
-                    c.DisplayCell();
                 }
             }
         }

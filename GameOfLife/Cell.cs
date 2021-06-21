@@ -27,16 +27,35 @@ namespace GameOfLife
                 {
                     WillLive = false;
                 }
+                else 
+                {
+                    WillLive = true;
+                }
             }
-            else if (!IsAlive && neighbours == 3)
+            else if (!IsAlive)
             {
-                WillLive = true;
+                if ( neighbours == 3)
+                {
+                    WillLive = true;
+                }
+                else
+                {
+                    WillLive = false;
+                }
             }
+           
         }
 
         public void UpdateCurrentState()
         {
-            IsAlive = WillLive;
+            if (!WillLive)
+            {
+                IsAlive = false;
+            }
+            else if (WillLive)
+            {
+                IsAlive = true;
+            }
         }
 
         public void DisplayCell()

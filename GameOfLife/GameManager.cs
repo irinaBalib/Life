@@ -25,21 +25,22 @@ namespace GameOfLife
         
         public void SetInitState()
         {
-            GameField.Cells[2,10].IsAlive = true;
-            GameField.Cells[3,9].IsAlive = true;
-            GameField.Cells[3,10].IsAlive = true;
-            GameField.Cells[3,11].IsAlive = true;
+            GameField.Cells[10,10].IsAlive = true;
+            GameField.Cells[11,9].IsAlive = true;
+            GameField.Cells[11,10].IsAlive = true;
+            GameField.Cells[11,11].IsAlive = true;
         }
         public void PutGameOn()
         {
-            
+            int g = 0;
             do
             {
+                Console.WriteLine("Generation {0}", g);
               GameField.ViewField();
                 Thread.Sleep(1000);
                 GameField.UpdateFieldData();
-                //Console.Clear();
-                Console.WriteLine();
+                Console.Clear();
+                g++;
             } while (!IsGameOver());
         }
         public bool IsGameOver()
