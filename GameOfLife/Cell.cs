@@ -6,16 +6,53 @@ namespace GameOfLife
 {
     class Cell
     {
+        public string Id { get; }
         public bool IsAlive { get; set; }
-        public bool WillSurvive { get; set; }
+        public bool WillLive { get; set; }
 
         //public int Row { get; set; }
         //public int Column { get; set; }
 
-        public Cell()
+        public Cell(int r, int c)
         {
+            Id = $"{r}-{c}"; // for List of monitored cells
             IsAlive = false;
-            WillSurvive = false;
+            WillLive = false;
         }
+        public void SetFutureState(int neighbours)
+        {
+            if (IsAlive)
+            {
+                if (neighbours < 2 || neighbours > 3)
+                {
+                    WillLive = false;
+                }
+            }
+            else if (!IsAlive && neighbours == 3)
+            {
+                WillLive = true;
+            }
+        }
+
+        public void UpdateCurrentState()
+        {
+            IsAlive = WillLive;
+        }
+
+        public void DisplayCell()
+        {
+            if (IsAlive)
+            {
+                Console.BackgroundColor = ConsoleColor.Cyan;
+                Console.Write("O");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.Write("O");
+            }
+        }
+
+        
     }
 }

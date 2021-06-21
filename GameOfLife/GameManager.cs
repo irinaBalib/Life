@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace GameOfLife
 {
     class GameManager
     {
-        public Field Generation { get; set; }
+        public Field GameField { get; set; }
 
         //public Field NextGeneration { get; set; }
 
@@ -16,52 +17,38 @@ namespace GameOfLife
 
         public Field CreateField(int d)
         {
-            Generation = new Field(d);
-            FillField();
-            return Generation;
+            GameField = new Field(d);
+            GameField.FillField();
+            return GameField;
         }
 
-        public void FillField()
-        {
-            Generation.Cells = new Cell[Generation.Height, Generation.Width];
-            for (int r = 0; r < Generation.Cells.GetLength(0); r++)
-            {
-                for (int c = 0; c < Generation.Cells.GetLength(1); c++)
-                {
-                    Generation.Cells[r, c] = new Cell();
-                }
-            }
-        }
-
+        
         public void SetInitState()
         {
-
+            GameField.Cells[2,10].IsAlive = true;
+            GameField.Cells[3,9].IsAlive = true;
+            GameField.Cells[3,10].IsAlive = true;
+            GameField.Cells[3,11].IsAlive = true;
         }
-        public void ViewField()
+        public void PutGameOn()
         {
-            for (int r = 0; r < Generation.Cells.GetLength(0); r++)
+            
+            do
             {
-                for (int c = 0; c < Generation.Cells.GetLength(1); c++)
-                {
-                    if (!Generation.Cells[r, c].IsAlive)
-                    {
-                        Console.Write("O");
-                    }
-                    else
-                    {
-                        Console.BackgroundColor = ConsoleColor.Cyan;
-                        Console.Write("O");
-                        Console.ResetColor();
-                    }
-                }
+              GameField.ViewField();
+                Thread.Sleep(1000);
+                GameField.UpdateFieldData();
+                //Console.Clear();
                 Console.WriteLine();
-            }
+            } while (!IsGameOver());
         }
-
-        public void UpdateField()
+        public bool IsGameOver()
         {
-
-            throw new NotImplementedException();
+            if (GameField.HasAliveCells())
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

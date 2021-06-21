@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace GameOfLife
 {
@@ -13,14 +14,14 @@ namespace GameOfLife
             int dimension = 0;
             while (!inputIsValid)
             {
-                Console.Write("Please input the size of the field (5-20 cells): ");
+                Console.Write("Please input the size of the field (5-40 cells): ");
                 bool isNumber = int.TryParse(Console.ReadLine(), out dimension);
 
                 if (!isNumber)
                 {
                     Console.WriteLine("Invalid input!");
                 }
-                else if( dimension < 5 || dimension > 20)
+                else if( dimension < 5 || dimension > 40)
                 {
                     Console.WriteLine("Size is out of range!");
                 }
@@ -35,8 +36,14 @@ namespace GameOfLife
             GameManager manager = new GameManager();
            
             manager.CreateField(dimension);
-            manager.SetInitState(); 
-            manager.ViewField();
+            manager.SetInitState();
+            manager.PutGameOn();
+
+Console.ReadLine();
+
+            Console.Clear();
+            Console.WriteLine("GAME OVER");
+            
         }
 
         
