@@ -10,8 +10,6 @@ namespace GameOfLife
         public bool IsAlive { get; set; }
         public bool WillLive { get; set; }
 
-        //public int Row { get; set; }
-        //public int Column { get; set; }
 
         public Cell(int r, int c)
         {
@@ -19,11 +17,11 @@ namespace GameOfLife
             IsAlive = false;
             WillLive = false;
         }
-        public void SetFutureState(int neighbours)
+        public void SetFutureState(int aliveNeigbours)
         {
             if (IsAlive)
             {
-                if (neighbours < 2 || neighbours > 3)
+                if (aliveNeigbours < 2 || aliveNeigbours > 3)
                 {
                     WillLive = false;
                 }
@@ -34,7 +32,7 @@ namespace GameOfLife
             }
             else if (!IsAlive)
             {
-                if ( neighbours == 3)
+                if ( aliveNeigbours == 3)
                 {
                     WillLive = true;
                 }
@@ -43,7 +41,6 @@ namespace GameOfLife
                     WillLive = false;
                 }
             }
-           
         }
 
         public void UpdateCurrentState()

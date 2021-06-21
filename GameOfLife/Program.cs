@@ -39,8 +39,6 @@ namespace GameOfLife
             manager.SetInitState();
             manager.PutGameOn();
 
-Console.ReadLine();
-
             Console.Clear();
             Console.WriteLine("GAME OVER");
             

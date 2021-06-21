@@ -33,6 +33,10 @@ namespace GameOfLife
             GameField.Cells[2,2].IsAlive = true;
             GameField.Cells[2,3].IsAlive = true;
             GameField.Cells[2,4].IsAlive = true;
+
+            GameField.Cells[5,0].IsAlive = true;
+            GameField.Cells[6,0].IsAlive = true;
+            GameField.Cells[7,0].IsAlive = true;
         }
         public void PutGameOn()
         {
