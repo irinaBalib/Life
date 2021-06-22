@@ -60,15 +60,15 @@ namespace GameOfLife
             if (IsAlive)
             {
                 Console.BackgroundColor = ConsoleColor.DarkCyan;
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.Write("__");
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write("[_]");
                 Console.ResetColor();
             }
             else
             {
                 Console.BackgroundColor = ConsoleColor.Gray;
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write("__");
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write("[_]");
                 Console.ResetColor();
               
             }

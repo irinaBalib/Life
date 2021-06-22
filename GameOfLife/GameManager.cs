@@ -42,15 +42,17 @@ namespace GameOfLife
         {
             int g = 0;
             do
-            {
-                Console.WriteLine("Generation {0}", g);
-              GameField.ViewField();
-                Thread.Sleep(1000);
-                GameField.UpdateFieldData();
-                Console.Clear();
-                g++;
-            } while (!IsGameOver());
+                {
+                    Console.WriteLine("Generation {0}", g);
+                    GameField.ViewField();
+
+                    Thread.Sleep(1000);
+                    GameField.UpdateFieldData();
+                    Console.SetCursorPosition(0, 1);
+                    g++;
+                } while (!IsGameOver());
         }
+
         public bool IsGameOver()
         {
             if (GameField.HasAliveCells())
