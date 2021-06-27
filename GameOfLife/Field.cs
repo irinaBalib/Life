@@ -10,6 +10,7 @@ namespace GameOfLife
         public int Height { get;}  
         public int Width { get; }
         public Cell[,] Cells { get; set; }
+        private List<Cell> Watchlist { get; set; }
         public Field(int d)
         {
             Height = d;
@@ -30,12 +31,18 @@ namespace GameOfLife
 
         public void ViewField()
         {
+            Watchlist = new List<Cell> { };
             for (int r = 0; r < Cells.GetLength(0); r++)
             {
                 for (int c = 0; c < Cells.GetLength(1); c++)
                 {
                     Cells[r, c].DisplayCell();
                     Cells[r, c].SetFutureState(CountAliveNeighbours(r, c));
+
+                    if (Cells[r,c].IsAlive || Cells[r,c].WillLive)
+                    {
+                        AddCellAndNeighboursToWatchlist(Cells[r, c], r, c);
+                    }
                 }
                 Console.WriteLine();
             }
@@ -88,9 +95,27 @@ namespace GameOfLife
             return neighbours;
         }
 
+        public void AddCellAndNeighboursToWatchlist(Cell cell, int r, int c)
+        {
+            if (!Watchlist.Contains(cell))
+            {
+                Watchlist.Add(cell);
+            }
+
+           List<Cell> neighbours = GetNeighbours(r, c);
+
+            foreach (Cell neighbour in neighbours)
+            {
+                if (!Watchlist.Contains(neighbour))
+                {
+                    Watchlist.Add(neighbour);
+                }
+            }
+            
+        }
         public void UpdateFieldData()
         {
-            foreach (Cell c in Cells)
+            foreach (Cell c in Watchlist)
             {
                 if (c.IsAlive != c.WillLive)
                 {
@@ -98,6 +123,8 @@ namespace GameOfLife
                 }
             }
         }
+
+
         public bool HasAliveCells()
         { 
             foreach (var cell in Cells)
