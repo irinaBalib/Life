@@ -48,7 +48,7 @@ namespace GameOfLife
 
                     Thread.Sleep(1000);
                     GameField.UpdateFieldData();
-                    Console.SetCursorPosition(0, 1);
+                    Console.SetCursorPosition(0, 0);
                     g++;
                 } while (!IsGameOver());
         }
