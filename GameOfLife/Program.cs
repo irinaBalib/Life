@@ -38,7 +38,7 @@ namespace GameOfLife
             manager.CreateField(dimension);
             manager.SetInitState();
 
-          //  Console.WriteLine("**Press ESC to exit**");
+          Console.WriteLine("**Press ESC to exit**");
             
                 manager.PutGameOn();
            
