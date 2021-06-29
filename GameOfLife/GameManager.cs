@@ -53,16 +53,25 @@ namespace GameOfLife
         public void PutGameOn()
         {
             int g = 0;
+            
             do
+                {
+                while (!Console.KeyAvailable)
                 {
                     Console.WriteLine("Generation {0}", g);
                     GameField.ViewField();
 
                     Thread.Sleep(1000);
                     GameField.UpdateFieldData();
-                    Console.SetCursorPosition(0, 0);
+                    Console.SetCursorPosition(0, 1);
                     g++;
-                } while (!IsGameOver());
+                }
+
+                if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+                {
+                    break;
+                }
+            } while (!IsGameOver());
         }
 
         public bool IsGameOver()
