@@ -38,6 +38,18 @@ namespace GameOfLife
             GameField.Cells[6,0].IsAlive = true;
             GameField.Cells[7,0].IsAlive = true;
         }
+
+        public void SetRandomInitField()
+        {
+            var random = new Random();
+            foreach (Cell c in GameField.Cells)
+            {
+                var randomBool = random.Next(2) == 1; // Next(2) gives 1 or 0
+                c.IsAlive = randomBool;
+            }
+
+        }
+
         public void PutGameOn()
         {
             int g = 0;

@@ -36,8 +36,8 @@ namespace GameOfLife
             GameManager manager = new GameManager();
            
             manager.CreateField(dimension);
-            manager.SetInitState();
-
+            // manager.SetInitState();
+            manager.SetRandomInitField();
           //  Console.WriteLine("**Press ESC to exit**");
             
                 manager.PutGameOn();
