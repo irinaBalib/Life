@@ -10,7 +10,7 @@ namespace GameOfLife
             Console.WriteLine("Welcome to the Game of Life!");
             Console.WriteLine();
 
-            Console.WriteLine("Please input the size of the field (15-40 cells): ");
+            Console.WriteLine("Please input the size of the field (15-40 cells): "); //not square
             int dimension = GetValidatedDimensionInput();
 
             Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set): ");
@@ -22,8 +22,7 @@ namespace GameOfLife
             manager.SetInitState(optionInput);
 
             Console.Clear();
-            Console.WriteLine("**Press ESC to exit**");
-       
+
             manager.PutGameOn();
            
             Console.Clear();

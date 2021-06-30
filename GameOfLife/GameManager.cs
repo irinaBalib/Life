@@ -36,10 +36,10 @@ namespace GameOfLife
             }
         }
 
-        public void PutGameOn()
+        public void PutGameOn() //..naming?
         {
             int g = 0;
-            
+            Console.WriteLine("**Press ESC to exit**");
             do
                 {
                 while (!Console.KeyAvailable)

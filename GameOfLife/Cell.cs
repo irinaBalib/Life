@@ -17,7 +17,7 @@ namespace GameOfLife
             IsAlive = false;
             WillLive = false;
         }
-        public void SetFutureState(int aliveNeigbours)
+        public void SetFutureState(int aliveNeigbours) //to improve
         {
             if (IsAlive)
             {
