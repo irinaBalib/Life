@@ -21,13 +21,13 @@ namespace GameOfLife
         {
             if (IsAlive)
             {
-                if (aliveNeigbours < 2 || aliveNeigbours > 3)
+                if (aliveNeigbours == 2 || aliveNeigbours == 3)
                 {
-                    WillLive = false;
+                    WillLive = true;
                 }
                 else 
                 {
-                    WillLive = true;
+                    WillLive = false;
                 }
             }
             else if (!IsAlive)
