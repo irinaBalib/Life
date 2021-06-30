@@ -20,7 +20,6 @@ namespace GameOfLife
             return GameField;
         }
 
-        
         public void SetInitState(int optionInput)
         {
             if (optionInput == 1)
@@ -37,8 +36,6 @@ namespace GameOfLife
             }
         }
 
-      
-
         public void PutGameOn()
         {
             int g = 0;
@@ -51,6 +48,7 @@ namespace GameOfLife
                     GameField.ViewField();
 
                     Thread.Sleep(1000);
+                    Console.ReadLine();
                     GameField.UpdateFieldData();
                     Console.SetCursorPosition(0, 1);
                     g++;

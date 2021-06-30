@@ -135,11 +135,11 @@ namespace GameOfLife
             Cells[6, 0].IsAlive = true;
             Cells[7, 0].IsAlive = true;
 
-            Cells[0, 9].IsAlive = true; // "Glider"
-            Cells[1, 7].IsAlive = true;
-            Cells[1, 9].IsAlive = true;
-            Cells[2, 8].IsAlive = true;
+            Cells[0, 10].IsAlive = true; // "Glider"
+            Cells[1, 8].IsAlive = true;
+            Cells[1, 10].IsAlive = true;
             Cells[2, 9].IsAlive = true;
+            Cells[2, 10].IsAlive = true;
         }
 
     }

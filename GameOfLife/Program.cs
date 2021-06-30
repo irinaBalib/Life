@@ -10,7 +10,7 @@ namespace GameOfLife
             Console.WriteLine("Welcome to the Game of Life!");
             Console.WriteLine();
 
-            Console.WriteLine("Please input the size of the field (5-40 cells): ");
+            Console.WriteLine("Please input the size of the field (15-40 cells): ");
             int dimension = GetValidatedDimensionInput();
 
             Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set): ");
@@ -62,7 +62,7 @@ namespace GameOfLife
                     ReturnCursor();
 
                 }
-                else if (dimensionInput < 5 || dimensionInput > 40)
+                else if (dimensionInput < 15 || dimensionInput > 40)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write("Size is out of range!");
@@ -79,10 +79,8 @@ namespace GameOfLife
 
         public static int GetValidatedOptionInput()
         {
-           // string optionInput = "";
-            int option = 0;
-
-            bool isOptionValid = false;
+           int option = 0;
+           bool isOptionValid = false;
              
             while (!isOptionValid)
             {
