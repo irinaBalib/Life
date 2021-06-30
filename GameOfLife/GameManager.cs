@@ -9,8 +9,6 @@ namespace GameOfLife
     {
         public Field GameField { get; set; }
 
-        //public Field NextGeneration { get; set; }
-
         public GameManager()
         {
         }
@@ -23,32 +21,23 @@ namespace GameOfLife
         }
 
         
-        public void SetInitState()
+        public void SetInitState(int optionInput)
         {
-            GameField.Cells[10,10].IsAlive = true;
-            GameField.Cells[11,9].IsAlive = true;
-            GameField.Cells[11,10].IsAlive = true;
-            GameField.Cells[11,11].IsAlive = true;
-
-            GameField.Cells[2,2].IsAlive = true;
-            GameField.Cells[2,3].IsAlive = true;
-            GameField.Cells[2,4].IsAlive = true;
-
-            GameField.Cells[5,0].IsAlive = true;
-            GameField.Cells[6,0].IsAlive = true;
-            GameField.Cells[7,0].IsAlive = true;
-        }
-
-        public void SetRandomInitField()
-        {
-            var random = new Random();
-            foreach (Cell c in GameField.Cells)
+            if (optionInput == 1)
             {
-                var randomBool = random.Next(2) == 1; // Next(2) gives 1 or 0
-                c.IsAlive = randomBool;
+                GameField.SetRandomInitField();
             }
-
+            else if (optionInput == 2)
+            {
+                GameField.SetPredefinedInitField();
+            }
+            else
+            {
+                Console.WriteLine("Option not found!");
+            }
         }
+
+      
 
         public void PutGameOn()
         {
