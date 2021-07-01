@@ -9,19 +9,31 @@ namespace GameOfLife
     {
         public Field GameField { get; set; }
 
+        public PlayersSetup PlayersSetup { get; private set; }
         public GameManager()
         {
         }
-
-        public Field CreateField(int d)
+        public void GetPSetpData()
         {
-            GameField = new Field(d);
+            Console.WriteLine(PlayersSetup.PlayersName);
+            Console.WriteLine(PlayersSetup.Option);
+            Console.WriteLine(PlayersSetup.FieldDimension);
+        }
+        public void CreatePlayersSetup()
+        {
+            PlayersSetup = new PlayersSetup();
+            PlayersSetup.SetPlayersInput();
+        }
+        public Field CreateField()
+        {
+            GameField = new Field(PlayersSetup.FieldDimension);
             GameField.FillField();
             return GameField;
         }
 
-        public void SetInitState(int optionInput)
+        public void SetInitState()
         {
+            int optionInput = PlayersSetup.Option;
             if (optionInput == 1)
             {
                 GameField.SetRandomInitField();
@@ -36,7 +48,7 @@ namespace GameOfLife
             }
         }
 
-        public void PutGameOn() //..naming?
+        public void RunTheGame() 
         {
             int g = 0;
             Console.WriteLine("**Press ESC to exit**");
