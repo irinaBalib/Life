@@ -45,17 +45,24 @@ namespace GameOfLife
 
         public void RunTheGame() 
         {
+            CreateField();
+            SetInitState();
+            ShiftGenerations();
+        }
+
+        public void ShiftGenerations()
+        {
             int g = 0;
             Console.WriteLine("**Press ESC to exit**");
             do
-                {
+            {
                 while (!Console.KeyAvailable)
                 {
                     Console.WriteLine("Generation {0}", g);
                     GameField.ViewField();
 
                     Thread.Sleep(1000);
-                    
+
                     GameField.UpdateFieldData();
                     Console.SetCursorPosition(0, 1);
                     g++;
@@ -67,7 +74,6 @@ namespace GameOfLife
                 }
             } while (!IsGameOver());
         }
-
         public bool IsGameOver()
         {
             if (GameField.HasAliveCells())

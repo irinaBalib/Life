@@ -13,11 +13,7 @@ namespace GameOfLife
             GameManager manager = new GameManager();
 
             manager.CreatePlayersSetup();
-            manager.CreateField();
-            manager.SetInitState();
-
             Console.Clear();
-
             manager.RunTheGame();
            
             Console.Clear();
