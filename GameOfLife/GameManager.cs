@@ -53,14 +53,12 @@ namespace GameOfLife
         public void ShiftGenerations()
         {
             int generation = 0;
-            int liveCells = 0;
             bool gameEnded = false;
             Console.WriteLine("**Press ESC to exit**");
             
                 while (!gameEnded)
                 {
-                    liveCells = GameField.CountAliveCells();
-                    Console.WriteLine("Generation {0}, live cells count: {1}", generation, liveCells);
+                        ShowGenerationInfo(generation);
                         GameField.ViewField();
 
                         Thread.Sleep(1000);
@@ -68,8 +66,15 @@ namespace GameOfLife
                         GameField.UpdateFieldData();
                         Console.SetCursorPosition(0, 1);
                         generation++;
-                    gameEnded = IsGameOver();
+                        gameEnded = IsGameOver();
                 }
+
+        }
+
+        public void ShowGenerationInfo(int g)
+        {
+            int liveCells = GameField.CountAliveCells();
+            Console.WriteLine("Generation {0}, live cells count: {1}", g, liveCells);
         }
         public bool IsGameOver()
         {
@@ -77,20 +82,38 @@ namespace GameOfLife
             {
                 Console.BackgroundColor = ConsoleColor.Yellow;
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("No survivors for the next generation!");
+                Console.WriteLine("No survivors for the next generation!       ");
                 Thread.Sleep(2000);
                 Console.ResetColor();
                 return true;
             }
-            else if (Console.KeyAvailable && (Console.ReadKey(true).Key == ConsoleKey.Escape))
+            else if (Console.KeyAvailable)
             {
-                Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Game ended by the Player!");
-                Thread.Sleep(2000);
-                Console.ResetColor();
-                return true;
+                ConsoleKeyInfo keyPressed;
+                keyPressed = Console.ReadKey(true);
+                if (keyPressed.Key == ConsoleKey.Escape)
+                {
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Game ended by the Player!             ");
+                    Thread.Sleep(2000);
+                    Console.ResetColor();
+                    return true; 
+                }
+                else if (keyPressed.Key == ConsoleKey.Spacebar)
+                { 
+                   Console.Write("PAUSED. Press Enter to resume...            ");
+                    do
+                    {
+                        keyPressed = Console.ReadKey(true);
+
+                    } while (keyPressed.Key != ConsoleKey.Enter);
+
+                    Console.SetCursorPosition(0, Console.CursorTop);
+                }
+
             }
+            
             
             return false;
         }
