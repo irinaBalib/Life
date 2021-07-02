@@ -53,34 +53,43 @@ namespace GameOfLife
         public void ShiftGenerations()
         {
             int g = 0;
+            bool gameEnded = false;
             Console.WriteLine("**Press ESC to exit**");
-            do
-            {
-                while (!Console.KeyAvailable)
+            
+                while (!gameEnded)
                 {
                     Console.WriteLine("Generation {0}", g);
-                    GameField.ViewField();
+                        GameField.ViewField();
 
-                    Thread.Sleep(1000);
+                        Thread.Sleep(1000);
 
-                    GameField.UpdateFieldData();
-                    Console.SetCursorPosition(0, 1);
-                    g++;
+                        GameField.UpdateFieldData();
+                        Console.SetCursorPosition(0, 1);
+                        g++;
+                    gameEnded = IsGameOver();
                 }
-
-                if (Console.ReadKey(true).Key == ConsoleKey.Escape)
-                {
-                    break;
-                }
-            } while (!IsGameOver());
         }
         public bool IsGameOver()
         {
-            if (GameField.HasAliveCells())
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            if (!GameField.HasAliveCells())
             {
-                return false;
+                Console.WriteLine("No survivors for the next generation!");
+                Thread.Sleep(1000);
+                Console.ResetColor();
+                return true;
             }
-            return true;
+            else if (Console.KeyAvailable && (Console.ReadKey(true).Key == ConsoleKey.Escape))
+            {
+                Console.WriteLine("Game ended by the Player!");
+                Thread.Sleep(1000);
+                Console.ResetColor();
+                return true;
+            }
+            
+            return false;
         }
     }
 }
