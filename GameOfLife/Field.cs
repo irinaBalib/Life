@@ -136,22 +136,22 @@ namespace GameOfLife
         {
             Cells[10, 10].IsAlive = true; //"0+"
             Cells[11, 9].IsAlive = true;
-            Cells[11, 10].IsAlive = true;
-            Cells[11, 11].IsAlive = true;
+            //Cells[11, 10].IsAlive = true;
+            //Cells[11, 11].IsAlive = true;
 
-            Cells[2, 2].IsAlive = true; // "Blinker"
-            Cells[2, 3].IsAlive = true;
-            Cells[2, 4].IsAlive = true;
+            //Cells[2, 2].IsAlive = true; // "Blinker"
+            //Cells[2, 3].IsAlive = true;
+            //Cells[2, 4].IsAlive = true;
 
-            Cells[5, 0].IsAlive = true; // "Blinker" at the edge
-            Cells[6, 0].IsAlive = true;
-            Cells[7, 0].IsAlive = true;
+            //Cells[5, 0].IsAlive = true; // "Blinker" at the edge
+            //Cells[6, 0].IsAlive = true;
+            //Cells[7, 0].IsAlive = true;
 
-            Cells[0, 10].IsAlive = true; // "Glider"
-            Cells[1, 8].IsAlive = true;
-            Cells[1, 10].IsAlive = true;
-            Cells[2, 9].IsAlive = true;
-            Cells[2, 10].IsAlive = true;
+            //Cells[0, 10].IsAlive = true; // "Glider"
+            //Cells[1, 8].IsAlive = true;
+            //Cells[1, 10].IsAlive = true;
+            //Cells[2, 9].IsAlive = true;
+            //Cells[2, 10].IsAlive = true;
         }
 
     }
