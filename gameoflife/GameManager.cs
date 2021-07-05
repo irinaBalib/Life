@@ -21,14 +21,14 @@ namespace GameOfLife
         }
         public Field CreateField()
         {
-            GameField = new Field(PlayersSetup.FieldDimension);
+            GameField = new Field(PlayersSetup.PlayersFieldSize);
             GameField.FillField();
             return GameField;
         }
 
         public void SetInitState()
         {
-            int optionInput = PlayersSetup.Option;
+            int optionInput = PlayersSetup.PlayersStartOption;
             if (optionInput == 1)
             {
                 GameField.SetRandomInitField();
@@ -36,6 +36,10 @@ namespace GameOfLife
             else if (optionInput == 2)
             {
                 GameField.SetPredefinedInitField();
+            }
+            else if (optionInput == 3)
+            {
+                GameField.ReadFromFile(PlayersSetup.PlayersName);
             }
             else
             {
@@ -52,30 +56,22 @@ namespace GameOfLife
 
         public void ShiftGenerations()
         {
-            int generation = 0;
             bool canContinue = true;
 
                 while (canContinue)
                 {
                     Console.SetCursorPosition(0, 0);
                     Console.WriteLine("|Controls| ESC - exit | SPACEBAR - pause |");
-                    ShowGenerationInfo(generation);
+                  
                     GameField.ViewField();
-
                     Thread.Sleep(1000);
-
-                    GameField.UpdateFieldData();
-                    generation++;
                     canContinue = !IsActionRequired();
+                    
+                    GameField.UpdateFieldData();
                 }
 
         }
 
-        public void ShowGenerationInfo(int g)
-        {
-            int liveCells = GameField.CountAliveCells();
-            Console.WriteLine("Generation {0}, live cells count: {1}", g, liveCells);
-        }
         public bool IsActionRequired()
         {
             if (IsGameOver())
@@ -99,12 +95,17 @@ namespace GameOfLife
                 }
                 else if (keyPressed.Key == ConsoleKey.Spacebar)
                 {
-                    Console.WriteLine("**PAUSED. Press Enter to resume**             ");
+                    Console.WriteLine("**PAUSED. Press Spacebar to resume or Enter to save the game**             ");
                     do
                     {
                         keyPressed = Console.ReadKey(true);
 
-                    } while (keyPressed.Key != ConsoleKey.Enter);
+                    } while (keyPressed.Key != ConsoleKey.Enter && keyPressed.Key != ConsoleKey.Spacebar);
+
+                    if (keyPressed.Key ==  ConsoleKey.Enter)
+                    {
+                        GameField.WriteToFile(PlayersSetup.PlayersName);
+                    }
                 }
             }
             return false;
@@ -118,7 +119,7 @@ namespace GameOfLife
                 Console.BackgroundColor = ConsoleColor.Yellow;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No survivors for the next generation!          ");
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
                 Console.ResetColor();
                 return true;
             }

@@ -17,6 +17,12 @@ namespace GameOfLife
             IsAlive = false;
             WillLive = false;
         }
+        public Cell(string id, bool live)
+        {
+            Id = id;
+            IsAlive = live;
+            WillLive = false;
+        }
         public void SetFutureState(int aliveNeigbours) //to improve
         {
             if (IsAlive)

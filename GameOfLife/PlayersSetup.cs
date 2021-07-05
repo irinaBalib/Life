@@ -7,8 +7,8 @@ namespace GameOfLife
     class PlayersSetup
     {
         public string PlayersName { get; private set; }
-        public int FieldDimension { get; private set; }
-        public int Option { get; private set; }
+        public int PlayersFieldSize { get; private set; }
+        public int PlayersStartOption { get; private set; }
         public PlayersSetup()
         {
         }
@@ -25,8 +25,8 @@ namespace GameOfLife
             int option = GetValidatedOptionInput();
 
             PlayersName = playersName;
-            FieldDimension = dimension;
-            Option = option;
+            PlayersFieldSize = dimension;
+            PlayersStartOption = option;
         }
 
         public int GetValidatedDimensionInput()
@@ -69,7 +69,7 @@ namespace GameOfLife
             while (!isOptionValid)
             {
                 isOptionValid = (int.TryParse(Console.ReadLine(), out option))
-                    && option > 0 && option < 3;
+                    && option > 0 && option < 4;
 
                 
                 if (!isOptionValid)

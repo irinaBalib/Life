@@ -10,7 +10,9 @@ namespace GameOfLife
             Console.WriteLine("Welcome to the Game of Life!");
             Console.WriteLine();
 
+
             GameManager manager = new GameManager();
+           
 
             manager.CreatePlayersSetup();
             Console.Clear();
