@@ -16,16 +16,20 @@ namespace GameOfLife
         public void SetPlayersInput()
         {
             Console.WriteLine("Player's name: ");
-            string playersName = Console.ReadLine();
+           string playersName = Console.ReadLine();   // validate input  string.IsNullOrEmpty ?
 
-            Console.WriteLine("Please input the size of the field (15-40 cells): "); //impl to any shape field, not only square?
-            int dimension = GetValidatedDimensionInput();
-
-            Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set): ");
+            Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
             int option = GetValidatedOptionInput();
 
+            if (option != 3)  // if 3 - read from file
+            {
+                Console.WriteLine("Please input the size of the field (15-40 cells): "); //?impl to H&W input, not only square?
+                PlayersFieldSize = GetValidatedDimensionInput();
+            }
+            
+
             PlayersName = playersName;
-            PlayersFieldSize = dimension;
+           // PlayersFieldSize = dimension;
             PlayersStartOption = option;
         }
 

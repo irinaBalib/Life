@@ -18,8 +18,7 @@ namespace GameOfLife
             Console.Clear();
             manager.RunTheGame();
            
-            Console.Clear();
-            Console.WriteLine("GAME OVER");
+           
             
         }
 

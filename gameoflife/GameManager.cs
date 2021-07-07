@@ -51,17 +51,18 @@ namespace GameOfLife
         {
             CreateField();
             SetInitState();
-            ShiftGenerations();
+            ShiftFieldGenerations();
+            ShowPreExitScreen();
         }
 
-        public void ShiftGenerations()
+        public void ShiftFieldGenerations()
         {
             bool canContinue = true;
 
                 while (canContinue)
                 {
                     Console.SetCursorPosition(0, 0);
-                    Console.WriteLine("|Controls| ESC - exit | SPACEBAR - pause |");
+                    Console.WriteLine(" |Controls|  ESC - exit  | SPACEBAR - pause |                                  ");
                   
                     GameField.ViewField();
                     Thread.Sleep(1000);
@@ -74,7 +75,7 @@ namespace GameOfLife
 
         public bool IsActionRequired()
         {
-            if (IsGameOver())
+            if (HasNoAliveCells())
             {
                 return true;
             }
@@ -86,44 +87,78 @@ namespace GameOfLife
 
                 if (keyPressed.Key == ConsoleKey.Escape)
                 {
-                    Console.BackgroundColor = ConsoleColor.Yellow;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Game ended by the Player!                  ");
-                    Thread.Sleep(2000);
-                    Console.ResetColor();
-                    return true; 
+                    EndGame();
+                    return true;
                 }
                 else if (keyPressed.Key == ConsoleKey.Spacebar)
                 {
-                    Console.WriteLine("**PAUSED. Press Spacebar to resume or Enter to save the game**             ");
-                    do
-                    {
-                        keyPressed = Console.ReadKey(true);
-
-                    } while (keyPressed.Key != ConsoleKey.Enter && keyPressed.Key != ConsoleKey.Spacebar);
-
-                    if (keyPressed.Key ==  ConsoleKey.Enter)
-                    {
-                        GameField.WriteToFile(PlayersSetup.PlayersName);
-                    }
+                    PauseGame();
                 }
             }
             return false;
         }
 
-        public bool IsGameOver()
+        public bool HasNoAliveCells()
         {
             if (GameField.CountAliveCells() == 0)
             {
                 Console.SetCursorPosition(0, 0);
                 Console.BackgroundColor = ConsoleColor.Yellow;
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("No survivors for the next generation!          ");
+                Console.WriteLine("xxxxxxxxxx  TOTAL EXTINCTION  xxxxxxxxxxxxxxxxxxxxxx ");
                 Thread.Sleep(3000);
                 Console.ResetColor();
                 return true;
             }
             return false;
+        }
+
+        public void EndGame()
+        {
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine(" ~~~~~~~~~~~     Game ended by the Player! ~~~~~~~~~~~                 ");
+            Thread.Sleep(3000);
+            Console.ResetColor();
+        }
+        public void PauseGame()
+        {
+            Console.WriteLine("**PAUSED** Press SPACEBAR to resume or ENTER to save & exit");
+            ConsoleKeyInfo keyPressed;
+            keyPressed = Console.ReadKey(true);
+            do
+            {
+                keyPressed = Console.ReadKey(true);
+
+            } while (keyPressed.Key != ConsoleKey.Enter && keyPressed.Key != ConsoleKey.Spacebar);
+
+            if (keyPressed.Key == ConsoleKey.Enter)
+            {
+                SaveGame();
+            }
+        }
+
+        public void SaveGame()
+        {
+            GameField.WriteToFile(PlayersSetup.PlayersName);
+            ShowPreExitScreen();
+        }
+
+        public void ShowPreExitScreen()
+        {
+            Console.Clear();
+            Console.SetCursorPosition(Console.WindowWidth/2, Console.WindowHeight/2-2);
+            Console.WriteLine("GAME OVER");
+            Console.WriteLine();
+            Console.SetCursorPosition(Console.WindowWidth/2-9, Console.WindowHeight / 2);
+            Console.WriteLine("Press ENTER to start a new game");
+            ConsoleKeyInfo keyPressed;
+            keyPressed = Console.ReadKey(true);
+            if (keyPressed.Key == ConsoleKey.Enter)
+            {
+                CreatePlayersSetup();
+            }
+           
         }
     }
 }
