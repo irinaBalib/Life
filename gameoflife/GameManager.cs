@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 
@@ -14,6 +15,25 @@ namespace GameOfLife
         {
         }
 
+        public void RunTheGame()
+        {
+            CreatePlayersSetup();
+
+            if (PlayersSetup.PlayersStartOption == 3)
+            {
+               RestoreSavedGame();
+            }
+            else 
+            { 
+                CreateField();
+                SetInitState();
+            }
+
+            ShiftFieldGenerations();
+            ShowPreExitScreen();
+            
+        }
+
         public void CreatePlayersSetup()
         {
             Console.WriteLine("PLAYER'S SETUP\n");
@@ -22,6 +42,13 @@ namespace GameOfLife
 
             Console.Clear();
         }
+
+        public void RestoreSavedGame()
+        {
+            GameField = new Field();
+            GameField.RestoreFieldFromFile(PlayersSetup.PlayersName);
+        }
+
         public void CreateField()
         {
             GameField = new Field(PlayersSetup.PlayersFieldSize);
@@ -39,25 +66,13 @@ namespace GameOfLife
             {
                 GameField.SetPredefinedInitField();
             }
-            else if (optionInput == 3)
-            {
-                GameField.ReadFromFile(PlayersSetup.PlayersName);
-            }
             else
             {
                 Console.WriteLine("Option not found!");
             }
         }
 
-        public void RunTheGame() 
-        {
-            CreatePlayersSetup();
-            CreateField();
-            SetInitState();
-            ShiftFieldGenerations();
-            ShowPreExitScreen();
-        }
-
+       
         public void ShiftFieldGenerations()
         {
             bool canContinue = true;
@@ -66,20 +81,19 @@ namespace GameOfLife
                 {
                     Console.SetCursorPosition(0, 0);
                     Console.WriteLine(" |Controls|  ESC - exit  | SPACEBAR - pause |                                  ");
-                  
+                    ViewFieldInfo();
                     GameField.ViewField();
                     Thread.Sleep(1000);
                     canContinue = !IsActionRequired();
                     
                     GameField.UpdateFieldData();
                 }
-
         }
 
         public void ViewFieldInfo()
         {
-          //  Console.WriteLine(" Generation {0}       Live cells count: {1}", Generation, CountAliveCells());
-
+            Console.WriteLine(" Generation {0}       Live cells count: {1}", GameField.Generation, GameField.CountAliveCells());
+            GameField.Generation++;
         }
         public bool IsActionRequired()
         {
@@ -132,8 +146,7 @@ namespace GameOfLife
         public void PauseGame(ConsoleKeyInfo keyPressed)
         {
             Console.WriteLine("**PAUSED** Press SPACEBAR to resume or ENTER to save & exit");
-            //ConsoleKeyInfo keyPressed;
-            //keyPressed = Console.ReadKey(true);
+           
             do
             {
                 keyPressed = Console.ReadKey(true);
@@ -149,6 +162,9 @@ namespace GameOfLife
         public void SaveGame()
         {
             GameField.WriteToFile(PlayersSetup.PlayersName);
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(" ~~~~~~~~~~~     Game for Player {0} saved. ~~~~~~~~~~~          ", PlayersSetup.PlayersName);
+            Thread.Sleep(3000);
             ShowPreExitScreen();
         }
 

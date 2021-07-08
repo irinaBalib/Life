@@ -17,7 +17,7 @@ namespace GameOfLife
         public void SetPlayersInput()
         {
             Console.WriteLine("Player's name: ");
-            PlayersName = Console.ReadLine();   // validate input  string.IsNullOrEmpty ?
+            PlayersName = GetValidatedNameInput();   
 
             Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
             PlayersStartOption = GetValidatedOptionInput();
@@ -33,6 +33,21 @@ namespace GameOfLife
             }
         }
 
+        public string GetValidatedNameInput()
+        {
+            string input = Console.ReadLine();
+
+            while (string.IsNullOrEmpty(input))
+            {
+                ClearLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Name is required!");
+                Console.ResetColor();
+                ReturnCursor();
+                input = Console.ReadLine();
+            }
+            return input;
+        }
         public int GetValidatedDimensionInput()
         {
             bool inputIsValid = false;

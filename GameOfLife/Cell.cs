@@ -11,18 +11,18 @@ namespace GameOfLife
         public bool WillLive { get; set; }
 
 
-        public Cell(int r, int c)
+        public Cell(int r, int c)  
         {
-            Id = $"{r}-{c}"; // for List of monitored cells
+            Id = $"{r}-{c}";   // for List of monitored cells
             IsAlive = false;
             WillLive = false;
         }
-        public Cell(string id, bool live)
-        {
-            Id = id;
-            IsAlive = live;
-            WillLive = false;
-        }
+        //public Cell(string id, bool live)
+        //{
+        //    Id = id;
+        //    IsAlive = live;
+        //    WillLive = false;
+        //}
         public void SetFutureState(int aliveNeigbours) //to improve
         {
             if (IsAlive)
@@ -79,7 +79,5 @@ namespace GameOfLife
               
             }
         }
-
-        
     }
 }

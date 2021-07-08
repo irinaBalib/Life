@@ -8,8 +8,8 @@ namespace GameOfLife
 {
     class Field
     {
-        public int Height { get; }
-        public int Width { get; }
+        public int Height { get; private set; }
+        public int Width { get; private set; }
         public Cell[,] Cells { get; set; }
         public int Generation { get; set; }
         public Field(int d)
@@ -18,6 +18,7 @@ namespace GameOfLife
             Width = d;
             Generation = 0;
         }
+        public Field() { }
 
         public void FillField()
         {
@@ -101,17 +102,8 @@ namespace GameOfLife
                 }
             }
         }
-        //public bool HasAliveCells()
-        //{ 
-        //    foreach (var cell in Cells)
-        //    {
-        //        if (cell.IsAlive)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+
+        
         public int CountAliveCells()
         {
             int liveCellCount = 0;
@@ -123,11 +115,16 @@ namespace GameOfLife
                 }
             }
             return liveCellCount;
+
+            //List<Cell> allCells = Cells.Cast<Cell>().ToList();
+            //int liveCellCount = allCells.Count(c => c.IsAlive);
+            //return liveCellCount;
         }
 
         public void SetRandomInitField()
         {
             var random = new Random();
+
             foreach (Cell c in Cells)
             {
                 var randomBool = random.Next(2) == 1; // Next(2) gives 1 or 0
@@ -139,8 +136,8 @@ namespace GameOfLife
         {
             Cells[10, 10].IsAlive = true; //"0+"
             Cells[11, 9].IsAlive = true;
-            //Cells[11, 10].IsAlive = true;
-            //Cells[11, 11].IsAlive = true;
+            Cells[11, 10].IsAlive = true;
+            Cells[11, 11].IsAlive = true;
 
             //Cells[2, 2].IsAlive = true; // "Blinker"
             //Cells[2, 3].IsAlive = true;
@@ -180,32 +177,52 @@ namespace GameOfLife
             }
         }
 
-        public void ReadFromFile(string playersName)
+        public void RestoreFieldFromFile(string playersName)
         {
             try
             {
                 string path = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{playersName}.dat";
                 using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
                 {
-                        int height = reader.ReadInt32();
-                        int width = reader.ReadInt32();
-                        int g = reader.ReadInt32();
-                        Console.WriteLine("Field data: h{0} w{1} gen{2}", height, width, g);
+                    //int height = reader.ReadInt32();
+                    //int width = reader.ReadInt32();
+                    //int g = reader.ReadInt32();
+                    //Console.WriteLine("Field data: h{0} w{1} gen{2}", height, width, g);
+                    Height = reader.ReadInt32();
+                    Width = reader.ReadInt32();
+                    Generation = reader.ReadInt32();
+                    FillField();
                     while (reader.PeekChar() > -1)
                     {
-                        
                         string cellId = reader.ReadString();
-                        bool cellAlived = reader.ReadBoolean();
-                         Console.WriteLine("Cell: {0} - {1}", cellId, cellAlived);
+                        foreach (Cell c in Cells)
+                        {
+                            if (c.Id == cellId)
+                            {
+                                c.IsAlive = reader.ReadBoolean();
+                            }
+                        }
+
+                        //bool cellAlived = reader.ReadBoolean();
+                        // Console.WriteLine("Cell: {0} - {1}", cellId, cellAlived);
                     }
                 }
-            }catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            Console.ReadLine();
-
+           
         }
+
+        public void DataReset()
+        {
+            foreach (var c in Cells)
+            {
+                c.IsAlive = false;
+            }
+        }
+
     }
 
 }
