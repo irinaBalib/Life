@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace GameOfLife
@@ -16,21 +17,20 @@ namespace GameOfLife
         public void SetPlayersInput()
         {
             Console.WriteLine("Player's name: ");
-           string playersName = Console.ReadLine();   // validate input  string.IsNullOrEmpty ?
+            PlayersName = Console.ReadLine();   // validate input  string.IsNullOrEmpty ?
 
             Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
-            int option = GetValidatedOptionInput();
+            PlayersStartOption = GetValidatedOptionInput();
 
-            if (option != 3)  // if 3 - read from file
+            if (PlayersStartOption == 3)  // if 3 - read from file
+            {
+                PlayersFieldSize = 0;
+            }
+            else
             {
                 Console.WriteLine("Please input the size of the field (15-40 cells): "); //?impl to H&W input, not only square?
                 PlayersFieldSize = GetValidatedDimensionInput();
             }
-            
-
-            PlayersName = playersName;
-           // PlayersFieldSize = dimension;
-            PlayersStartOption = option;
         }
 
         public int GetValidatedDimensionInput()
@@ -75,12 +75,22 @@ namespace GameOfLife
                 isOptionValid = (int.TryParse(Console.ReadLine(), out option))
                     && option > 0 && option < 4;
 
-                
                 if (!isOptionValid)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Invalid input!");
+                    Console.Write("Invalid input!                             ");
                     ReturnCursor();
+                }
+                else if(option == 3)
+                {
+                    string savedGame = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{PlayersName}.dat";
+                    if (!File.Exists(savedGame))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("No saved games found for this Player!");
+                        isOptionValid = false;
+                        ReturnCursor();
+                    }
                 }
                 Console.ResetColor();
             }

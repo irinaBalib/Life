@@ -33,7 +33,6 @@ namespace GameOfLife
 
         public void ViewField()
         {
-            Console.WriteLine(" Generation {0}       Live cells count: {1}", Generation, CountAliveCells());
             for (int r = 0; r < Cells.GetLength(0); r++)
             {
                 for (int c = 0; c < Cells.GetLength(1); c++)
@@ -43,7 +42,6 @@ namespace GameOfLife
                 }
                 Console.WriteLine();
             }
-            Generation++;
         }
 
         public int CountAliveNeighbours(int r, int c)

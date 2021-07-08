@@ -16,14 +16,16 @@ namespace GameOfLife
 
         public void CreatePlayersSetup()
         {
+            Console.WriteLine("PLAYER'S SETUP\n");
             PlayersSetup = new PlayersSetup();
             PlayersSetup.SetPlayersInput();
+
+            Console.Clear();
         }
-        public Field CreateField()
+        public void CreateField()
         {
             GameField = new Field(PlayersSetup.PlayersFieldSize);
             GameField.FillField();
-            return GameField;
         }
 
         public void SetInitState()
@@ -49,6 +51,7 @@ namespace GameOfLife
 
         public void RunTheGame() 
         {
+            CreatePlayersSetup();
             CreateField();
             SetInitState();
             ShiftFieldGenerations();
@@ -73,6 +76,11 @@ namespace GameOfLife
 
         }
 
+        public void ViewFieldInfo()
+        {
+          //  Console.WriteLine(" Generation {0}       Live cells count: {1}", Generation, CountAliveCells());
+
+        }
         public bool IsActionRequired()
         {
             if (HasNoAliveCells())
@@ -84,7 +92,7 @@ namespace GameOfLife
                 ConsoleKeyInfo keyPressed;
                 keyPressed = Console.ReadKey(true);
                 Console.SetCursorPosition(0, 0);
-
+                
                 if (keyPressed.Key == ConsoleKey.Escape)
                 {
                     EndGame();
@@ -92,7 +100,7 @@ namespace GameOfLife
                 }
                 else if (keyPressed.Key == ConsoleKey.Spacebar)
                 {
-                    PauseGame();
+                    PauseGame(keyPressed);
                 }
             }
             return false;
@@ -121,11 +129,11 @@ namespace GameOfLife
             Thread.Sleep(3000);
             Console.ResetColor();
         }
-        public void PauseGame()
+        public void PauseGame(ConsoleKeyInfo keyPressed)
         {
             Console.WriteLine("**PAUSED** Press SPACEBAR to resume or ENTER to save & exit");
-            ConsoleKeyInfo keyPressed;
-            keyPressed = Console.ReadKey(true);
+            //ConsoleKeyInfo keyPressed;
+            //keyPressed = Console.ReadKey(true);
             do
             {
                 keyPressed = Console.ReadKey(true);
@@ -156,7 +164,13 @@ namespace GameOfLife
             keyPressed = Console.ReadKey(true);
             if (keyPressed.Key == ConsoleKey.Enter)
             {
-                CreatePlayersSetup();
+                Console.Clear();
+                RunTheGame();
+            }
+            else
+            {
+                Console.Clear();
+                Environment.Exit(0);
             }
            
         }

@@ -7,15 +7,11 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the Game of Life!");
-            Console.WriteLine();
-
-
+            Console.SetCursorPosition(Console.WindowWidth / 2-15, 0);
+            Console.WriteLine("Welcome to the Game of Life!\n");
+           
             GameManager manager = new GameManager();
            
-
-            manager.CreatePlayersSetup();
-            Console.Clear();
             manager.RunTheGame();
            
            
