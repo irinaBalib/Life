@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life\\GameOfLife\\GameOfLife.csproj": {}
+    "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life2\\GameOfLife\\GameOfLife.csproj": {}
   },
   "projects": {
-    "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life\\GameOfLife\\GameOfLife.csproj": {
+    "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life2\\GameOfLife\\GameOfLife.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life\\GameOfLife\\GameOfLife.csproj",
+        "projectUniqueName": "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life2\\GameOfLife\\GameOfLife.csproj",
         "projectName": "GameOfLife",
-        "projectPath": "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life\\GameOfLife\\GameOfLife.csproj",
+        "projectPath": "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life2\\GameOfLife\\GameOfLife.csproj",
         "packagesPath": "C:\\Users\\irina.baliberdina\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life\\GameOfLife\\obj\\",
+        "outputPath": "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life2\\GameOfLife\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\irina.baliberdina\\AppData\\Roaming\\NuGet\\NuGet.Config",

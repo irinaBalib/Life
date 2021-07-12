@@ -23,9 +23,9 @@ namespace GameOfLife
         public void FillField()
         {
             Cells = new Cell[Height, Width];
-            for (int r = 0; r < Cells.GetLength(0); r++)
+            for (int r = 0; r < Height; r++)
             {
-                for (int c = 0; c < Cells.GetLength(1); c++)
+                for (int c = 0; c < Width; c++)
                 {
                     Cells[r, c] = new Cell(r, c);
                 }
@@ -34,9 +34,9 @@ namespace GameOfLife
 
         public void ViewField()
         {
-            for (int r = 0; r < Cells.GetLength(0); r++)
+            for (int r = 0; r < Height; r++)
             {
-                for (int c = 0; c < Cells.GetLength(1); c++)
+                for (int c = 0; c < Width; c++)
                 {
                     Cells[r, c].DisplayCell();
                     Cells[r, c].SetFutureState(CountAliveNeighbours(r, c));
@@ -101,6 +101,7 @@ namespace GameOfLife
                     c.UpdateCurrentState();
                 }
             }
+            Generation ++;
         }
 
         
@@ -115,10 +116,6 @@ namespace GameOfLife
                 }
             }
             return liveCellCount;
-
-            //List<Cell> allCells = Cells.Cast<Cell>().ToList();
-            //int liveCellCount = allCells.Count(c => c.IsAlive);
-            //return liveCellCount;
         }
 
         public void SetRandomInitField()
@@ -139,19 +136,19 @@ namespace GameOfLife
             Cells[11, 10].IsAlive = true;
             Cells[11, 11].IsAlive = true;
 
-            //Cells[2, 2].IsAlive = true; // "Blinker"
-            //Cells[2, 3].IsAlive = true;
-            //Cells[2, 4].IsAlive = true;
+            Cells[2, 2].IsAlive = true; // "Blinker"
+            Cells[2, 3].IsAlive = true;
+            Cells[2, 4].IsAlive = true;
 
-            //Cells[5, 0].IsAlive = true; // "Blinker" at the edge
-            //Cells[6, 0].IsAlive = true;
-            //Cells[7, 0].IsAlive = true;
+            Cells[5, 0].IsAlive = true; // "Blinker" at the edge
+            Cells[6, 0].IsAlive = true;
+            Cells[7, 0].IsAlive = true;
 
-            //Cells[0, 10].IsAlive = true; // "Glider"
-            //Cells[1, 8].IsAlive = true;
-            //Cells[1, 10].IsAlive = true;
-            //Cells[2, 9].IsAlive = true;
-            //Cells[2, 10].IsAlive = true;
+            Cells[0, 10].IsAlive = true; // "Glider"
+            Cells[1, 8].IsAlive = true;
+            Cells[1, 10].IsAlive = true;
+            Cells[2, 9].IsAlive = true;
+            Cells[2, 10].IsAlive = true;
         }
 
         public void WriteToFile(string playersName)
@@ -184,10 +181,7 @@ namespace GameOfLife
                 string path = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{playersName}.dat";
                 using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
                 {
-                    //int height = reader.ReadInt32();
-                    //int width = reader.ReadInt32();
-                    //int g = reader.ReadInt32();
-                    //Console.WriteLine("Field data: h{0} w{1} gen{2}", height, width, g);
+                    
                     Height = reader.ReadInt32();
                     Width = reader.ReadInt32();
                     Generation = reader.ReadInt32();
@@ -203,8 +197,6 @@ namespace GameOfLife
                             }
                         }
 
-                        //bool cellAlived = reader.ReadBoolean();
-                        // Console.WriteLine("Cell: {0} - {1}", cellId, cellAlived);
                     }
                 }
             }
@@ -214,15 +206,6 @@ namespace GameOfLife
             }
            
         }
-
-        public void DataReset()
-        {
-            foreach (var c in Cells)
-            {
-                c.IsAlive = false;
-            }
-        }
-
     }
 
 }

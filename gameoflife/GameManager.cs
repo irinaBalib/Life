@@ -93,7 +93,6 @@ namespace GameOfLife
         public void ViewFieldInfo()
         {
             Console.WriteLine(" Generation {0}       Live cells count: {1}", GameField.Generation, GameField.CountAliveCells());
-            GameField.Generation++;
         }
         public bool IsActionRequired()
         {

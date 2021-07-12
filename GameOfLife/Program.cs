@@ -13,9 +13,6 @@ namespace GameOfLife
             GameManager manager = new GameManager();
            
             manager.RunTheGame();
-           
-           
-            
         }
 
     }

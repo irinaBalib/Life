@@ -28,7 +28,7 @@ namespace GameOfLife
             }
             else
             {
-                Console.WriteLine("Please input the size of the field (15-40 cells): "); //?impl to H&W input, not only square?
+                Console.WriteLine("Please input the size of the field (15-40 cells): "); //? need to impl to H&W input, not only square?
                 PlayersFieldSize = GetValidatedDimensionInput();
             }
         }

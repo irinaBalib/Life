@@ -17,35 +17,20 @@ namespace GameOfLife
             IsAlive = false;
             WillLive = false;
         }
-        //public Cell(string id, bool live)
-        //{
-        //    Id = id;
-        //    IsAlive = live;
-        //    WillLive = false;
-        //}
+        
         public void SetFutureState(int aliveNeigbours) //to improve
         {
-            if (IsAlive)
+            if (IsAlive && (aliveNeigbours == 2 || aliveNeigbours == 3))
             {
-                if (aliveNeigbours == 2 || aliveNeigbours == 3)
-                {
-                    WillLive = true;
-                }
-                else 
-                {
-                    WillLive = false;
-                }
+                WillLive = true;
             }
-            else if (!IsAlive)
+            else if (!IsAlive && aliveNeigbours == 3)
             {
-                if ( aliveNeigbours == 3)
-                {
-                    WillLive = true;
-                }
-                else
-                {
-                    WillLive = false;
-                }
+                WillLive = true;
+            }
+            else
+            {
+                WillLive = false;
             }
         }
 
