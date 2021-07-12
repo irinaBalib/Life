@@ -13,7 +13,6 @@ namespace GameOfLife
         public PlayersSetup()
         {
         }
-
         public void SetPlayersInput()
         {
             Console.WriteLine("Player's name: ");
@@ -32,7 +31,6 @@ namespace GameOfLife
                 PlayersFieldSize = GetValidatedDimensionInput();
             }
         }
-
         public string GetValidatedNameInput()
         {
             string input = Console.ReadLine();
@@ -111,7 +109,6 @@ namespace GameOfLife
             }
             return option;
         }
-        
         public static void ClearLine()
         {
             Console.SetCursorPosition(0, Console.CursorTop);

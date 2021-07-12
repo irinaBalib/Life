@@ -72,7 +72,6 @@ namespace GameOfLife
             }
         }
 
-       
         public void ShiftFieldGenerations()
         {
             bool canContinue = true;

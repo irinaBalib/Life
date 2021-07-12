@@ -10,7 +10,6 @@ namespace GameOfLife
         public bool IsAlive { get; set; }
         public bool WillLive { get; set; }
 
-
         public Cell(int r, int c)  
         {
             Id = $"{r}-{c}";   // for List of monitored cells
@@ -18,7 +17,7 @@ namespace GameOfLife
             WillLive = false;
         }
         
-        public void SetFutureState(int aliveNeigbours) //to improve
+        public void SetFutureState(int aliveNeigbours) 
         {
             if (IsAlive && (aliveNeigbours == 2 || aliveNeigbours == 3))
             {
