@@ -10,9 +10,7 @@ namespace GameOfLife
         public string PlayersName { get; private set; }  //remove private set
         public int PlayersFieldSize { get; private set; }
         public int PlayersStartOption { get; private set; }
-        //public PlayersSetup()
-        //{
-        //}
+
         public void SetPlayersInput()
         {
             Console.WriteLine("Player's name: ");
@@ -20,12 +18,8 @@ namespace GameOfLife
 
             Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
             PlayersStartOption = GetValidatedOptionInput();
-
-            if (PlayersStartOption == 3)  // if 3 - read from file
-            {
-                PlayersFieldSize = 0;  //remove
-            }
-            else
+            
+            if (PlayersStartOption != 3) // if 3 - read from file; enum for option
             {
                 Console.WriteLine("Please input the size of the field (15-40 cells): "); //? need to impl to H&W input, not only square?
                 PlayersFieldSize = GetValidatedDimensionInput();
@@ -53,8 +47,6 @@ namespace GameOfLife
 
             while (!inputIsValid)
             {
-               // bool isNumber = int.TryParse(Console.ReadLine(), out dimensionInput);
-
                 ClearLine();
 
                 if (!int.TryParse(Console.ReadLine(), out dimensionInput))  
@@ -62,13 +54,11 @@ namespace GameOfLife
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("Invalid input! Please input numbers only.");
                     ReturnCursor();
-
                 }
-                
-                if (dimensionInput < 15 || dimensionInput > 40)
+                else if (dimensionInput < 15 || dimensionInput > 40)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write("Size is out of range!");
+                    Console.Write("Size is out of range!                     ");
                     ReturnCursor();
                 }
                 else

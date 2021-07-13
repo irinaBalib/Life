@@ -6,14 +6,12 @@ using System.Threading;
 
 namespace GameOfLife
 {
-    class GameManager  //public or private
+     class GameManager  //public or private
     {
         public Field GameField { get; set; }
 
         public PlayersSetup PlayersSetup { get; private set; }
-        //public GameManager()
-        //{
-        //}
+      
 
         public void RunTheGame()
         {
