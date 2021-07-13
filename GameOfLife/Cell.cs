@@ -33,16 +33,9 @@ namespace GameOfLife
             }
         }
 
-        public void UpdateCurrentState()   // is Alive = willLive
+        public void UpdateCurrentState()   
         {
-            if (!WillLive)
-            {
-                IsAlive = false;
-            }
-            else if (WillLive)
-            {
-                IsAlive = true;
-            }
+            IsAlive = WillLive;
         }
 
         public void DisplayCell()
