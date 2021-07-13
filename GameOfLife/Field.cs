@@ -76,21 +76,28 @@ namespace GameOfLife
                 }
             }
 
-            if (neighbours.Count == 0)
-            {
-                Console.WriteLine("Error: couldn't locate neighbours");
-            }
+            //if (neighbours.Count == 0)
+            //{
+            //    Console.WriteLine("Error: couldn't locate neighbours");
+            //}
 
             return neighbours;
         }
 
         public void UpdateFieldData()
         {
-            foreach (Cell cell in Cells)
+            //foreach (Cell cell in Cells)
+            //{
+            //    if (cell.IsAlive != cell.WillLive)
+            //    {
+            //        cell.UpdateCurrentState();
+            //    }
+            //}
+            for (int r = 0; r < Cells.GetLength(0); r++)
             {
-                if (cell.IsAlive != cell.WillLive)
+                for (int c = 0; c < Cells.GetLength(1); c++)
                 {
-                    cell.UpdateCurrentState();
+                    Cells[r, c].UpdateCurrentState();
                 }
             }
             Generation ++;
@@ -100,11 +107,21 @@ namespace GameOfLife
         public int CountAliveCells()
         {
             int liveCellCount = 0;
-            foreach (var cell in Cells)
+            //foreach (var cell in Cells)
+            //{
+            //    if (cell.IsAlive)
+            //    {
+            //        liveCellCount++;
+            //    }
+            //}
+            for (int r = 0; r < Cells.GetLength(0); r++)
             {
-                if (cell.IsAlive)
+                for (int c = 0; c < Cells.GetLength(1); c++)
                 {
-                    liveCellCount++;
+                    if (Cells[r,c].IsAlive)
+                    {
+                        liveCellCount++;
+                    }
                 }
             }
             return liveCellCount;

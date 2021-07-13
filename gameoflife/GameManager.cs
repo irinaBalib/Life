@@ -64,10 +64,6 @@ namespace GameOfLife
             {
                 GameField.SetPredefinedInitField();
             }
-            else
-            {
-                Console.WriteLine("Option not found!");  // to sep class
-            }
         }
 
         public void ShiftFieldGenerations()
