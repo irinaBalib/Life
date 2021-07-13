@@ -7,7 +7,7 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            Console.SetCursorPosition(Console.WindowWidth / 2-15, 0);
+            Console.SetCursorPosition(Console.WindowWidth / 2-15, 0);  //remove   const - class
             Console.WriteLine("Welcome to the Game of Life!\n");
            
             GameManager manager = new GameManager();

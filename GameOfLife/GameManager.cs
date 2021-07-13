@@ -6,20 +6,20 @@ using System.Threading;
 
 namespace GameOfLife
 {
-    class GameManager
+    class GameManager  //public or private
     {
         public Field GameField { get; set; }
 
         public PlayersSetup PlayersSetup { get; private set; }
-        public GameManager()
-        {
-        }
+        //public GameManager()
+        //{
+        //}
 
         public void RunTheGame()
         {
             CreatePlayersSetup();
 
-            if (PlayersSetup.PlayersStartOption == 3)
+            if (PlayersSetup.PlayersStartOption == 3)// enum?
             {
                RestoreSavedGame();
             }
@@ -36,7 +36,7 @@ namespace GameOfLife
 
         public void CreatePlayersSetup()
         {
-            Console.WriteLine("PLAYER'S SETUP\n");
+            Console.WriteLine("PLAYER'S SETUP\n"); //sep class
             PlayersSetup = new PlayersSetup();
             PlayersSetup.SetPlayersInput();
 
@@ -58,7 +58,7 @@ namespace GameOfLife
         public void SetInitState()
         {
             int optionInput = PlayersSetup.PlayersStartOption;
-            if (optionInput == 1)
+            if (optionInput == 1)   //enum
             {
                 GameField.SetRandomInitField();
             }
@@ -68,7 +68,7 @@ namespace GameOfLife
             }
             else
             {
-                Console.WriteLine("Option not found!");
+                Console.WriteLine("Option not found!");  // to sep class
             }
         }
 
@@ -89,23 +89,24 @@ namespace GameOfLife
                 }
         }
 
-        public void ViewFieldInfo()
+        public void ViewFieldInfo()   // remove
         {
             Console.WriteLine(" Generation {0}       Live cells count: {1}", GameField.Generation, GameField.CountAliveCells());
         }
         public bool IsActionRequired()
         {
-            if (HasNoAliveCells())
+            if (HasNoAliveCells()) // verify if count == 0 in if()
             {
                 return true;
             }
-            else if (Console.KeyAvailable)
+            
+            if (Console.KeyAvailable)
             {
                 ConsoleKeyInfo keyPressed;
                 keyPressed = Console.ReadKey(true);
                 Console.SetCursorPosition(0, 0);
                 
-                if (keyPressed.Key == ConsoleKey.Escape)
+                if (keyPressed.Key == ConsoleKey.Escape)  //switch case
                 {
                     EndGame();
                     return true;
@@ -118,7 +119,7 @@ namespace GameOfLife
             return false;
         }
 
-        public bool HasNoAliveCells()
+        public bool HasNoAliveCells() //message only
         {
             if (GameField.CountAliveCells() == 0)
             {
@@ -141,9 +142,9 @@ namespace GameOfLife
             Thread.Sleep(3000);
             Console.ResetColor();
         }
-        public void PauseGame(ConsoleKeyInfo keyPressed)
+        public void PauseGame(ConsoleKeyInfo keyPressed) //naming
         {
-            Console.WriteLine("**PAUSED** Press SPACEBAR to resume or ENTER to save & exit");
+            Console.WriteLine("**PAUSED** Press SPACEBAR to resume or ENTER to save & exit"); //sep class
            
             do
             {

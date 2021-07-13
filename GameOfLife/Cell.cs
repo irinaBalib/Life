@@ -33,7 +33,7 @@ namespace GameOfLife
             }
         }
 
-        public void UpdateCurrentState()
+        public void UpdateCurrentState()   // is Alive = willLive
         {
             if (!WillLive)
             {

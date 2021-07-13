@@ -7,12 +7,12 @@ namespace GameOfLife
 {
     class PlayersSetup
     {
-        public string PlayersName { get; private set; }
+        public string PlayersName { get; private set; }  //remove private set
         public int PlayersFieldSize { get; private set; }
         public int PlayersStartOption { get; private set; }
-        public PlayersSetup()
-        {
-        }
+        //public PlayersSetup()
+        //{
+        //}
         public void SetPlayersInput()
         {
             Console.WriteLine("Player's name: ");
@@ -23,7 +23,7 @@ namespace GameOfLife
 
             if (PlayersStartOption == 3)  // if 3 - read from file
             {
-                PlayersFieldSize = 0;
+                PlayersFieldSize = 0;  //remove
             }
             else
             {
@@ -33,7 +33,7 @@ namespace GameOfLife
         }
         public string GetValidatedNameInput()
         {
-            string input = Console.ReadLine();
+            var input = Console.ReadLine();
 
             while (string.IsNullOrEmpty(input))
             {
@@ -48,23 +48,24 @@ namespace GameOfLife
         }
         public int GetValidatedDimensionInput()
         {
-            bool inputIsValid = false;
-            int dimensionInput = 0;
+            var inputIsValid = false;
+            var dimensionInput = 0;
 
             while (!inputIsValid)
             {
-                bool isNumber = int.TryParse(Console.ReadLine(), out dimensionInput);
+               // bool isNumber = int.TryParse(Console.ReadLine(), out dimensionInput);
 
                 ClearLine();
 
-                if (!isNumber)
+                if (!int.TryParse(Console.ReadLine(), out dimensionInput))  
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("Invalid input! Please input numbers only.");
                     ReturnCursor();
 
                 }
-                else if (dimensionInput < 15 || dimensionInput > 40)
+                
+                if (dimensionInput < 15 || dimensionInput > 40)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write("Size is out of range!");
@@ -80,13 +81,13 @@ namespace GameOfLife
         }
         public int GetValidatedOptionInput()
         {
-            int option = 0;
-            bool isOptionValid = false;
+            var option = 0;
+            var isOptionValid = false;
 
             while (!isOptionValid)
             {
                 isOptionValid = (int.TryParse(Console.ReadLine(), out option))
-                    && option > 0 && option < 4;
+                    && option > 0 && option < 4;        //enum
 
                 if (!isOptionValid)
                 {
@@ -94,9 +95,10 @@ namespace GameOfLife
                     Console.Write("Invalid input!                             ");
                     ReturnCursor();
                 }
-                else if(option == 3)
+
+                 if(option == 3)
                 {
-                    string savedGame = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{PlayersName}.dat";
+                    string savedGame = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{PlayersName}.dat"; // to improve
                     if (!File.Exists(savedGame))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -109,7 +111,7 @@ namespace GameOfLife
             }
             return option;
         }
-        public static void ClearLine()
+        public static void ClearLine()  //sep class
         {
             Console.SetCursorPosition(0, Console.CursorTop);
             Console.Write(new string(' ', Console.WindowWidth));

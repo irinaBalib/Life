@@ -12,17 +12,18 @@ namespace GameOfLife
         public int Width { get; private set; }
         public Cell[,] Cells { get; set; }
         public int Generation { get; set; }
-        public Field(int d)
+        public Field(int dimension)
         {
-            Height = d;
-            Width = d;
-            Generation = 0;
+            Height = dimension;
+            Width = dimension;
+         // Generation = g;
         }
         public Field() { }
 
         public void FillField()
         {
             Cells = new Cell[Height, Width];
+           // Cells.GetLength(0);  better, H&W not neccessary
             for (int r = 0; r < Height; r++)
             {
                 for (int c = 0; c < Width; c++)
@@ -62,7 +63,7 @@ namespace GameOfLife
 
         public List<Cell> GetNeighbours(int r, int c)
         {
-            List<Cell> allCells = Cells.Cast<Cell>().ToList();
+            List<Cell> allCells = Cells.Cast<Cell>().ToList(); //object from array to list
             List<Cell> neighbours = new List<Cell>();
             List<string> neighboursIDs = new List<string>();
 
@@ -122,10 +123,10 @@ namespace GameOfLife
         {
             var random = new Random();
 
-            foreach (Cell c in Cells)
+            foreach (Cell cell in Cells)
             {
-                var randomBool = random.Next(2) == 1; // Next(2) gives 1 or 0
-                c.IsAlive = randomBool;
+                //var randomBool = random.Next(2) == 1; // Next(2) gives 1 or 0
+                cell.IsAlive = random.Next(2) == 1;
             }
         }
 
@@ -151,9 +152,9 @@ namespace GameOfLife
             Cells[2, 10].IsAlive = true;
         }
 
-        public void WriteToFile(string playersName)
+        public void WriteToFile(string playersName) //separate class
         {
-            string path = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{playersName}.dat";
+            string path = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{playersName}.dat"; //directory
             try
             {
                 using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
