@@ -10,40 +10,30 @@ namespace GameOfLife
         public bool IsAlive { get; set; }
         public bool WillLive { get; set; }
 
-
-        public Cell(int r, int c)
+        public Cell(int r, int c)  
         {
-            Id = $"{r}-{c}"; // for List of monitored cells
+            Id = $"{r}-{c}";   // for List of monitored cells
             IsAlive = false;
             WillLive = false;
         }
-        public void SetFutureState(int aliveNeigbours) //to improve
+        
+        public void SetFutureState(int aliveNeigbours) 
         {
-            if (IsAlive)
+            if (IsAlive && (aliveNeigbours == 2 || aliveNeigbours == 3))
             {
-                if (aliveNeigbours == 2 || aliveNeigbours == 3)
-                {
-                    WillLive = true;
-                }
-                else 
-                {
-                    WillLive = false;
-                }
+                WillLive = true;
             }
-            else if (!IsAlive)
+            else if (!IsAlive && aliveNeigbours == 3)
             {
-                if ( aliveNeigbours == 3)
-                {
-                    WillLive = true;
-                }
-                else
-                {
-                    WillLive = false;
-                }
+                WillLive = true;
+            }
+            else
+            {
+                WillLive = false;
             }
         }
 
-        public void UpdateCurrentState()
+        public void UpdateCurrentState()   // is Alive = willLive
         {
             if (!WillLive)
             {
@@ -73,7 +63,5 @@ namespace GameOfLife
               
             }
         }
-
-        
     }
 }

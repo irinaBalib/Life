@@ -1,27 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace GameOfLife
 {
     class Field
-    { 
-        public int Height { get;}  
-        public int Width { get; }
+    {
+        public int Height { get; private set; }
+        public int Width { get; private set; }
         public Cell[,] Cells { get; set; }
-        public Field(int d)
+        public int Generation { get; set; }
+        public Field(int dimension)
         {
-            Height = d;
-            Width = d;
+            Height = dimension;
+            Width = dimension;
+         // Generation = g;
         }
+        public Field() { }
 
         public void FillField()
         {
-            Cells = new Cell[Height,Width];
-            for (int r = 0; r < Cells.GetLength(0); r++)
+            Cells = new Cell[Height, Width];
+           // Cells.GetLength(0);  better, H&W not neccessary
+            for (int r = 0; r < Height; r++)
             {
-                for (int c = 0; c < Cells.GetLength(1); c++)
+                for (int c = 0; c < Width; c++)
                 {
                     Cells[r, c] = new Cell(r, c);
                 }
@@ -30,9 +35,9 @@ namespace GameOfLife
 
         public void ViewField()
         {
-            for (int r = 0; r < Cells.GetLength(0); r++)
+            for (int r = 0; r < Height; r++)
             {
-                for (int c = 0; c < Cells.GetLength(1); c++)
+                for (int c = 0; c < Width; c++)
                 {
                     Cells[r, c].DisplayCell();
                     Cells[r, c].SetFutureState(CountAliveNeighbours(r, c));
@@ -45,7 +50,7 @@ namespace GameOfLife
         {
             int count = 0;
             List<Cell> neighbours = GetNeighbours(r, c);
-            foreach (Cell n in neighbours) 
+            foreach (Cell n in neighbours)
             {
                 if (n.IsAlive)
                 {
@@ -58,7 +63,7 @@ namespace GameOfLife
 
         public List<Cell> GetNeighbours(int r, int c)
         {
-            List<Cell> allCells = Cells.Cast<Cell>().ToList();
+            List<Cell> allCells = Cells.Cast<Cell>().ToList(); //object from array to list
             List<Cell> neighbours = new List<Cell>();
             List<string> neighboursIDs = new List<string>();
 
@@ -70,7 +75,7 @@ namespace GameOfLife
             neighboursIDs.Add($"{r + 1}-{c - 1}"); // bottom left
             neighboursIDs.Add($"{r + 1}-{c}");  // bottom center
             neighboursIDs.Add($"{r + 1}-{c + 1}"); //bottom right
- 
+
             foreach (string id in neighboursIDs)
             {
                 Cell neighbour = allCells.FirstOrDefault(c => c.Id == id);
@@ -84,7 +89,7 @@ namespace GameOfLife
             {
                 Console.WriteLine("Error: couldn't locate neighbours");
             }
-          
+
             return neighbours;
         }
 
@@ -97,18 +102,10 @@ namespace GameOfLife
                     c.UpdateCurrentState();
                 }
             }
+            Generation ++;
         }
-        //public bool HasAliveCells()
-        //{ 
-        //    foreach (var cell in Cells)
-        //    {
-        //        if (cell.IsAlive)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+
+        
         public int CountAliveCells()
         {
             int liveCellCount = 0;
@@ -125,10 +122,11 @@ namespace GameOfLife
         public void SetRandomInitField()
         {
             var random = new Random();
-            foreach (Cell c in Cells)
+
+            foreach (Cell cell in Cells)
             {
-                var randomBool = random.Next(2) == 1; // Next(2) gives 1 or 0
-                c.IsAlive = randomBool;
+                //var randomBool = random.Next(2) == 1; // Next(2) gives 1 or 0
+                cell.IsAlive = random.Next(2) == 1;
             }
         }
 
@@ -136,23 +134,79 @@ namespace GameOfLife
         {
             Cells[10, 10].IsAlive = true; //"0+"
             Cells[11, 9].IsAlive = true;
-            //Cells[11, 10].IsAlive = true;
-            //Cells[11, 11].IsAlive = true;
+            Cells[11, 10].IsAlive = true;
+            Cells[11, 11].IsAlive = true;
 
-            //Cells[2, 2].IsAlive = true; // "Blinker"
-            //Cells[2, 3].IsAlive = true;
-            //Cells[2, 4].IsAlive = true;
+            Cells[2, 2].IsAlive = true; // "Blinker"
+            Cells[2, 3].IsAlive = true;
+            Cells[2, 4].IsAlive = true;
 
-            //Cells[5, 0].IsAlive = true; // "Blinker" at the edge
-            //Cells[6, 0].IsAlive = true;
-            //Cells[7, 0].IsAlive = true;
+            Cells[5, 0].IsAlive = true; // "Blinker" at the edge
+            Cells[6, 0].IsAlive = true;
+            Cells[7, 0].IsAlive = true;
 
-            //Cells[0, 10].IsAlive = true; // "Glider"
-            //Cells[1, 8].IsAlive = true;
-            //Cells[1, 10].IsAlive = true;
-            //Cells[2, 9].IsAlive = true;
-            //Cells[2, 10].IsAlive = true;
+            Cells[0, 10].IsAlive = true; // "Glider"
+            Cells[1, 8].IsAlive = true;
+            Cells[1, 10].IsAlive = true;
+            Cells[2, 9].IsAlive = true;
+            Cells[2, 10].IsAlive = true;
         }
 
+        public void WriteToFile(string playersName) //separate class
+        {
+            string path = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{playersName}.dat"; //directory
+            try
+            {
+                using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
+                {
+                    writer.Write(Height);
+                    writer.Write(Width);
+                    writer.Write(Generation);
+                    foreach (Cell c in Cells)
+                    {
+                        writer.Write(c.Id);
+                        writer.Write(c.IsAlive);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void RestoreFieldFromFile(string playersName)
+        {
+            try
+            {
+                string path = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{playersName}.dat";
+                using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
+                {
+                    
+                    Height = reader.ReadInt32();
+                    Width = reader.ReadInt32();
+                    Generation = reader.ReadInt32();
+                    FillField();
+                    while (reader.PeekChar() > -1)
+                    {
+                        string cellId = reader.ReadString();
+                        foreach (Cell c in Cells)
+                        {
+                            if (c.Id == cellId)
+                            {
+                                c.IsAlive = reader.ReadBoolean();
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+           
+        }
     }
+
 }

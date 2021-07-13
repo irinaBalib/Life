@@ -11,3 +11,16 @@ C:\Users\irina.baliberdina\source\repos\irinaBalib\Life\GameOfLife\obj\Debug\net
 C:\Users\irina.baliberdina\source\repos\irinaBalib\Life\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.dll
 C:\Users\irina.baliberdina\source\repos\irinaBalib\Life\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.pdb
 C:\Users\irina.baliberdina\source\repos\irinaBalib\Life\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.genruntimeconfig.cache
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\bin\Debug\netcoreapp3.1\GameOfLife.exe
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\bin\Debug\netcoreapp3.1\GameOfLife.deps.json
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\bin\Debug\netcoreapp3.1\GameOfLife.runtimeconfig.json
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\bin\Debug\netcoreapp3.1\GameOfLife.runtimeconfig.dev.json
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\bin\Debug\netcoreapp3.1\GameOfLife.dll
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\bin\Debug\netcoreapp3.1\GameOfLife.pdb
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.csproj.AssemblyReference.cache
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.AssemblyInfoInputs.cache
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.AssemblyInfo.cs
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.csproj.CoreCompileInputs.cache
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.dll
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.pdb
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.genruntimeconfig.cache
