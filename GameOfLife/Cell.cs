@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameOfLife
 {
-    class Cell
+    public class Cell
     {
         public string Id { get; }
         public bool IsAlive { get; set; }

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace GameOfLife
 {
-    class PlayersSetup
+    public class PlayersSetup
     {
-        public string PlayersName { get; private set; }  //remove private set
-        public int PlayersFieldSize { get; private set; }
-        public int PlayersStartOption { get; private set; }
+        public string PlayersName { get; set; }  //remove private set
+        public int PlayersFieldSize { get;  set; }
+        public int PlayersStartOption { get;  set; }
 
         public void SetPlayersInput()
         {

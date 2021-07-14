@@ -6,10 +6,10 @@ using System.Text;
 
 namespace GameOfLife
 {
-    class Field
+    public class Field
     {
-        public int Height { get; private set; }  //do I need H & W
-        public int Width { get; private set; }
+        public int Height { get;  set; }  //do I need H & W
+        public int Width { get;  set; }
         public Cell[,] Cells { get; set; }
         public int Generation { get; set; }
         public Field(int dimension)
