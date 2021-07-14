@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLife.Data;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -43,13 +44,13 @@ namespace GameOfLife
 
         public void RestoreSavedGame()
         {
-            GameField = new Field();
-            GameField.RestoreFieldFromFile(PlayersSetup.PlayersName);
+            GameField = new Field(new FileStorage());
+            GameField.Restore(PlayersSetup.PlayersName);
         }
 
         public void CreateField()
         {
-            GameField = new Field(PlayersSetup.PlayersFieldSize);
+            GameField = new Field(PlayersSetup.PlayersFieldSize, new FileStorage());
             GameField.FillField();
         }
 
@@ -148,25 +149,25 @@ namespace GameOfLife
 
             if (keyPressed.Key == ConsoleKey.Enter)
             {
-                SaveGame();
+                GameField.Save(PlayersSetup.PlayersName);
             }
         }
 
-        public void SaveGame()
-        {
-            GameField.WriteToFile(PlayersSetup.PlayersName);
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine(" ~~~~~~~~~~~     Game for Player {0} saved. ~~~~~~~~~~~          ", PlayersSetup.PlayersName);
-            Thread.Sleep(3000);
-            ShowPreExitScreen();
-        }
+        //public void SaveGame()
+        //{
+        //    GameField.WriteToFile(PlayersSetup.PlayersName);
+        //    Console.SetCursorPosition(0, 0);
+        //    Console.WriteLine(" ~~~~~~~~~~~     Game for Player {0} saved. ~~~~~~~~~~~          ", PlayersSetup.PlayersName);
+        //    Thread.Sleep(3000);
+        //    ShowPreExitScreen();
+        //}
 
         public void ShowPreExitScreen()
         {
             Console.Clear();
             Console.SetCursorPosition(Console.WindowWidth/2, Console.WindowHeight/2-2);
-            Console.WriteLine("GAME OVER");
-            Console.WriteLine();
+            Console.WriteLine("GAME OVER\n");
+
             Console.SetCursorPosition(Console.WindowWidth/2-9, Console.WindowHeight / 2);
             Console.WriteLine("Press ENTER to start a new game");
             ConsoleKeyInfo keyPressed;
