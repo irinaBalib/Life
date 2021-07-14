@@ -12,15 +12,13 @@ namespace GameOfLife
         public int Width { get;  set; }
         public Cell[,] Cells { get; set; }
         public int Generation { get; set; }
-        public IDataStorage DataStorage { get; set; }
-        public Field(int dimension, IDataStorage dataStorage)
+        
+        public Field(int dimension)
         {
             Height = dimension;
             Width = dimension;
-            DataStorage = dataStorage;
         }
-        public Field(IDataStorage dataStorage) 
-        { DataStorage = dataStorage; }
+        public Field(){ }
 
         public void FillField()
         {
@@ -162,77 +160,13 @@ namespace GameOfLife
             //Cells[6, 0].IsAlive = true;
             //Cells[7, 0].IsAlive = true;
 
-            //Cells[0, 10].IsAlive = true; // "Glider"
-            //Cells[1, 8].IsAlive = true;
-            //Cells[1, 10].IsAlive = true;
-            //Cells[2, 9].IsAlive = true;
-            //Cells[2, 10].IsAlive = true;
+            Cells[0, 10].IsAlive = true; // "Glider"
+            Cells[1, 8].IsAlive = true;
+            Cells[1, 10].IsAlive = true;
+            Cells[2, 9].IsAlive = true;
+            Cells[2, 10].IsAlive = true;
         }
 
-        public void Save(string playerName)
-        {
-            DataStorage.Save(playerName);
-        }
-        //public void WriteToFile(string playersName) //separate class
-        //{
-           
-        //    string path = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{playersName}.dat"; //directory
-        //    try
-        //    {
-        //        using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
-        //        {
-        //            writer.Write(Height);
-        //            writer.Write(Width);
-        //            writer.Write(Generation);
-        //            foreach (Cell c in Cells)
-        //            {
-        //                writer.Write(c.Id);
-        //                writer.Write(c.IsAlive);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //    }
-        //}
-
-        public void Restore(string playerName)
-        {
-            DataStorage.Restore(playerName);
-        }
-        //public void RestoreFieldFromFile(string playersName)
-        //{
-        //    try
-        //    {
-        //        string path = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{playersName}.dat";
-        //        using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
-        //        {
-                    
-        //            Height = reader.ReadInt32();
-        //            Width = reader.ReadInt32();
-        //            Generation = reader.ReadInt32();
-        //            FillField();
-        //            while (reader.PeekChar() > -1)
-        //            {
-        //                string cellId = reader.ReadString();
-        //                foreach (Cell c in Cells)
-        //                {
-        //                    if (c.Id == cellId)
-        //                    {
-        //                        c.IsAlive = reader.ReadBoolean();
-        //                    }
-        //                }
-
-        //            }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //    }
-           
-        //}
     }
 
 }

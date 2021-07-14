@@ -10,9 +10,13 @@ namespace GameOfLife
     public class GameManager  //public or private
     {
         public Field GameField { get; set; }
-
         public PlayersSetup PlayersSetup { get;  set; }
-      
+        public IDataStorage DataStorage { get; set; }
+
+        public GameManager(IDataStorage dataStorage)
+        {
+            DataStorage = dataStorage;
+        }
 
         public void RunTheGame()
         {
@@ -44,13 +48,12 @@ namespace GameOfLife
 
         public void RestoreSavedGame()
         {
-            GameField = new Field(new FileStorage());
-            GameField.Restore(PlayersSetup.PlayersName);
+            GameField = DataStorage.Restore(PlayersSetup.PlayersName);
         }
 
         public void CreateField()
         {
-            GameField = new Field(PlayersSetup.PlayersFieldSize, new FileStorage());
+            GameField = new Field(PlayersSetup.PlayersFieldSize);
             GameField.FillField();
         }
 
@@ -149,19 +152,10 @@ namespace GameOfLife
 
             if (keyPressed.Key == ConsoleKey.Enter)
             {
-                GameField.Save(PlayersSetup.PlayersName);
+                DataStorage.Save(PlayersSetup.PlayersName, GameField);
+                ShowPreExitScreen();
             }
         }
-
-        //public void SaveGame()
-        //{
-        //    GameField.WriteToFile(PlayersSetup.PlayersName);
-        //    Console.SetCursorPosition(0, 0);
-        //    Console.WriteLine(" ~~~~~~~~~~~     Game for Player {0} saved. ~~~~~~~~~~~          ", PlayersSetup.PlayersName);
-        //    Thread.Sleep(3000);
-        //    ShowPreExitScreen();
-        //}
-
         public void ShowPreExitScreen()
         {
             Console.Clear();

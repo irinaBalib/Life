@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLife.Data;
+using System;
 using System.Threading;
 
 namespace GameOfLife
@@ -10,7 +11,7 @@ namespace GameOfLife
             Console.SetCursorPosition(Console.WindowWidth / 2-15, 0);  //remove   const - class
             Console.WriteLine("Welcome to the Game of Life!\n");
            
-            GameManager manager = new GameManager();
+            GameManager manager = new GameManager(new FileStorage());
            
             manager.RunTheGame();
         }

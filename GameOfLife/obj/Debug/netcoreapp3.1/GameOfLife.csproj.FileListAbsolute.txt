@@ -24,3 +24,5 @@ C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\ne
 C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.dll
 C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.pdb
 C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.genruntimeconfig.cache
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\obj\Debug\netcoreapp3.1\GameOfLife.csproj.CopyComplete

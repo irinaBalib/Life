@@ -88,7 +88,7 @@ namespace GameOfLife
 
                  if(option == 3)
                 {
-                    string savedGame = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{PlayersName}.dat"; // to improve
+                    string savedGame = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{PlayersName}.json"; // to improve
                     if (!File.Exists(savedGame))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
