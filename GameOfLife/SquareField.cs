@@ -8,21 +8,23 @@ namespace GameOfLife
 {
     public class SquareField : IField
     {
-        public int Height { get; set; }  //do I need H & W
-        public int Width { get; set; }
-        public Cell[,] Cells { get; set; }
+        public int Dimension { get; set; }
+        public ICell[,] Cells { get; set; }
         public int Generation { get; set; }
+        
+        //public SquareField(int dimension)
+        //{
+        //    Height = dimension;
+        //    Width = dimension;
+        //}
+        public SquareField() {}
 
-        public SquareField(int dimension)
+        public void FillField(int size)
         {
-            Height = dimension;
-            Width = dimension;
-        }
-        public SquareField() { }
+            Dimension = size;
+            Generation = 0;
 
-        public void FillField()
-        {
-            Cells = new Cell[Height, Width];
+            Cells = new Cell[Dimension, Dimension];
 
             for (int r = 0; r < Cells.GetLength(0); r++)
             {
@@ -31,6 +33,7 @@ namespace GameOfLife
                     Cells[r, c] = new Cell(r, c);
                 }
             }
+
         }
 
         public void ViewField()

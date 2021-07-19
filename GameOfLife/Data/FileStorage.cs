@@ -10,7 +10,7 @@ namespace GameOfLife.Data
      public class FileStorage : IDataStorage
     {
 
-        public void Save(string playername, SquareField field)
+        public void Save(string playername, IField field)
         {
             string filePath = $"{GetDirectoryPath()}{playername}.json"; 
 

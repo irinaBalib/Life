@@ -4,20 +4,24 @@ using System.Text;
 
 namespace GameOfLife
 {
-    public class Cell
+    public class Cell : ICell
     {
         public string Id { get; }
         public bool IsAlive { get; set; }
         public bool WillLive { get; set; }
 
-        public Cell(int r, int c)  
+        public Cell(int r, int c)
         {
             Id = $"{r}-{c}";   // for List of monitored cells
             IsAlive = false;
             WillLive = false;
         }
-        
-        public void SetFutureState(int aliveNeigbours) 
+        public Cell()
+        {
+
+        }
+
+        public void SetFutureState(int aliveNeigbours)
         {
             if (IsAlive && (aliveNeigbours == 2 || aliveNeigbours == 3))
             {
@@ -33,7 +37,7 @@ namespace GameOfLife
             }
         }
 
-        public void UpdateCurrentState()   
+        public void UpdateCurrentState()
         {
             IsAlive = WillLive;
         }
@@ -53,7 +57,7 @@ namespace GameOfLife
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.Write("[_]");
                 Console.ResetColor();
-              
+
             }
         }
     }

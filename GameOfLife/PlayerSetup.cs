@@ -5,20 +5,20 @@ using System.Text;
 
 namespace GameOfLife
 {
-    public class PlayerSetup
+    public class PlayerSetup : IPlayerSetup
     {
-        public string PlayerName { get; set; }  
-        public int PlayerFieldSize { get;  set; }
-        public int PlayerStartOption { get;  set; }
+        public string PlayerName { get; set; }
+        public int PlayerFieldSize { get; set; }
+        public int PlayerStartOption { get; set; }
 
         public void SetPlayersInput()
         {
             Console.WriteLine("Player's name: ");
-            PlayerName = GetValidatedNameInput();   
+            PlayerName = GetValidatedNameInput();
 
             Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
             PlayerStartOption = GetValidatedOptionInput();
-            
+
             if (PlayerStartOption != 3) // if 3 - read from file; enum for option
             {
                 Console.WriteLine("Please input the size of the field (15-40 cells): "); //? need to impl to H&W input, not only square?
@@ -49,7 +49,7 @@ namespace GameOfLife
             {
                 ClearLine();
 
-                if (!int.TryParse(Console.ReadLine(), out dimensionInput))  
+                if (!int.TryParse(Console.ReadLine(), out dimensionInput))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("Invalid input! Please input numbers only.");

@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "gRPvB5x3LQYp4ewV6cAwALBy5bwpzziJhbB/4efvk/SiefWgMbVKRrVveBB4LxZss09RojmmUM5q1tKk/D/Org==",
+  "dgSpecHash": "FhavK0BOhNuNUSUyFc1gITijrHUj4KAibFMZapEZGNTYlbffzjCFewy7I1OOUVcgzzltxqf3T+xy/LHRy2RPsg==",
   "success": true,
   "projectFilePath": "C:\\Users\\irina.baliberdina\\source\\repos\\irinaBalib\\Life2\\GameOfLife\\GameOfLife.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\irina.baliberdina\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+    "C:\\Users\\irina.baliberdina\\.nuget\\packages\\autofac\\6.2.0\\autofac.6.2.0.nupkg.sha512",
+    "C:\\Users\\irina.baliberdina\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\irina.baliberdina\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512"
   ],
   "logs": []
 }
