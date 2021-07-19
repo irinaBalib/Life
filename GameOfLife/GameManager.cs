@@ -9,8 +9,8 @@ namespace GameOfLife
 {
     public class GameManager  //public or private
     {
-        public Field GameField { get; set; }
-        public PlayersSetup PlayersSetup { get;  set; }
+        public SquareField GameField { get; set; }
+        public PlayerSetup PlayersSetup { get;  set; }
         public IDataStorage DataStorage { get; set; }
 
         public GameManager(IDataStorage dataStorage)
@@ -22,7 +22,7 @@ namespace GameOfLife
         {
             CreatePlayersSetup();
 
-            if (PlayersSetup.PlayersStartOption == 3)// enum?
+            if (PlayersSetup.PlayerStartOption == 3)// enum?
             {
                RestoreSavedGame();
             }
@@ -40,7 +40,7 @@ namespace GameOfLife
         public void CreatePlayersSetup()
         {
             Console.WriteLine("PLAYER'S SETUP\n"); //sep class
-            PlayersSetup = new PlayersSetup();
+            PlayersSetup = new PlayerSetup();
             PlayersSetup.SetPlayersInput();
 
             Console.Clear();
@@ -48,18 +48,18 @@ namespace GameOfLife
 
         public void RestoreSavedGame()
         {
-            GameField = DataStorage.Restore(PlayersSetup.PlayersName);
+            GameField = DataStorage.Restore(PlayersSetup.PlayerName);
         }
 
         public void CreateField()
         {
-            GameField = new Field(PlayersSetup.PlayersFieldSize);
+            GameField = new SquareField(PlayersSetup.PlayerFieldSize);
             GameField.FillField();
         }
 
         public void SetInitState()
         {
-            int optionInput = PlayersSetup.PlayersStartOption;
+            int optionInput = PlayersSetup.PlayerStartOption;
             if (optionInput == 1)   //enum
             {
                 GameField.SetRandomInitField();
@@ -152,7 +152,7 @@ namespace GameOfLife
 
             if (keyPressed.Key == ConsoleKey.Enter)
             {
-                DataStorage.Save(PlayersSetup.PlayersName, GameField);
+                DataStorage.Save(PlayersSetup.PlayerName, GameField);
                 ShowPreExitScreen();
             }
         }

@@ -6,24 +6,24 @@ using System.Text;
 
 namespace GameOfLife
 {
-    public class Field
+    public class SquareField : IField
     {
-        public int Height { get;  set; }  //do I need H & W
-        public int Width { get;  set; }
+        public int Height { get; set; }  //do I need H & W
+        public int Width { get; set; }
         public Cell[,] Cells { get; set; }
         public int Generation { get; set; }
-        
-        public Field(int dimension)
+
+        public SquareField(int dimension)
         {
             Height = dimension;
             Width = dimension;
         }
-        public Field(){ }
+        public SquareField() { }
 
         public void FillField()
         {
             Cells = new Cell[Height, Width];
-           
+
             for (int r = 0; r < Cells.GetLength(0); r++)
             {
                 for (int c = 0; c < Cells.GetLength(1); c++)
@@ -48,9 +48,9 @@ namespace GameOfLife
 
         public int CountAliveNeighbours(int r, int c)
         {
-           List<Cell> neighbours = GetNeighbours(r, c);
+            List<Cell> neighbours = GetNeighbours(r, c);
             int count = neighbours.Where(n => n.IsAlive == true).Count();
-           return count;
+            return count;
         }
 
         public List<Cell> GetNeighbours(int r, int c)
@@ -101,10 +101,10 @@ namespace GameOfLife
                     Cells[r, c].UpdateCurrentState();
                 }
             }
-            Generation ++;
+            Generation++;
         }
 
-        
+
         public int CountAliveCells()
         {
             int liveCellCount = 0;
@@ -119,7 +119,7 @@ namespace GameOfLife
             {
                 for (int c = 0; c < Cells.GetLength(1); c++)
                 {
-                    if (Cells[r,c].IsAlive)
+                    if (Cells[r, c].IsAlive)
                     {
                         liveCellCount++;
                     }
