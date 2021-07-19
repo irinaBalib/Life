@@ -5,24 +5,24 @@ using System.Text;
 
 namespace GameOfLife
 {
-    public class PlayersSetup
+    public class PlayerSetup
     {
-        public string PlayersName { get; set; }  //remove private set
-        public int PlayersFieldSize { get;  set; }
-        public int PlayersStartOption { get;  set; }
+        public string PlayerName { get; set; }  
+        public int PlayerFieldSize { get;  set; }
+        public int PlayerStartOption { get;  set; }
 
         public void SetPlayersInput()
         {
             Console.WriteLine("Player's name: ");
-            PlayersName = GetValidatedNameInput();   
+            PlayerName = GetValidatedNameInput();   
 
             Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
-            PlayersStartOption = GetValidatedOptionInput();
+            PlayerStartOption = GetValidatedOptionInput();
             
-            if (PlayersStartOption != 3) // if 3 - read from file; enum for option
+            if (PlayerStartOption != 3) // if 3 - read from file; enum for option
             {
                 Console.WriteLine("Please input the size of the field (15-40 cells): "); //? need to impl to H&W input, not only square?
-                PlayersFieldSize = GetValidatedDimensionInput();
+                PlayerFieldSize = GetValidatedDimensionInput();
             }
         }
         public string GetValidatedNameInput()
@@ -86,9 +86,10 @@ namespace GameOfLife
                     ReturnCursor();
                 }
 
-                 if(option == 3)
+                if (option == 3)  // TO IMPLEMENT!!
                 {
-                    string savedGame = @$"C:\Users\irina.baliberdina\Documents\LifeSaved\{PlayersName}.json"; // to improve
+                    string savedGame = @$"C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\SavedGames\{PlayerName}.json"; // to improve
+
                     if (!File.Exists(savedGame))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
