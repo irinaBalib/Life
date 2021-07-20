@@ -6,11 +6,12 @@ using System.Threading;
 
 namespace GameOfLife
 {
+    public enum Option
+    {
+        RANDOM = 1, PRESET, RESTORE
+    }
     public class GameManager : IGameManager
     {
-        //public Field GameField { get; set; }
-
-        //public PlayersSetup PlayersSetup { get; set; }
         IField _field;
         IPlayerSetup _playerSetup;
         IDataStorage _dataStorage;
@@ -119,20 +120,20 @@ namespace GameOfLife
         public void HasNoAliveCells() 
         {
             string extinctionMessage = "xxxxxxxxxx  TOTAL EXTINCTION  xxxxxxxxxxxxxxxxxxxxxx ";
-            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), extinctionMessage);
+            ModifyInfoBar(extinctionMessage);
             Thread.Sleep(2000);
         }
 
         public void EndGame()
         {
             string endGameMessage = " ~~~~~~~~~~~     Game ended by the Player! ~~~~~~~~~~~";
-            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), endGameMessage);
+            ModifyInfoBar(endGameMessage);
             Thread.Sleep(2000);
         }
         public void PauseGame(ConsoleKeyInfo keyPressed) //naming
         {
             string pauseMessage = "**PAUSED** Press SPACEBAR to resume or ENTER to save & exit";
-            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), pauseMessage);
+            ModifyInfoBar(pauseMessage);
            
             do
             {
@@ -151,10 +152,14 @@ namespace GameOfLife
             _dataStorage.Save(_playerSetup.PlayerName, _field);
 
             string saveGameMessage = "~~~~~~~~~~~     Game for Player {0} saved. ~~~~~~~~~~~";
-            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), saveGameMessage);
+            ModifyInfoBar(saveGameMessage);
             Thread.Sleep(2000);
         }
 
+        private void ModifyInfoBar(string message)
+        {
+            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), message);
+        }
         public void ShowPreExitScreen()
         {
             _application.ShowPreExitScreen();

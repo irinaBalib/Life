@@ -9,7 +9,11 @@ namespace GameOfLife.Data
 {
      public class FileStorage : IDataStorage
     {
-
+        IApplication _application;
+        public FileStorage(IApplication application)
+        {
+            _application = application;
+        }
         public void Save(string playername, IField field)
         {
             string filePath = $"{GetDirectoryPath()}{playername}.json"; 
@@ -25,28 +29,28 @@ namespace GameOfLife.Data
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                _application.WriteText(e.Message);
             }
         }
         
-        public SquareField Restore(string playername)
+        public IField Restore(string playername)
         {
            string filePath = $"{GetDirectoryPath()}{playername}.json";
-            SquareField restoredField = new SquareField();
+           IField restoredField = new SquareField();               // how to fix this?
 
                 try
                 {
                     using (StreamReader streamReader = new StreamReader(filePath))
                     {
                         string jsonString = streamReader.ReadToEnd();
-                        restoredField = JsonConvert.DeserializeObject<SquareField>(jsonString);
+                     restoredField = JsonConvert.DeserializeObject<SquareField>(jsonString); //..?
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    _application.WriteText(e.Message);
                 }
-            return restoredField;
+           return restoredField;
         }
 
         private string GetDirectoryPath()

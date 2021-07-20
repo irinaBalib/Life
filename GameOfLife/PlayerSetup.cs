@@ -12,9 +12,11 @@ namespace GameOfLife
         public int PlayerStartOption { get; set; }
 
         IApplication _application;
-        public PlayerSetup(IApplication application)
+        IDataStorage _data; 
+        public PlayerSetup(IApplication application, IDataStorage data)
         {
             _application = application;
+            _data = data;
         }
         public void SetPlayersInput()
         {
@@ -24,10 +26,10 @@ namespace GameOfLife
             _application.WriteText("Player's name:");
             PlayerName = GetValidatedNameInput();
 
-           _application.WriteText("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
+           _application.WriteText($"Please choose game field set up for 0.Generation ({(int)Option.RANDOM} - for randomly filled, {(int)Option.PRESET} - pre-set, {(int)Option.RESTORE} - restore saved game): ");
              PlayerStartOption = GetValidatedOptionInput();
-
-            if (PlayerStartOption != 3) // if 3 - read from file; enum for option
+             
+            if (PlayerStartOption != (int)Option.RESTORE) 
             {
                 _application.WriteText("Please input the size of the field(15 - 40 cells): ");
                 PlayerFieldSize = GetValidatedDimensionInput();
@@ -56,7 +58,7 @@ namespace GameOfLife
                 {
                     _application.ShowErrorMessage("Invalid input! Please input numbers only.");
                 }
-                else if (dimensionInput < 15 || dimensionInput > 40) // implement
+                else if (dimensionInput < 15 || dimensionInput > 40) // to implement
                 {
                     _application.ShowErrorMessage("Size is out of range!");
                 }
@@ -75,23 +77,18 @@ namespace GameOfLife
             while (!isOptionValid)
             {
                 isOptionValid = (int.TryParse(_application.ReadInput(), out option))
-                    && option > 0 && option < 4;        //enum
-
+                    && Enum.IsDefined(typeof(Option), option);
+                
                 if (!isOptionValid)
                 {
                     _application.ShowErrorMessage("Invalid input!");
                 }
 
-                if (option == 3)  // TO IMPLEMENT!!
+                if (option == (int)Option.RESTORE && !_data.DataExists(PlayerName))
                 {
-                    string savedGame = @$"C:\Users\irina.baliberdina\source\repos\irinaBalib\Life2\GameOfLife\SavedGames\{PlayerName}.json"; // to improve
-
-                    if (!File.Exists(savedGame))
-                    {
                         _application.ShowErrorMessage("No saved games found for this Player!");
                         isOptionValid = false;
-                    }
-                }
+                 }
             }
             return option;
         }

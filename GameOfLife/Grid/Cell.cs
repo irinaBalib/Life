@@ -46,21 +46,6 @@ namespace GameOfLife
         public void DisplayCell()
         {
             _application.DrawCell(IsAlive);
-
-            //if (IsAlive)
-            //{
-            //    Console.BackgroundColor = ConsoleColor.DarkCyan;
-            //    Console.ForegroundColor = ConsoleColor.Black;
-            //    Console.Write("[_]");
-            //    Console.ResetColor();
-            //}
-            //else
-            //{
-            //    Console.BackgroundColor = ConsoleColor.Gray;
-            //    Console.ForegroundColor = ConsoleColor.Black;
-            //    Console.Write("[_]");
-            //    Console.ResetColor();
-            //}
         }
     }
 }

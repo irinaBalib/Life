@@ -11,12 +11,6 @@ namespace GameOfLife
         public int Dimension { get; set; }
         public ICell[,] Cells { get; set; }
         public int Generation { get; set; }
-        
-        //public SquareField(int dimension)
-        //{
-        //    Height = dimension;
-        //    Width = dimension;
-        //}
         public SquareField() {}
 
         public void FillField(int size)

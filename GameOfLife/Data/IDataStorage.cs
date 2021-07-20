@@ -7,7 +7,7 @@ namespace GameOfLife
    public interface IDataStorage
     {
         void Save(string playername, IField field);
-        SquareField Restore(string playername);
+        IField Restore(string playername);
         bool DataExists(string playername);
     }
 }
