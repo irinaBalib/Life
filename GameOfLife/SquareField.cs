@@ -90,13 +90,6 @@ namespace GameOfLife
 
         public void UpdateFieldData()
         {
-            //foreach (Cell cell in Cells)
-            //{
-            //    if (cell.IsAlive != cell.WillLive)
-            //    {
-            //        cell.UpdateCurrentState();
-            //    }
-            //}
             for (int r = 0; r < Cells.GetLength(0); r++)
             {
                 for (int c = 0; c < Cells.GetLength(1); c++)
@@ -111,13 +104,6 @@ namespace GameOfLife
         public int CountAliveCells()
         {
             int liveCellCount = 0;
-            //foreach (var cell in Cells)
-            //{
-            //    if (cell.IsAlive)
-            //    {
-            //        liveCellCount++;
-            //    }
-            //}
             for (int r = 0; r < Cells.GetLength(0); r++)
             {
                 for (int c = 0; c < Cells.GetLength(1); c++)

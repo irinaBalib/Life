@@ -11,32 +11,37 @@ namespace GameOfLife
         public int PlayerFieldSize { get; set; }
         public int PlayerStartOption { get; set; }
 
+        IApplication _application;
+        public PlayerSetup(IApplication application)
+        {
+            _application = application;
+        }
         public void SetPlayersInput()
         {
-            Console.WriteLine("Player's name: ");
+            _application.WriteText("Welcome to the Game of Life!\n\n" +
+                "PLAYER'S SETUP\n");
+
+            _application.WriteText("Player's name:");
             PlayerName = GetValidatedNameInput();
 
-            Console.WriteLine("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
-            PlayerStartOption = GetValidatedOptionInput();
+           _application.WriteText("Please choose game field set up for 0.Generation (1 - for randomly filled, 2 - pre-set, 3 - restore saved game): ");
+             PlayerStartOption = GetValidatedOptionInput();
 
             if (PlayerStartOption != 3) // if 3 - read from file; enum for option
             {
-                Console.WriteLine("Please input the size of the field (15-40 cells): "); //? need to impl to H&W input, not only square?
+                _application.WriteText("Please input the size of the field(15 - 40 cells): ");
                 PlayerFieldSize = GetValidatedDimensionInput();
             }
         }
         public string GetValidatedNameInput()
         {
-            var input = Console.ReadLine();
+            var input = _application.ReadInput();
 
             while (string.IsNullOrEmpty(input))
             {
-                ClearLine();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Name is required!");
-                Console.ResetColor();
-                ReturnCursor();
-                input = Console.ReadLine();
+                _application.ShowErrorMessage("Name is required!");
+                
+                input = _application.ReadInput();
             }
             return input;
         }
@@ -47,25 +52,18 @@ namespace GameOfLife
 
             while (!inputIsValid)
             {
-                ClearLine();
-
-                if (!int.TryParse(Console.ReadLine(), out dimensionInput))
+               if (!int.TryParse(_application.ReadInput(), out dimensionInput))
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Invalid input! Please input numbers only.");
-                    ReturnCursor();
+                    _application.ShowErrorMessage("Invalid input! Please input numbers only.");
                 }
-                else if (dimensionInput < 15 || dimensionInput > 40)
+                else if (dimensionInput < 15 || dimensionInput > 40) // implement
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write("Size is out of range!                     ");
-                    ReturnCursor();
+                    _application.ShowErrorMessage("Size is out of range!");
                 }
                 else
                 {
                     inputIsValid = true;
                 }
-                Console.ResetColor();
             }
             return dimensionInput;
         }
@@ -76,14 +74,12 @@ namespace GameOfLife
 
             while (!isOptionValid)
             {
-                isOptionValid = (int.TryParse(Console.ReadLine(), out option))
+                isOptionValid = (int.TryParse(_application.ReadInput(), out option))
                     && option > 0 && option < 4;        //enum
 
                 if (!isOptionValid)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Invalid input!                             ");
-                    ReturnCursor();
+                    _application.ShowErrorMessage("Invalid input!");
                 }
 
                 if (option == 3)  // TO IMPLEMENT!!
@@ -92,27 +88,13 @@ namespace GameOfLife
 
                     if (!File.Exists(savedGame))
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("No saved games found for this Player!");
+                        _application.ShowErrorMessage("No saved games found for this Player!");
                         isOptionValid = false;
-                        ReturnCursor();
                     }
                 }
-                Console.ResetColor();
             }
             return option;
         }
-        public static void ClearLine()  //sep class
-        {
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, Console.CursorTop);
-        }
-        public static void ReturnCursor()
-        {
-            Console.SetCursorPosition(0, Console.CursorTop - 1);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, Console.CursorTop);
-        }
+       
     }
 }

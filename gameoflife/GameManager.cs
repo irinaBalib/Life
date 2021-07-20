@@ -43,7 +43,7 @@ namespace GameOfLife
 
         public void CreatePlayersSetup()
         {
-            Console.WriteLine("PLAYER'S SETUP\n"); //sep class
+           // Console.WriteLine("PLAYER'S SETUP\n"); //sep class
             //_playerSetup = new _playerSetup();
             _playerSetup.SetPlayersInput();
 
