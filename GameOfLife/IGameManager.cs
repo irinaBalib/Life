@@ -7,15 +7,14 @@ namespace GameOfLife
         void CreateField();
         void CreatePlayersSetup();
         void EndGame();
-        /*bool*/ void HasNoAliveCells();
+        void HasNoAliveCells();
         bool IsActionRequired();
-        void PauseGame(ConsoleKeyInfo keyPressed);
+        void PauseGame(ConsoleKeyInfo keyPressed); // TO IMPLEMENT
         void RestoreSavedGame();
         void RunTheGame();
         void SaveGame();
         void SetInitState();
         void ShiftFieldGenerations();
         void ShowPreExitScreen();
-       // void ViewFieldInfo();
     }
 }

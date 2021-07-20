@@ -11,12 +11,6 @@ namespace GameOfLife
         public int Dimension { get; set; }
         public ICell[,] Cells { get; set; }
         public int Generation { get; set; }
-        
-        //public SquareField(int dimension)
-        //{
-        //    Height = dimension;
-        //    Width = dimension;
-        //}
         public SquareField() {}
 
         public void FillField(int size)
@@ -24,13 +18,13 @@ namespace GameOfLife
             Dimension = size;
             Generation = 0;
 
-            Cells = new Cell[Dimension, Dimension];
+            Cells = new Cell[Dimension, Dimension];  // move array to separate class?
 
             for (int r = 0; r < Cells.GetLength(0); r++)
             {
                 for (int c = 0; c < Cells.GetLength(1); c++)
                 {
-                    Cells[r, c] = new Cell(r, c, new ConsoleApplication());  // IMPLEMENT !!!
+                    Cells[r, c] = new Cell(r, c, new ConsoleApplication());  // TO IMPLEMENT !
                 }
             }
 
@@ -45,7 +39,7 @@ namespace GameOfLife
                     Cells[r, c].DisplayCell();
                     Cells[r, c].SetFutureState(CountAliveNeighbours(r, c));
                 }
-                Console.WriteLine();
+                Console.WriteLine();              //how to remove this console method?
             }
         }
 
@@ -58,7 +52,7 @@ namespace GameOfLife
 
         public List<Cell> GetNeighbours(int r, int c)
         {
-            List<Cell> allCells = Cells.Cast<Cell>().ToList(); //object from array to list
+            List<Cell> allCells = Cells.Cast<Cell>().ToList(); 
             List<Cell> neighbours = new List<Cell>();
             List<string> neighboursIDs = new List<string>();
 
@@ -79,11 +73,6 @@ namespace GameOfLife
                     neighbours.Add(neighbour);
                 }
             }
-
-            //if (neighbours.Count == 0)
-            //{
-            //    Console.WriteLine("Error: couldn't locate neighbours");
-            //}
 
             return neighbours;
         }

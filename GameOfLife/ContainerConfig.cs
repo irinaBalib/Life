@@ -15,7 +15,7 @@ namespace GameOfLife
             builder.RegisterType<GameManager>().As<IGameManager>();
             builder.RegisterType<FileStorage>().As<IDataStorage>();
             builder.RegisterType<PlayerSetup>().As<IPlayerSetup>();
-            builder.RegisterType<SquareField>().As<IField>();
+            builder.RegisterInstance(new SquareField()).As<IField>();
             //builder.RegisterInstance(new Cell()).As<ICell>();
             builder.RegisterType<Cell[,]>().As<ICell[,]>();
             builder.RegisterType<ConsoleApplication>().As<IApplication>();
