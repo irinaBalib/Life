@@ -9,16 +9,17 @@ namespace GameOfLife
         public string Id { get; }
         public bool IsAlive { get; set; }
         public bool WillLive { get; set; }
-
-        public Cell(int r, int c)
+        IApplication _application;
+        public Cell(int r, int c, IApplication application)
         {
             Id = $"{r}-{c}";   // for List of monitored cells
             IsAlive = false;
             WillLive = false;
+            _application = application;
         }
-        public Cell()
+        public Cell(IApplication application)
         {
-
+            _application = application;
         }
 
         public void SetFutureState(int aliveNeigbours)
@@ -44,21 +45,22 @@ namespace GameOfLife
 
         public void DisplayCell()
         {
-            if (IsAlive)
-            {
-                Console.BackgroundColor = ConsoleColor.DarkCyan;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write("[_]");
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write("[_]");
-                Console.ResetColor();
+            _application.DrawCell(IsAlive);
 
-            }
+            //if (IsAlive)
+            //{
+            //    Console.BackgroundColor = ConsoleColor.DarkCyan;
+            //    Console.ForegroundColor = ConsoleColor.Black;
+            //    Console.Write("[_]");
+            //    Console.ResetColor();
+            //}
+            //else
+            //{
+            //    Console.BackgroundColor = ConsoleColor.Gray;
+            //    Console.ForegroundColor = ConsoleColor.Black;
+            //    Console.Write("[_]");
+            //    Console.ResetColor();
+            //}
         }
     }
 }

@@ -30,7 +30,7 @@ namespace GameOfLife
             {
                 for (int c = 0; c < Cells.GetLength(1); c++)
                 {
-                    Cells[r, c] = new Cell(r, c);
+                    Cells[r, c] = new Cell(r, c, new ConsoleApplication());  // IMPLEMENT !!!
                 }
             }
 

@@ -7,7 +7,6 @@ using System.Threading;
 namespace GameOfLife
 {
     public class GameManager : IGameManager
-    //public or private
     {
         //public Field GameField { get; set; }
 
@@ -15,12 +14,14 @@ namespace GameOfLife
         IField _field;
         IPlayerSetup _playerSetup;
         IDataStorage _dataStorage;
+        IApplication _application;
 
-        public GameManager(IField field, IPlayerSetup playerSetup, IDataStorage dataStorage)
+        public GameManager(IField field, IPlayerSetup playerSetup, IDataStorage dataStorage, IApplication application)
         {
             _field = field;
             _playerSetup = playerSetup;
             _dataStorage = dataStorage;
+            _application = application;
         }
         public void RunTheGame()
         {
@@ -43,8 +44,6 @@ namespace GameOfLife
 
         public void CreatePlayersSetup()
         {
-           // Console.WriteLine("PLAYER'S SETUP\n"); //sep class
-            //_playerSetup = new _playerSetup();
             _playerSetup.SetPlayersInput();
 
             Console.Clear();
@@ -81,9 +80,7 @@ namespace GameOfLife
 
             while (canContinue)
             {
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine(" |Controls|  ESC - exit  | SPACEBAR - pause |                                  ");
-                ViewFieldInfo();
+                _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells());
                 _field.ViewField();
                 Thread.Sleep(1000);
                 canContinue = !IsActionRequired();
@@ -92,14 +89,11 @@ namespace GameOfLife
             }
         }
 
-        public void ViewFieldInfo()   // remove
-        {
-            Console.WriteLine(" Generation {0}       Live cells count: {1}", _field.Generation, _field.CountAliveCells());
-        }
         public bool IsActionRequired()
         {
-            if (HasNoAliveCells()) // verify if count == 0 in if()
+            if (_field.CountAliveCells() == 0)  
             {
+                HasNoAliveCells();
                 return true;
             }
 
@@ -122,33 +116,24 @@ namespace GameOfLife
             return false;
         }
 
-        public bool HasNoAliveCells() //message only
+        public void HasNoAliveCells() 
         {
-            if (_field.CountAliveCells() == 0)
-            {
-                Console.SetCursorPosition(0, 0);
-                Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("xxxxxxxxxx  TOTAL EXTINCTION  xxxxxxxxxxxxxxxxxxxxxx ");
-                Thread.Sleep(3000);
-                Console.ResetColor();
-                return true;
-            }
-            return false;
+            string extinctionMessage = "xxxxxxxxxx  TOTAL EXTINCTION  xxxxxxxxxxxxxxxxxxxxxx ";
+            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), extinctionMessage);
+            Thread.Sleep(2000);
         }
 
         public void EndGame()
         {
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine(" ~~~~~~~~~~~     Game ended by the Player! ~~~~~~~~~~~                 ");
+            string endGameMessage = " ~~~~~~~~~~~     Game ended by the Player! ~~~~~~~~~~~";
+            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), endGameMessage);
             Thread.Sleep(2000);
-            Console.ResetColor();
         }
         public void PauseGame(ConsoleKeyInfo keyPressed) //naming
         {
-            Console.WriteLine("**PAUSED** Press SPACEBAR to resume or ENTER to save & exit"); //sep class
-
+            string pauseMessage = "**PAUSED** Press SPACEBAR to resume or ENTER to save & exit";
+            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), pauseMessage);
+           
             do
             {
                 keyPressed = Console.ReadKey(true);
@@ -164,33 +149,16 @@ namespace GameOfLife
         public void SaveGame()
         {
             _dataStorage.Save(_playerSetup.PlayerName, _field);
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine(" ~~~~~~~~~~~     Game for Player {0} saved. ~~~~~~~~~~~          ", _playerSetup.PlayerName);
-            Thread.Sleep(3000);
-            ShowPreExitScreen();
+
+            string saveGameMessage = "~~~~~~~~~~~     Game for Player {0} saved. ~~~~~~~~~~~";
+            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), saveGameMessage);
+            Thread.Sleep(2000);
         }
 
         public void ShowPreExitScreen()
         {
-            Console.Clear();
-            Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 2);
-            Console.WriteLine("GAME OVER");
-            Console.WriteLine();
-            Console.SetCursorPosition(Console.WindowWidth / 2 - 9, Console.WindowHeight / 2);
-            Console.WriteLine("Press ENTER to start a new game");
-            ConsoleKeyInfo keyPressed;
-            keyPressed = Console.ReadKey(true);
-            if (keyPressed.Key == ConsoleKey.Enter)
-            {
-                Console.Clear();
-                RunTheGame();
-            }
-            else
-            {
-                Console.Clear();
-                Environment.Exit(0);
-            }
-
+            _application.ShowPreExitScreen();
+            RunTheGame();
         }
     }
 }
