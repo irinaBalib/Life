@@ -24,9 +24,10 @@ namespace GameOfLife
             _dataStorage = dataStorage;
             _application = application;
         }
-        public void RunTheGame()
+        public void RunTheGame()  // need to change the field creation seq
         {
             CreatePlayersSetup();
+            
 
             if (_playerSetup.PlayerStartOption == (int)Option.RESTORE)   
             {
@@ -34,7 +35,8 @@ namespace GameOfLife
             }
             else
             {
-                CreateField();
+                // CreateField();
+                _field.Create(_playerSetup.PlayerFieldSize);
                 SetInitState();
             }
 
@@ -52,15 +54,15 @@ namespace GameOfLife
 
         public void RestoreSavedGame()
         {
-           // GameField = new Field();
-          _dataStorage.Restore(_playerSetup.PlayerName);
+           // GameField = new Field();               // need to change 
+          _field = _dataStorage.Restore(_playerSetup.PlayerName);
         }
 
-        public void CreateField()
-        {
-            // GameField = new Field(PlayersSetup.PlayersFieldSize);
-            _field.FillField(_playerSetup.PlayerFieldSize);
-        }
+        //public void CreateField()
+        //{
+        //    // GameField = new Field(PlayersSetup.PlayersFieldSize);
+        //    _field.FillField(_playerSetup.PlayerFieldSize);
+        //}
 
         public void SetInitState()
         {

@@ -13,7 +13,7 @@ namespace GameOfLife
         public int Generation { get; set; }
         public SquareField() {}
 
-        public void FillField(int size)
+        public void Create(int size)
         {
             Dimension = size;
             Generation = 0;

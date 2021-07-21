@@ -9,7 +9,8 @@ namespace GameOfLife
     {
         public string PlayerName { get; set; }
         public int PlayerFieldSize { get; set; }
-        public int PlayerStartOption { get; set; }
+        //public int PlayerStartOption { get; set; }
+        public Option PlayerStartOption { get; set; }
 
         IApplication _application;
         IDataStorage _data; 

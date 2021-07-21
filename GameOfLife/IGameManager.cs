@@ -4,7 +4,7 @@ namespace GameOfLife
 {
     public interface IGameManager
     {
-        void CreateField();
+        //void CreateField();
         void CreatePlayersSetup();
         void EndGame();
         void HasNoAliveCells();
