@@ -9,7 +9,6 @@ namespace GameOfLife
     {
         public string PlayerName { get; set; }
         public int PlayerFieldSize { get; set; }
-        //public int PlayerStartOption { get; set; }
         public Option PlayerStartOption { get; set; }
 
         IApplication _application;
@@ -30,7 +29,7 @@ namespace GameOfLife
            _application.WriteText($"Please choose game field set up for 0.Generation ({(int)Option.RANDOM} - for randomly filled, {(int)Option.PRESET} - pre-set, {(int)Option.RESTORE} - restore saved game): ");
              PlayerStartOption = GetValidatedOptionInput();
              
-            if (PlayerStartOption != (int)Option.RESTORE) 
+            if (PlayerStartOption != Option.RESTORE) 
             {
                 _application.WriteText("Please input the size of the field(15 - 40 cells): ");
                 PlayerFieldSize = GetValidatedDimensionInput();
@@ -70,28 +69,28 @@ namespace GameOfLife
             }
             return dimensionInput;
         }
-        public int GetValidatedOptionInput()
+        public Option GetValidatedOptionInput()
         {
-            var option = 0;
+            var optionIndex = 0;
             var isOptionValid = false;
 
             while (!isOptionValid)
             {
-                isOptionValid = (int.TryParse(_application.ReadInput(), out option))
-                    && Enum.IsDefined(typeof(Option), option);
+                isOptionValid = (int.TryParse(_application.ReadInput(), out optionIndex))
+                    && Enum.IsDefined(typeof(Option), optionIndex);
                 
                 if (!isOptionValid)
                 {
                     _application.ShowErrorMessage("Invalid input!");
                 }
 
-                if (option == (int)Option.RESTORE && !_data.DataExists(PlayerName))
+                if (optionIndex == (int)Option.RESTORE && !_data.DataExists(PlayerName))
                 {
                         _application.ShowErrorMessage("No saved games found for this Player!");
                         isOptionValid = false;
                  }
             }
-            return option;
+            return (Option)optionIndex;
         }
        
     }

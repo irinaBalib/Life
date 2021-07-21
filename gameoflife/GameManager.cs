@@ -6,10 +6,10 @@ using System.Threading;
 
 namespace GameOfLife
 {
-    public enum Option
-    {
-        RANDOM = 1, PRESET, RESTORE
-    }
+    //public enum Option
+    //{
+    //    RANDOM = 1, PRESET, RESTORE
+    //}
     public class GameManager : IGameManager
     {
         IField _field;
@@ -24,25 +24,12 @@ namespace GameOfLife
             _dataStorage = dataStorage;
             _application = application;
         }
-        public void RunTheGame()  // need to change the field creation seq
+        public void RunTheGame()  
         {
             CreatePlayersSetup();
-            
-
-            if (_playerSetup.PlayerStartOption == (int)Option.RESTORE)   
-            {
-                RestoreSavedGame();
-            }
-            else
-            {
-                // CreateField();
-                _field.Create(_playerSetup.PlayerFieldSize);
-                SetInitState();
-            }
-
+            SetInitFieldState();
             ShiftFieldGenerations();
             ShowPreExitScreen();
-
         }
 
         public void CreatePlayersSetup()
@@ -52,28 +39,27 @@ namespace GameOfLife
             Console.Clear();  // where to put
         }
 
-        public void RestoreSavedGame()
+        public void SetInitFieldState()
         {
-           // GameField = new Field();               // need to change 
-          _field = _dataStorage.Restore(_playerSetup.PlayerName);
-        }
-
-        //public void CreateField()
-        //{
-        //    // GameField = new Field(PlayersSetup.PlayersFieldSize);
-        //    _field.FillField(_playerSetup.PlayerFieldSize);
-        //}
-
-        public void SetInitState()
-        {
-            int optionInput = _playerSetup.PlayerStartOption;
-            if (optionInput == (int)Option.RANDOM)   //change to switch op.
+            switch (_playerSetup.PlayerStartOption)
             {
-                _field.SetRandomInitField();
-            }
-            else if (optionInput == (int)Option.PRESET)
-            {
-                _field.SetPredefinedInitField();
+                case Option.RANDOM:
+                    {
+                        _field.Create(_playerSetup.PlayerFieldSize);  // call Create in init methods?
+                        _field.SetRandomInitField();
+                        break;
+                    }
+                case Option.PRESET:
+                    {
+                        _field.Create(_playerSetup.PlayerFieldSize);
+                        _field.SetPredefinedInitField();
+                        break;
+                    }
+                case Option.RESTORE:
+                    {
+                        _field = _dataStorage.Restore(_playerSetup.PlayerName);
+                        break;
+                    }
             }
         }
 
@@ -100,21 +86,37 @@ namespace GameOfLife
                 return true;
             }
 
-            if (Console.KeyAvailable)
+            if (Console.KeyAvailable)    // console methods - need to move out
             {
                 ConsoleKeyInfo keyPressed;
                 keyPressed = Console.ReadKey(true);
                 Console.SetCursorPosition(0, 0);
 
-                if (keyPressed.Key == ConsoleKey.Escape)  //switch case
+                switch (keyPressed.Key)
                 {
-                    EndGame();
-                    return true;
+                    case ConsoleKey.Escape:
+                        {
+                            EndGame();
+                            return true;
+                        }
+                    case ConsoleKey.Spacebar:
+                        {
+                            PauseGame(keyPressed);
+                            break;
+                        }
+                    default:
+                        break;
                 }
-                else if (keyPressed.Key == ConsoleKey.Spacebar)
-                {
-                    PauseGame(keyPressed);
-                }
+
+                //if (keyPressed.Key == ConsoleKey.Escape)  //switch case
+                //{
+                //    EndGame();
+                //    return true;
+                //}
+                //else if (keyPressed.Key == ConsoleKey.Spacebar)
+                //{
+                //    PauseGame(keyPressed);
+                //}
             }
             return false;
         }
@@ -137,7 +139,7 @@ namespace GameOfLife
             string pauseMessage = "**PAUSED** Press SPACEBAR to resume or ENTER to save & exit";
             ModifyInfoBar(pauseMessage);
            
-            do
+            do           // Console methods - need to move out
             {
                 keyPressed = Console.ReadKey(true);
 
@@ -165,7 +167,7 @@ namespace GameOfLife
         public void ShowPreExitScreen()
         {
             _application.ShowPreExitScreen();
-            RunTheGame();
+            RunTheGame();                // hmmm...
         }
     }
 }

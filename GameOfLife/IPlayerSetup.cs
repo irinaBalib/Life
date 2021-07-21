@@ -4,11 +4,11 @@
     {
         int PlayerFieldSize { get; set; }
         string PlayerName { get; set; }
-        int PlayerStartOption { get; set; }
+        Option PlayerStartOption { get; set; }
 
         int GetValidatedDimensionInput();
         string GetValidatedNameInput();
-        int GetValidatedOptionInput();
+        Option GetValidatedOptionInput();
         void SetPlayersInput();
     }
 }

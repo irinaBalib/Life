@@ -8,7 +8,22 @@ namespace GameOfLife
 {
     public class SquareField : IField
     {
+        static int minDimension = 15;
+        static int maxDimension = 40;
         public int Dimension { get; set; }
+        //{
+        //    get; 
+        //    set
+        //    {
+        //        if (value < minDimension)
+        //        {
+        //            value = minDimension;
+        //        }
+        //        if (value > maxDimension)
+        //        {
+        //            value = maxDimension;
+        //        }
+        //    } }
         public ICell[,] Cells { get; set; }
         public int Generation { get; set; }
         public SquareField() {}

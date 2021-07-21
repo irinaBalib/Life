@@ -42,9 +42,11 @@ namespace GameOfLife
             Console.Write(firstLine);
             Console.WriteLine(new string(' ', Console.WindowWidth - firstLine.Length));
             Console.ResetColor();
+            Console.SetCursorPosition(0, 1);
             Console.Write(secondLine);
             Console.WriteLine(new string(' ', Console.WindowWidth - secondLine.Length));
             Console.ResetColor();
+            Console.SetCursorPosition(0, 3);
         }
 
         public void ShowPreExitScreen()
@@ -65,7 +67,7 @@ namespace GameOfLife
         }
         public void DrawCell(bool isAlive)
         {
-            if (isAlive)
+           if (isAlive)
             {
                 Console.BackgroundColor = ConsoleColor.DarkCyan;
                 Console.ForegroundColor = ConsoleColor.Black;
