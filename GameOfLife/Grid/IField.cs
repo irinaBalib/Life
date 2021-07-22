@@ -10,10 +10,12 @@ namespace GameOfLife
         int Dimension { get; set; }
 
         int CountAliveCells();
+        bool GetFutureState(bool isAliveNow, int aliveNeigbours);
         int CountAliveNeighbours(int r, int c);
-     //   void Create(int dimension);
+       void Create(int dimension);
         // List<Cell> GetNeighbours(int r, int c);
-        List<bool> GetNeighbours();
+
+        List<bool> GetNeighbours(int r, int c);
         void SetPredefinedInitField();
         void SetRandomInitField();
         void UpdateFieldData();

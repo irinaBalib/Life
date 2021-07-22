@@ -12,8 +12,8 @@ namespace GameOfLife
         //static int maxDimension = 40;
         public int Dimension { get; set; }
         // public ICell[,] Cells { get; set; }
-        public Boolean[,] CurrentCells { get; set; }
-        private Boolean[,] FutureCells { get; set; }
+        public bool[,] CurrentCells { get; set; }
+        private bool[,] FutureCells { get; set; }
         public int Generation { get; set; }
         IApplication _application;
         public SquareField(IApplication application) 
@@ -26,7 +26,16 @@ namespace GameOfLife
             Dimension = size;
             Generation = 0;
 
-            CurrentCells = new bool[Dimension, Dimension];  
+            CurrentCells = new bool[Dimension, Dimension];
+            //for (int r = 0; r < CurrentCells.GetLength(0); r++)
+            //{
+            //    for (int c = 0; c < CurrentCells.GetLength(1); c++)
+            //    {
+            //        CurrentCells[r, c] = false;
+            //    }
+            //}
+
+            FutureCells = new bool[Dimension, Dimension];
 
             //for (int r = 0; r < Cells.GetLength(0); r++)
             //{
@@ -47,11 +56,23 @@ namespace GameOfLife
                     //CurrentCells[r, c].DisplayCell();
                     //CurrentCells[r, c].SetFutureState(CountAliveNeighbours(r, c));
                     _application.DrawCell(CurrentCells[r, c]);
+                    FutureCells[r, c] = GetFutureState(CurrentCells[r, c], CountAliveNeighbours(r,c));
                 }
                 Console.WriteLine();              //how to remove this console method?
             }
         }
 
+        public bool GetFutureState(bool isAliveNow, int aliveNeigbours)
+        {
+           if (aliveNeigbours == 3 || (isAliveNow && aliveNeigbours == 2))
+            {
+               return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public int CountAliveNeighbours(int r, int c)
         {
             List<bool> neighbours = GetNeighbours(r, c);
@@ -117,13 +138,14 @@ namespace GameOfLife
 
         public void UpdateFieldData()
         {
-            for (int r = 0; r < CurrentCells.GetLength(0); r++)
-            {
-                for (int c = 0; c < CurrentCells.GetLength(1); c++)
-                {
-                    CurrentCells[r, c].UpdateCurrentState();
-                }
-            }
+            //for (int r = 0; r < CurrentCells.GetLength(0); r++)
+            //{
+            //    for (int c = 0; c < CurrentCells.GetLength(1); c++)
+            //    {
+            //        CurrentCells[r, c].UpdateCurrentState();
+            //    }
+            //}
+            CurrentCells = FutureCells;
             Generation++;
         }
 
@@ -135,7 +157,7 @@ namespace GameOfLife
             {
                 for (int c = 0; c < CurrentCells.GetLength(1); c++)
                 {
-                    if (CurrentCells[r, c].IsAlive)
+                    if (CurrentCells[r, c])
                     {
                         liveCellCount++;
                     }
@@ -152,21 +174,34 @@ namespace GameOfLife
             {
                 for (int c = 0; c < CurrentCells.GetLength(1); c++)
                 {
-                    CurrentCells[r, c].IsAlive = random.Next(2) == 1;
+                    //CurrentCells[r, c].IsAlive = random.Next(2) == 1;
+                    CurrentCells[r, c] = random.Next(2) == 1;
                 }
             }
         }
 
         public void SetPredefinedInitField()
         {
+
+            CurrentCells[0, 10] = true; // "Glider"
+            CurrentCells[1, 8] = true;
+            CurrentCells[1, 10] = true;
+            CurrentCells[2, 9] = true;
+            CurrentCells[2, 10] = true;
+
+            CurrentCells[10, 10] = true; //"0+"
+            CurrentCells[11, 9] = true;
+            CurrentCells[11, 10] = true;
+            CurrentCells[11, 11] = true;
+
             //Cells[10, 10].IsAlive = true; //"0+"
             //Cells[11, 9].IsAlive = true;
             //Cells[11, 10].IsAlive = true;
             //Cells[11, 11].IsAlive = true;
 
-            CurrentCells[0, 0].IsAlive = true; // "Blinker"
-            CurrentCells[0, 1].IsAlive = true;
-            CurrentCells[0, 2].IsAlive = true;
+            //CurrentCells[0, 0].IsAlive = true; // "Blinker"
+            //CurrentCells[0, 1].IsAlive = true;
+            //CurrentCells[0, 2].IsAlive = true;
 
             //Cells[2, 2].IsAlive = true; // "Blinker"
             //Cells[2, 3].IsAlive = true;
@@ -176,11 +211,11 @@ namespace GameOfLife
             //Cells[6, 0].IsAlive = true;
             //Cells[7, 0].IsAlive = true;
 
-            CurrentCells[0, 10].IsAlive = true; // "Glider"
-            CurrentCells[1, 8].IsAlive = true;
-            CurrentCells[1, 10].IsAlive = true;
-            CurrentCells[2, 9].IsAlive = true;
-            CurrentCells[2, 10].IsAlive = true;
+            //CurrentCells[0, 10].IsAlive = true; // "Glider"
+            //CurrentCells[1, 8].IsAlive = true;
+            //CurrentCells[1, 10].IsAlive = true;
+            //CurrentCells[2, 9].IsAlive = true;
+            //CurrentCells[2, 10].IsAlive = true;
         }
 
     }

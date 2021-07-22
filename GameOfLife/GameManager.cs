@@ -58,7 +58,8 @@ namespace GameOfLife
                     }
                 case Option.RESTORE:
                     {
-                        _field = _dataStorage.Restore(_playerSetup.PlayerName);
+                       // _field =
+                            _dataStorage.Restore(_playerSetup.PlayerName);
                         break;
                     }
             }
