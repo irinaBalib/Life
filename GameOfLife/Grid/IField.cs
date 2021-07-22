@@ -4,14 +4,16 @@ namespace GameOfLife
 {
     public interface IField
     {
-        ICell[,] Cells { get; set; }
+       // ICell[,] Cells { get; set; }
+       bool[,] CurrentCells { get; set; }
         int Generation { get; set; }
         int Dimension { get; set; }
 
         int CountAliveCells();
         int CountAliveNeighbours(int r, int c);
-        void Create(int dimension);
-        List<Cell> GetNeighbours(int r, int c);
+     //   void Create(int dimension);
+        // List<Cell> GetNeighbours(int r, int c);
+        List<bool> GetNeighbours();
         void SetPredefinedInitField();
         void SetRandomInitField();
         void UpdateFieldData();
