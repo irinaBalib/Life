@@ -26,6 +26,7 @@ namespace GameOfLife
             ReturnCursor();
             Console.ResetColor();
         }
+
         public void ShowFieldInfoBar(int generation, int liveCellCount, string message)
         {
             string firstLine = "|Controls|  ESC - exit  | SPACEBAR - pause |";
@@ -56,6 +57,7 @@ namespace GameOfLife
             Console.WriteLine("GAME OVER \n");
             Console.SetCursorPosition(Console.WindowWidth / 2 - 9, Console.WindowHeight / 2);
             Console.WriteLine("Press ENTER to start a new game");
+
             ConsoleKeyInfo keyPressed;
             keyPressed = Console.ReadKey(true);
             Console.Clear();
@@ -64,6 +66,7 @@ namespace GameOfLife
             {
                 Environment.Exit(0);
             }
+            
         }
         public void DrawCell(bool isAlive)
         {
@@ -81,6 +84,11 @@ namespace GameOfLife
                 Console.Write("[_]");
                 Console.ResetColor();
             }
+        }
+
+        public void ClearScreen()
+        {
+            Console.Clear();
         }
         private void ClearLine()
         {

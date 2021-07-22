@@ -31,7 +31,7 @@ namespace GameOfLife
              
             if (PlayerStartOption != Option.RESTORE) 
             {
-                _application.WriteText("Please input the size of the field(15 - 40 cells): ");
+                _application.WriteText("Please input the size of the field(15 - 40 cells): ");  // hardcoded values
                 PlayerFieldSize = GetValidatedDimensionInput();
             }
         }

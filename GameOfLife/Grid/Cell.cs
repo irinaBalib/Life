@@ -24,11 +24,15 @@ namespace GameOfLife
 
         public void SetFutureState(int aliveNeigbours)
         {
-            if (IsAlive && (aliveNeigbours == 2 || aliveNeigbours == 3))
-            {
-                WillLive = true;
-            }
-            else if (!IsAlive && aliveNeigbours == 3)
+            //if (IsAlive && (aliveNeigbours == 2 || aliveNeigbours == 3))
+            //{
+            //    WillLive = true;
+            //}
+            //else if (!IsAlive && aliveNeigbours == 3)
+            //{
+            //    WillLive = true;
+            //}
+            if (aliveNeigbours == 3 || (IsAlive && aliveNeigbours == 2))
             {
                 WillLive = true;
             }

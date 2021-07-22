@@ -17,6 +17,6 @@ namespace GameOfLife
         void SaveGame();
         void SetInitFieldState();
         void ShiftFieldGenerations();
-        void ShowPreExitScreen();
+        bool RestartGame();
     }
 }

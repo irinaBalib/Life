@@ -6,10 +6,6 @@ using System.Threading;
 
 namespace GameOfLife
 {
-    //public enum Option
-    //{
-    //    RANDOM = 1, PRESET, RESTORE
-    //}
     public class GameManager : IGameManager
     {
         IField _field;
@@ -26,17 +22,22 @@ namespace GameOfLife
         }
         public void RunTheGame()  
         {
-            CreatePlayersSetup();
-            SetInitFieldState();
-            ShiftFieldGenerations();
-            ShowPreExitScreen();
+            bool gameContinues;
+            do
+            { 
+                CreatePlayersSetup();
+                SetInitFieldState();
+                ShiftFieldGenerations();
+                gameContinues = RestartGame();
+            } while (gameContinues);
+           
         }
 
         public void CreatePlayersSetup()
         {
             _playerSetup.SetPlayersInput();
 
-            Console.Clear();  // where to put
+            _application.ClearScreen();  
         }
 
         public void SetInitFieldState()
@@ -107,16 +108,6 @@ namespace GameOfLife
                     default:
                         break;
                 }
-
-                //if (keyPressed.Key == ConsoleKey.Escape)  //switch case
-                //{
-                //    EndGame();
-                //    return true;
-                //}
-                //else if (keyPressed.Key == ConsoleKey.Spacebar)
-                //{
-                //    PauseGame(keyPressed);
-                //}
             }
             return false;
         }
@@ -139,7 +130,7 @@ namespace GameOfLife
             string pauseMessage = "**PAUSED** Press SPACEBAR to resume or ENTER to save & exit";
             ModifyInfoBar(pauseMessage);
            
-            do           // Console methods - need to move out
+            do           // Console methods - need to move out! GetKeyPressed()? Enums for keys?
             {
                 keyPressed = Console.ReadKey(true);
 
@@ -164,10 +155,10 @@ namespace GameOfLife
         {
             _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), message);
         }
-        public void ShowPreExitScreen()
+        public bool RestartGame()
         {
             _application.ShowPreExitScreen();
-            RunTheGame();                // hmmm...
+            return true;
         }
     }
 }
