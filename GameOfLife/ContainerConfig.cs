@@ -17,7 +17,7 @@ namespace GameOfLife
             builder.RegisterType<PlayerSetup>().As<IPlayerSetup>();
             builder.RegisterType<SquareField>().As<IField>();
             //builder.RegisterInstance(new Cell()).As<ICell>();
-            builder.RegisterType<Cell[,]>().As<ICell[,]>();
+            //builder.RegisterType<Cell[,]>().As<ICell[,]>();
             builder.RegisterType<ConsoleApplication>().As<IApplication>();
 
             return builder.Build();

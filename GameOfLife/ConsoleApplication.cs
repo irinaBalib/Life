@@ -68,7 +68,7 @@ namespace GameOfLife
             }
             
         }
-        public void DrawCell(bool isAlive)
+        public void DrawCell(bool isAlive, bool isEndOfRow)
         {
            if (isAlive)
             {
@@ -83,6 +83,11 @@ namespace GameOfLife
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.Write("[_]");
                 Console.ResetColor();
+            }
+
+            if (isEndOfRow)
+            {
+                Console.WriteLine();
             }
         }
 

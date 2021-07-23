@@ -58,8 +58,9 @@ namespace GameOfLife
                     }
                 case Option.RESTORE:
                     {
-                       // _field =
-                            _dataStorage.Restore(_playerSetup.PlayerName);
+                        _field = _dataStorage.Restore(_playerSetup.PlayerName);
+                        _field.Create();
+                      
                         break;
                     }
             }
@@ -140,6 +141,7 @@ namespace GameOfLife
             if (keyPressed.Key == ConsoleKey.Enter)
             {
                 SaveGame();
+                RunTheGame(); // to implement
             }
         }
 
@@ -147,7 +149,7 @@ namespace GameOfLife
         {
             _dataStorage.Save(_playerSetup.PlayerName, _field);
 
-            string saveGameMessage = "~~~~~~~~~~~     Game for Player {0} saved. ~~~~~~~~~~~";
+            string saveGameMessage = $"~~~~~~~~~~~     Game for Player {_playerSetup.PlayerName} saved. ~~~~~~~~~~~";
             ModifyInfoBar(saveGameMessage);
             Thread.Sleep(2000);
         }

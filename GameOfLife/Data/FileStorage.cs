@@ -35,7 +35,7 @@ namespace GameOfLife.Data
             }
         }
         
-        public /*IField*/ void Restore(string playername)
+        public IField Restore(string playername)
         {
            string filePath = $"{GetDirectoryPath()}{playername}.json";
           // IField restoredField = new SquareField();               // how to fix this?
@@ -45,14 +45,14 @@ namespace GameOfLife.Data
                     using (StreamReader streamReader = new StreamReader(filePath))
                     {
                         string jsonString = streamReader.ReadToEnd();
-                     _field = JsonConvert.DeserializeObject<IField>(jsonString); //..?
+                     _field = JsonConvert.DeserializeObject<SquareField>(jsonString); //..?
                     }
                 }
                 catch (Exception e)
                 {
                     _application.WriteText(e.Message);
                 }
-          // return _field;
+         return _field;
         }
 
         private string GetDirectoryPath()

@@ -31,7 +31,7 @@ namespace GameOfLife
              
             if (PlayerStartOption != Option.RESTORE) 
             {
-                _application.WriteText("Please input the size of the field(15 - 40 cells): ");  // hardcoded values
+                _application.WriteText($"Please input the size of the field({IField.MinSize} - {IField.MaxSize} cells): ");  // hardcoded values
                 PlayerFieldSize = GetValidatedDimensionInput();
             }
         }
@@ -58,7 +58,7 @@ namespace GameOfLife
                 {
                     _application.ShowErrorMessage("Invalid input! Please input numbers only.");
                 }
-                else if (dimensionInput < 2 || dimensionInput > 40) // to implement hardcoded dim
+                else if (dimensionInput < IField.MinSize || dimensionInput > IField.MaxSize) 
                 {
                     _application.ShowErrorMessage("Size is out of range!");
                 }
