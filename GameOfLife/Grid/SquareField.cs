@@ -56,21 +56,23 @@ namespace GameOfLife
                     //CurrentCells[r, c].DisplayCell();
                     //CurrentCells[r, c].SetFutureState(CountAliveNeighbours(r, c));
                     _application.DrawCell(CurrentCells[r, c]);
-                    FutureCells[r, c] = GetFutureState(CurrentCells[r, c], CountAliveNeighbours(r,c));
+                    //  FutureCells[r, c] = GetFutureState(CurrentCells[r, c], CountAliveNeighbours(r,c));  !!slows down
+                    SetFutureState(CurrentCells[r, c], r,c);
                 }
                 Console.WriteLine();              //how to remove this console method?
             }
         }
 
-        public bool GetFutureState(bool isAliveNow, int aliveNeigbours)
+        public void SetFutureState(bool cell, int row, int column)
         {
-           if (aliveNeigbours == 3 || (isAliveNow && aliveNeigbours == 2))
+            int aliveNeigbours = CountAliveNeighbours(row, column);
+           if (aliveNeigbours == 3 || (cell && aliveNeigbours == 2))
             {
-               return true;
+                FutureCells[row, column] = true;
             }
             else
             {
-                return false;
+                FutureCells[row, column] = false;
             }
         }
         public int CountAliveNeighbours(int r, int c)
@@ -83,24 +85,28 @@ namespace GameOfLife
         public /*List<Cell>*/  List<bool> GetNeighbours(int r, int c)
         {
             List<bool> neighbours = new List<bool>();
-            int[,] neighbourCoordinates = new int[8, 2] { { r, c - 1 }, { r, c + 1 },{ r - 1, c - 1 }, { r - 1, c }, { r - 1, c + 1 },{ r + 1, c - 1 },{ r + 1, c }, { r + 1, c + 1 } };
+            int[,] neighbourCoordinates = new int[8, 2] { 
+                { r, c - 1 }, 
+                { r, c + 1 },
+                { r - 1, c - 1 }, 
+                { r - 1, c }, 
+                { r - 1, c + 1 },
+                { r + 1, c - 1 },
+                { r + 1, c }, 
+                { r + 1, c + 1 }  };
 
             for (int i = 0; i < neighbourCoordinates.GetLength(0); i++)
-            {
-                for (int j = 0; j < neighbourCoordinates.GetLength(1); j++)
-                {
+            {  
+                int neighbourRow = neighbourCoordinates[i,0];
+                int neighbourColumn = neighbourCoordinates[i, 1];
+
                     try
                     {
-                        int neighbourRow = neighbourCoordinates[i,j];
-                        int neighbourColumn = neighbourCoordinates[i, j+1];
-                        neighbours.Add(CurrentCells[neighbourRow, neighbourColumn]);
+                    neighbours.Add(CurrentCells[neighbourRow, neighbourColumn]);
                     }
                     catch (Exception)
-                    {
-                        continue;
-                    }
-                    break;
-                }
+                    {}
+                   
             }
             //neighbours.Add(CurrentCells[r, c - 1]); // left
             //neighbours.Add(CurrentCells[r, c + 1]); //right
