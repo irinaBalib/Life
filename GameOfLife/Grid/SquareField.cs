@@ -27,16 +27,17 @@ namespace GameOfLife
             Generation = 0;
 
             CurrentCells = new bool[Dimension, Dimension];
-            //for (int r = 0; r < CurrentCells.GetLength(0); r++)
-            //{
-            //    for (int c = 0; c < CurrentCells.GetLength(1); c++)
-            //    {
-            //        CurrentCells[r, c] = false;
-            //    }
-            //}
-
             FutureCells = new bool[Dimension, Dimension];
 
+            for (int r = 0; r < CurrentCells.GetLength(0); r++)
+            {
+                for (int c = 0; c < CurrentCells.GetLength(1); c++)
+                {
+                    CurrentCells[r, c] = false;
+                    FutureCells[r, c] = false;
+                }
+            }
+            
             //for (int r = 0; r < Cells.GetLength(0); r++)
             //{
             //    for (int c = 0; c < Cells.GetLength(1); c++)
@@ -56,17 +57,28 @@ namespace GameOfLife
                     //CurrentCells[r, c].DisplayCell();
                     //CurrentCells[r, c].SetFutureState(CountAliveNeighbours(r, c));
                     _application.DrawCell(CurrentCells[r, c]);
+
+                    #region testing
+                    //if (r == 1 && c == 0)
+                    //{
+                    //    Console.Write(CurrentCells[r, c]);
+                    //    Console.WriteLine(CurrentCells[r - 1, c]);
+                    //    Console.WriteLine(CurrentCells[r + 1, c]);
+                    //    Console.ReadLine();
+                    //}
+                    #endregion
+
                     //  FutureCells[r, c] = GetFutureState(CurrentCells[r, c], CountAliveNeighbours(r,c));  !!slows down
-                    SetFutureState(CurrentCells[r, c], r,c);
+                    SetFutureState(r,c);
                 }
                 Console.WriteLine();              //how to remove this console method?
             }
         }
 
-        public void SetFutureState(bool cell, int row, int column)
+        public void SetFutureState( int row, int column)  
         {
             int aliveNeigbours = CountAliveNeighbours(row, column);
-           if (aliveNeigbours == 3 || (cell && aliveNeigbours == 2))
+           if (aliveNeigbours == 3 || (CurrentCells[row,column] && aliveNeigbours == 2))
             {
                 FutureCells[row, column] = true;
             }
@@ -74,10 +86,30 @@ namespace GameOfLife
             {
                 FutureCells[row, column] = false;
             }
+
+            #region testin
+            //if (row == 1 && column == 0)
+            //{
+            //    Console.WriteLine(FutureCells[row, column]);
+            //    Console.ReadLine();
+            //}
+            #endregion
         }
         public int CountAliveNeighbours(int r, int c)
         {
             List<bool> neighbours = GetNeighbours(r, c);
+
+            #region testing
+            //if (r == 1 && c == 0)
+            //{
+            //    foreach (var item in neighbours)
+            //    {
+            //        Console.WriteLine(item);
+            //    }
+            //}
+            //Console.ReadLine();
+            #endregion
+
             int count = neighbours.Where(n => n == true).Count();
             return count;
         }
@@ -86,26 +118,30 @@ namespace GameOfLife
         {
             List<bool> neighbours = new List<bool>();
             int[,] neighbourCoordinates = new int[8, 2] { 
-                { r, c - 1 }, 
-                { r, c + 1 },
-                { r - 1, c - 1 }, 
-                { r - 1, c }, 
-                { r - 1, c + 1 },
-                { r + 1, c - 1 },
-                { r + 1, c }, 
-                { r + 1, c + 1 }  };
-
+                { r, c - 1 }, //left
+                { r, c + 1 }, //right
+                { r - 1, c - 1 },  //top left
+                { r - 1, c },     // top
+                { r - 1, c + 1 },  // top right
+                { r + 1, c - 1 }, // bottom left
+                { r + 1, c },     // bottom center
+                { r + 1, c + 1 }  };  // bottom right
+                
             for (int i = 0; i < neighbourCoordinates.GetLength(0); i++)
             {  
                 int neighbourRow = neighbourCoordinates[i,0];
                 int neighbourColumn = neighbourCoordinates[i, 1];
 
-                    try
-                    {
+                if (neighbourRow >= 0 && neighbourRow < Dimension && neighbourColumn >= 0 && neighbourColumn < Dimension)
+                {
                     neighbours.Add(CurrentCells[neighbourRow, neighbourColumn]);
-                    }
-                    catch (Exception)
-                    {}
+                }
+                //try
+                //    {
+                //    neighbours.Add(CurrentCells[neighbourRow, neighbourColumn]);
+                //    }
+                //    catch (Exception)
+                //    {}
                    
             }
             //neighbours.Add(CurrentCells[r, c - 1]); // left
@@ -148,10 +184,10 @@ namespace GameOfLife
             //{
             //    for (int c = 0; c < CurrentCells.GetLength(1); c++)
             //    {
-            //        CurrentCells[r, c].UpdateCurrentState();
+            //        CurrentCells[r, c]= FutureCells[r, c];
             //    }
             //}
-            CurrentCells = FutureCells;
+           CurrentCells = FutureCells;
             Generation++;
         }
 
@@ -189,16 +225,20 @@ namespace GameOfLife
         public void SetPredefinedInitField()
         {
 
-            CurrentCells[0, 10] = true; // "Glider"
-            CurrentCells[1, 8] = true;
-            CurrentCells[1, 10] = true;
-            CurrentCells[2, 9] = true;
-            CurrentCells[2, 10] = true;
+            //CurrentCells[0, 10] = true; // "Glider"
+            //CurrentCells[1, 8] = true;
+            //CurrentCells[1, 10] = true;
+            //CurrentCells[2, 9] = true;
+            //CurrentCells[2, 10] = true;
 
-            CurrentCells[10, 10] = true; //"0+"
-            CurrentCells[11, 9] = true;
-            CurrentCells[11, 10] = true;
-            CurrentCells[11, 11] = true;
+            //CurrentCells[10, 10] = true; //"0+"
+            //CurrentCells[11, 9] = true;
+            //CurrentCells[11, 10] = true;
+            //CurrentCells[11, 11] = true;
+
+            CurrentCells[0, 0] = true; // "Blinker" at the edge
+            CurrentCells[1, 0] = true;
+            CurrentCells[2, 0] = true;
 
             //Cells[10, 10].IsAlive = true; //"0+"
             //Cells[11, 9].IsAlive = true;
@@ -213,15 +253,15 @@ namespace GameOfLife
             //Cells[2, 3].IsAlive = true;
             //Cells[2, 4].IsAlive = true;
 
-            //Cells[5, 0].IsAlive = true; // "Blinker" at the edge
-            //Cells[6, 0].IsAlive = true;
-            //Cells[7, 0].IsAlive = true;
+
 
             //CurrentCells[0, 10].IsAlive = true; // "Glider"
             //CurrentCells[1, 8].IsAlive = true;
             //CurrentCells[1, 10].IsAlive = true;
             //CurrentCells[2, 9].IsAlive = true;
             //CurrentCells[2, 10].IsAlive = true;
+
+            
         }
 
     }

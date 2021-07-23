@@ -11,7 +11,7 @@ namespace GameOfLife
 
         int CountAliveCells();
         //bool GetFutureState(bool isAliveNow, int aliveNeigbours);
-        void SetFutureState(bool cell, int row, int column);
+        void SetFutureState( int row, int column);
         int CountAliveNeighbours(int r, int c);
        void Create(int dimension);
         // List<Cell> GetNeighbours(int r, int c);

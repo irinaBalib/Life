@@ -58,7 +58,7 @@ namespace GameOfLife
                 {
                     _application.ShowErrorMessage("Invalid input! Please input numbers only.");
                 }
-                else if (dimensionInput < 15 || dimensionInput > 40) // to implement hardcoded dim
+                else if (dimensionInput < 2 || dimensionInput > 40) // to implement hardcoded dim
                 {
                     _application.ShowErrorMessage("Size is out of range!");
                 }

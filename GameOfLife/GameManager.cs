@@ -75,7 +75,7 @@ namespace GameOfLife
                 _field.ViewField();
                 Thread.Sleep(1000);
                 canContinue = !IsActionRequired();
-
+                
                 _field.UpdateFieldData();
             }
         }
