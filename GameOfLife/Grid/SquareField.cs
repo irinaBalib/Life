@@ -11,7 +11,7 @@ namespace GameOfLife
         //static int minDimension = 15;
         //static int maxDimension = 40;
         public int Dimension { get; set; }
-        public ICell[,] Cells { get; set; }
+        public Cell[,] Cells { get; set; }
         public int Generation { get; set; }
         public SquareField() {}
 
@@ -54,27 +54,56 @@ namespace GameOfLife
 
         public List<Cell> GetNeighbours(int r, int c)
         {
-            List<Cell> allCells = Cells.Cast<Cell>().ToList(); 
             List<Cell> neighbours = new List<Cell>();
-            List<string> neighboursIDs = new List<string>();
+            int[,] neighbourCoordinates = new int[8, 2] {
+                { r, c - 1 },
+                { r, c + 1 },
+                { r - 1, c - 1 },
+                { r - 1, c },
+                { r - 1, c + 1 },
+                { r + 1, c - 1 },
+                { r + 1, c },
+                { r + 1, c + 1 }  };
 
-            neighboursIDs.Add($"{r}-{c - 1}"); // left
-            neighboursIDs.Add($"{r}-{c + 1}"); //right
-            neighboursIDs.Add($"{r - 1}-{c - 1}"); // top left
-            neighboursIDs.Add($"{r - 1}-{c}");  // top center
-            neighboursIDs.Add($"{r - 1}-{c + 1}"); //top right
-            neighboursIDs.Add($"{r + 1}-{c - 1}"); // bottom left
-            neighboursIDs.Add($"{r + 1}-{c}");  // bottom center
-            neighboursIDs.Add($"{r + 1}-{c + 1}"); //bottom right
-
-            foreach (string id in neighboursIDs)
+            for (int i = 0; i < neighbourCoordinates.GetLength(0); i++)
             {
-                Cell neighbour = allCells.FirstOrDefault(c => c.Id == id);
-                if (neighbour != null)
+                int neighbourRow = neighbourCoordinates[i, 0];
+                int neighbourColumn = neighbourCoordinates[i, 1];
+
+                if(neighbourRow >= 0 && neighbourRow <Dimension && neighbourColumn >=0 && neighbourColumn <Dimension)
                 {
-                    neighbours.Add(neighbour);
+                    neighbours.Add(Cells[neighbourRow, neighbourColumn]);
                 }
+                //try
+                //{
+                //    neighbours.Add(Cells[neighbourRow, neighbourColumn]);
+                //}
+                //catch (Exception)
+                //{ }
+
             }
+
+            //List<Cell> allCells = Cells.Cast<Cell>().ToList(); 
+            //List<Cell> neighbours = new List<Cell>();
+            //List<string> neighboursIDs = new List<string>();
+
+            //neighboursIDs.Add($"{r}-{c - 1}"); // left
+            //neighboursIDs.Add($"{r}-{c + 1}"); //right
+            //neighboursIDs.Add($"{r - 1}-{c - 1}"); // top left
+            //neighboursIDs.Add($"{r - 1}-{c}");  // top center
+            //neighboursIDs.Add($"{r - 1}-{c + 1}"); //top right
+            //neighboursIDs.Add($"{r + 1}-{c - 1}"); // bottom left
+            //neighboursIDs.Add($"{r + 1}-{c}");  // bottom center
+            //neighboursIDs.Add($"{r + 1}-{c + 1}"); //bottom right
+
+            //foreach (string id in neighboursIDs)
+            //{
+            //    Cell neighbour = allCells.FirstOrDefault(c => c.Id == id);
+            //    if (neighbour != null)
+            //    {
+            //        neighbours.Add(neighbour);
+            //    }
+            //}
 
             return neighbours;
         }

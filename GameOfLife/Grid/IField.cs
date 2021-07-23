@@ -4,7 +4,7 @@ namespace GameOfLife
 {
     public interface IField
     {
-        ICell[,] Cells { get; set; }
+        Cell[,] Cells { get; set; }
         int Generation { get; set; }
         int Dimension { get; set; }
 
