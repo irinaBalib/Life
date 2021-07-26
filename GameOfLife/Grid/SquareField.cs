@@ -13,22 +13,26 @@ namespace GameOfLife
         private bool[,] FutureCells { get; set; }
         public int Generation { get; set; }
         IApplication _application;
-        public SquareField(IApplication application) 
+     
+        public SquareField(IApplication application)
         {
             _application = application;
         }
-       
+
         public void Create(int size)
         {
             Dimension = size;
-              Generation = 0;
+             // Generation = 0;
 
             CurrentCells = new bool[Dimension, Dimension];
             FutureCells = new bool[Dimension, Dimension];
         }
-        public void Create()
+        public void Create(int size, bool[,] cells, int generation)
         {
+             Dimension = size;
+            CurrentCells = cells;
             FutureCells = new bool[Dimension, Dimension];
+            Generation = generation;
         }
 
         public void ViewField()

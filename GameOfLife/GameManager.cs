@@ -63,9 +63,9 @@ namespace GameOfLife
                     }
                 case Option.RESTORE:
                     {
-                        _field = _dataStorage.Restore(_playerSetup.PlayerName);
-                        _field.Create();
-                      break;
+                       IField restoredField = _dataStorage.Restore(_playerSetup.PlayerName);
+                        _field.Create(restoredField.Dimension, restoredField.CurrentCells, restoredField.Generation);
+                        break;
                     }
             }
         }
@@ -108,7 +108,7 @@ namespace GameOfLife
                         {
                             PauseGame();
 
-                            if (IsGameSaved())
+                            if (IsGameSaveRequested())
                             {
                                 return true;
                             }
@@ -140,7 +140,7 @@ namespace GameOfLife
             ModifyInfoBar(pauseMessage);
         }
 
-        private bool IsGameSaved()
+        private bool IsGameSaveRequested()
         {
             KeyAction keyPressed;
             do           

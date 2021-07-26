@@ -51,7 +51,7 @@ namespace GameOfLife.Data
                 {
                     _application.WriteText(e.Message);
                 }
-         return _field;
+        return _field;
         }
 
         private string GetDirectoryPath()
