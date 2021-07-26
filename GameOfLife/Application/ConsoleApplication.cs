@@ -13,8 +13,7 @@ namespace GameOfLife
 
         public string ReadInput()
         {
-            var input = Console.ReadLine();
-            return input;
+            return Console.ReadLine();
         }
 
         public void ShowErrorMessage(string message)
@@ -58,14 +57,14 @@ namespace GameOfLife
             Console.SetCursorPosition(Console.WindowWidth / 2 - 9, Console.WindowHeight / 2);
             Console.WriteLine("Press ENTER to start a new game");
 
-            ConsoleKeyInfo keyPressed;
-            keyPressed = Console.ReadKey(true);
-            Console.Clear();
+            //ConsoleKeyInfo keyPressed;
+            //keyPressed = Console.ReadKey(true);
+            //Console.Clear();
 
-            if (keyPressed.Key != ConsoleKey.Enter)
-            {
-                Environment.Exit(0);
-            }
+            //if (keyPressed.Key != ConsoleKey.Enter)
+            //{
+            //    Environment.Exit(0);
+            //}
             
         }
         public void DrawCell(bool isAlive, bool isEndOfRow)

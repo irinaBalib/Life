@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLife.Application;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -12,13 +13,15 @@ namespace GameOfLife
         IPlayerSetup _playerSetup;
         IDataStorage _dataStorage;
         IApplication _application;
+        IKeyControls _keyControls;
 
-        public GameManager(IField field, IPlayerSetup playerSetup, IDataStorage dataStorage, IApplication application)
+        public GameManager(IField field, IPlayerSetup playerSetup, IDataStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
             _field = field;
             _playerSetup = playerSetup;
             _dataStorage = dataStorage;
             _application = application;
+            _keyControls = keyControls;
         }
         public void RunTheGame()  
         {
@@ -29,8 +32,10 @@ namespace GameOfLife
                 SetInitFieldState();
                 ShiftFieldGenerations();
                 gameContinues = RestartGame();
+                _application.ClearScreen();
+
             } while (gameContinues);
-           
+            Environment.Exit(0);
         }
 
         public void CreatePlayersSetup()
@@ -60,8 +65,7 @@ namespace GameOfLife
                     {
                         _field = _dataStorage.Restore(_playerSetup.PlayerName);
                         _field.Create();
-                      
-                        break;
+                      break;
                     }
             }
         }
@@ -89,26 +93,29 @@ namespace GameOfLife
                 return true;
             }
 
-            if (Console.KeyAvailable)    // console methods - need to move out
+            if (_keyControls.KeyPressed())    
             {
-                ConsoleKeyInfo keyPressed;
-                keyPressed = Console.ReadKey(true);
-                Console.SetCursorPosition(0, 0);
+                KeyAction keyPressed = _keyControls.GetKeyAction();
 
-                switch (keyPressed.Key)
+                switch (keyPressed)
                 {
-                    case ConsoleKey.Escape:
+                    case KeyAction.Exit:
                         {
                             EndGame();
                             return true;
                         }
-                    case ConsoleKey.Spacebar:
+                    case KeyAction.PauseOnOff:
                         {
-                            PauseGame(keyPressed);
-                            break;
+                            PauseGame();
+
+                            if (IsGameSaved())
+                            {
+                                return true;
+                            }
+                            return false;
                         }
                     default:
-                        break;
+                        { return false; }
                 }
             }
             return false;
@@ -127,24 +134,28 @@ namespace GameOfLife
             ModifyInfoBar(endGameMessage);
             Thread.Sleep(2000);
         }
-        public void PauseGame(ConsoleKeyInfo keyPressed) //naming
+        public void PauseGame() 
         {
-            string pauseMessage = "**PAUSED** Press SPACEBAR to resume or ENTER to save & exit";
+            string pauseMessage = "**PAUSED** Press SPACEBAR to resume or F12 to save & exit";
             ModifyInfoBar(pauseMessage);
-           
-            do           // Console methods - need to move out! GetKeyPressed()? Enums for keys?
-            {
-                keyPressed = Console.ReadKey(true);
-
-            } while (keyPressed.Key != ConsoleKey.Enter && keyPressed.Key != ConsoleKey.Spacebar);
-
-            if (keyPressed.Key == ConsoleKey.Enter)
-            {
-                SaveGame();
-                RunTheGame(); // to implement
-            }
         }
 
+        private bool IsGameSaved()
+        {
+            KeyAction keyPressed;
+            do           
+            {
+                keyPressed = _keyControls.GetKeyAction();
+
+            } while (keyPressed != KeyAction.SaveAndExit && keyPressed != KeyAction.PauseOnOff);
+
+            if (keyPressed == KeyAction.SaveAndExit)
+            {
+                SaveGame();
+                return true;
+            }
+            return false;
+        }
         public void SaveGame()
         {
             _dataStorage.Save(_playerSetup.PlayerName, _field);
@@ -161,7 +172,12 @@ namespace GameOfLife
         public bool RestartGame()
         {
             _application.ShowPreExitScreen();
-            return true;
+
+             if (_keyControls.GetKeyAction() == KeyAction.Restart)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

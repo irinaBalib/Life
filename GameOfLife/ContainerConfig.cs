@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using GameOfLife.Application;
 using GameOfLife.Data;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace GameOfLife
             //builder.RegisterInstance(new Cell()).As<ICell>();
             //builder.RegisterType<Cell[,]>().As<ICell[,]>();
             builder.RegisterType<ConsoleApplication>().As<IApplication>();
+            builder.RegisterType<ConsoleKeyControls>().As<IKeyControls>();
 
             return builder.Build();
         }

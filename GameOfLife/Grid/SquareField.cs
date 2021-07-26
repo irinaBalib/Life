@@ -16,7 +16,6 @@ namespace GameOfLife
         public SquareField(IApplication application) 
         {
             _application = application;
-            
         }
        
         public void Create(int size)
@@ -29,7 +28,6 @@ namespace GameOfLife
         }
         public void Create()
         {
-            //CurrentCells = new bool[Dimension, Dimension];
             FutureCells = new bool[Dimension, Dimension];
         }
 
@@ -43,7 +41,6 @@ namespace GameOfLife
                     _application.DrawCell(CurrentCells[r, c], isEndOfRow);
                      SetFutureState(r,c);
                 }
-               // Console.WriteLine();    //how to remove this console method?
             }
         }
 

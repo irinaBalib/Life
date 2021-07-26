@@ -38,14 +38,13 @@ namespace GameOfLife.Data
         public IField Restore(string playername)
         {
            string filePath = $"{GetDirectoryPath()}{playername}.json";
-          // IField restoredField = new SquareField();               // how to fix this?
 
                 try
                 {
                     using (StreamReader streamReader = new StreamReader(filePath))
                     {
                         string jsonString = streamReader.ReadToEnd();
-                     _field = JsonConvert.DeserializeObject<SquareField>(jsonString); //..?
+                     _field = JsonConvert.DeserializeObject<SquareField>(jsonString);  //IField..?
                     }
                 }
                 catch (Exception e)
