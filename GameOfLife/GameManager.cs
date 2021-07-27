@@ -140,10 +140,33 @@ namespace GameOfLife
             ModifyInfoBar(pauseMessage);
         }
 
+        public void SaveGame()
+        {
+            _dataStorage.Save(_playerSetup.PlayerName, _field);
+
+            string saveGameMessage = $"~~~~~~~~~~~     Game for Player {_playerSetup.PlayerName} saved. ~~~~~~~~~~~";
+            ModifyInfoBar(saveGameMessage);
+            Thread.Sleep(2000);
+        }
+        public bool RestartGame()
+        {
+            _application.ShowPreExitScreen();
+
+            if (_keyControls.GetKeyAction() == KeyAction.Restart)
+            {
+                return true;
+            }
+            return false;
+        }
+        private void ModifyInfoBar(string message)
+        {
+            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), message);
+        }
+
         private bool IsGameSaveRequested()
         {
             KeyAction keyPressed;
-            do           
+            do
             {
                 keyPressed = _keyControls.GetKeyAction();
 
@@ -156,28 +179,6 @@ namespace GameOfLife
             }
             return false;
         }
-        public void SaveGame()
-        {
-            _dataStorage.Save(_playerSetup.PlayerName, _field);
-
-            string saveGameMessage = $"~~~~~~~~~~~     Game for Player {_playerSetup.PlayerName} saved. ~~~~~~~~~~~";
-            ModifyInfoBar(saveGameMessage);
-            Thread.Sleep(2000);
-        }
-
-        private void ModifyInfoBar(string message)
-        {
-            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), message);
-        }
-        public bool RestartGame()
-        {
-            _application.ShowPreExitScreen();
-
-             if (_keyControls.GetKeyAction() == KeyAction.Restart)
-            {
-                return true;
-            }
-            return false;
-        }
+       
     }
 }

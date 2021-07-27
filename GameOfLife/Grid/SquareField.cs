@@ -22,8 +22,7 @@ namespace GameOfLife
         public void Create(int size)
         {
             Dimension = size;
-             // Generation = 0;
-
+            
             CurrentCells = new bool[Dimension, Dimension];
             FutureCells = new bool[Dimension, Dimension];
         }
@@ -147,21 +146,22 @@ namespace GameOfLife
         public void SetPredefinedInitField()
         {
 
-            //CurrentCells[0, 10] = true; // "Glider"
-            //CurrentCells[1, 8] = true;
-            //CurrentCells[1, 10] = true;
-            //CurrentCells[2, 9] = true;
-            //CurrentCells[2, 10] = true;
+            CurrentCells[0, 10] = true; // "Glider"
+            CurrentCells[1, 8] = true;
+            CurrentCells[1, 10] = true;
+            CurrentCells[2, 9] = true;
+            CurrentCells[2, 10] = true;
 
             CurrentCells[5, 5] = true; //"0+"
             CurrentCells[6, 4] = true;
             CurrentCells[6, 5] = true;
             CurrentCells[6, 6] = true;
 
-            //CurrentCells[1, 0] = true; // "Blinker" at the edge
-            //CurrentCells[2, 0] = true;
-            //CurrentCells[3, 0] = true;
+            CurrentCells[1, 0] = true; // "Blinker" at the edge
+            CurrentCells[2, 0] = true;
+            CurrentCells[3, 0] = true;
 
+            #region  shapes not used
             //CurrentCells[10, 10] = true; //"0+"
             //CurrentCells[11, 9] = true;
             //CurrentCells[11, 10] = true;
@@ -180,6 +180,7 @@ namespace GameOfLife
             //CurrentCells[1, 10] = true;
             //CurrentCells[2, 9] = true;
             //CurrentCells[2, 10] = true;
+            #endregion
         }
 
     }

@@ -56,16 +56,6 @@ namespace GameOfLife
             Console.WriteLine("GAME OVER \n");
             Console.SetCursorPosition(Console.WindowWidth / 2 - 9, Console.WindowHeight / 2);
             Console.WriteLine("Press ENTER to start a new game");
-
-            //ConsoleKeyInfo keyPressed;
-            //keyPressed = Console.ReadKey(true);
-            //Console.Clear();
-
-            //if (keyPressed.Key != ConsoleKey.Enter)
-            //{
-            //    Environment.Exit(0);
-            //}
-            
         }
         public void DrawCell(bool isAlive, bool isEndOfRow)
         {
