@@ -6,13 +6,17 @@ namespace GameOfLife
     {
         RANDOM = 1, PRESET, RESTORE
     }
+    public enum KeyAction
+    {
+        NoAction, Exit, PauseOnOff, SaveAndExit, Restart
+    }
     public interface IGameManager
     {
         void CreatePlayersSetup();
         void EndGame();
         void HasNoAliveCells();
         bool IsActionRequired();
-        void PauseGame(ConsoleKeyInfo keyPressed); // TO IMPLEMENT
+        void PauseGame();
         void RunTheGame();
         void SaveGame();
         void SetInitFieldState();

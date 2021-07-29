@@ -49,7 +49,7 @@ namespace GameOfLife
 
         public void DisplayCell()
         {
-            _application.DrawCell(IsAlive);
+           // _application.DrawCell(IsAlive);
         }
     }
 }
