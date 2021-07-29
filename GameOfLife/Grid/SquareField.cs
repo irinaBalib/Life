@@ -89,13 +89,6 @@ namespace GameOfLife
                 {
                     neighbours.Add(CurrentCells[neighbourRow, neighbourColumn]);
                 }
-                //try
-                //    {
-                //    neighbours.Add(CurrentCells[neighbourRow, neighbourColumn]);
-                //    }
-                //    catch (Exception)
-                //    {}
-                   
             }
             return neighbours;
         }

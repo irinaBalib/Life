@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLife.Application;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,7 @@ namespace GameOfLife
 {
     public class ConsoleApplication : IApplication
     {
+        public Message Message { get; set; }
         public void WriteText(string text)
         {
             Console.WriteLine(text);
@@ -28,8 +30,9 @@ namespace GameOfLife
 
         public void ShowFieldInfoBar(int generation, int liveCellCount, string message)
         {
-            string firstLine = "|Controls|  ESC - exit  | SPACEBAR - pause |";
-            string secondLine =$" Generation {generation} \t Live cells count: {liveCellCount}";
+            Message = new Message();
+            string firstLine = Message.InfoBar1Line;
+            string secondLine = Message.InfoBar2Line(generation, liveCellCount); 
 
             if (!string.IsNullOrEmpty(message))
             {
@@ -53,9 +56,9 @@ namespace GameOfLife
         {
             Console.Clear();
             Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 2);
-            Console.WriteLine("GAME OVER \n");
+            Console.WriteLine(Message.GameOver);
             Console.SetCursorPosition(Console.WindowWidth / 2 - 9, Console.WindowHeight / 2);
-            Console.WriteLine("Press ENTER to start a new game");
+            Console.WriteLine(Message.NewGame);
         }
         public void DrawCell(bool isAlive, bool isEndOfRow)
         {

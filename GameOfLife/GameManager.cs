@@ -9,6 +9,7 @@ namespace GameOfLife
 {
     public class GameManager : IGameManager
     {
+        public Message Message { get; set; }
         IField _field;
         IPlayerSetup _playerSetup;
         IDataStorage _dataStorage;
@@ -17,11 +18,20 @@ namespace GameOfLife
 
         public GameManager(IField field, IPlayerSetup playerSetup, IDataStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
-            _field = field;
-            _playerSetup = playerSetup;
-            _dataStorage = dataStorage;
-            _application = application;
-            _keyControls = keyControls;
+            Message = new Message();
+            try
+            {
+                _field = field;
+                _playerSetup = playerSetup;
+                _dataStorage = dataStorage;
+                _application = application;
+                _keyControls = keyControls;
+            }
+            catch (Exception e)
+            {
+
+                _application.WriteText(e.Message);
+            }
         }
         public void RunTheGame()  
         {
@@ -123,29 +133,25 @@ namespace GameOfLife
 
         public void HasNoAliveCells() 
         {
-            string extinctionMessage = "xxxxxxxxxx  TOTAL EXTINCTION  xxxxxxxxxxxxxxxxxxxxxx ";
-            ModifyInfoBar(extinctionMessage);
+            ModifyInfoBar(Message.Extinction);
             Thread.Sleep(2000);
         }
 
         public void EndGame()
         {
-            string endGameMessage = " ~~~~~~~~~~~     Game ended by the Player! ~~~~~~~~~~~";
-            ModifyInfoBar(endGameMessage);
+            ModifyInfoBar(Message.GameEnded);
             Thread.Sleep(2000);
         }
         public void PauseGame() 
         {
-            string pauseMessage = "**PAUSED** Press SPACEBAR to resume or F12 to save & exit";
-            ModifyInfoBar(pauseMessage);
+            ModifyInfoBar(Message.Paused);
         }
 
         public void SaveGame()
         {
             _dataStorage.Save(_playerSetup.PlayerName, _field);
 
-            string saveGameMessage = $"~~~~~~~~~~~     Game for Player {_playerSetup.PlayerName} saved. ~~~~~~~~~~~";
-            ModifyInfoBar(saveGameMessage);
+            ModifyInfoBar(Message.GameSaved(_playerSetup.PlayerName));
             Thread.Sleep(2000);
         }
         public bool RestartGame()

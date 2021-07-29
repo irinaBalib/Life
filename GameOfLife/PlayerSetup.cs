@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLife.Application;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -10,6 +11,7 @@ namespace GameOfLife
         public string PlayerName { get; set; }
         public int PlayerFieldSize { get; set; }
         public Option PlayerStartOption { get; set; }
+        public Message Message { get; set; }
 
         IApplication _application;
         IDataStorage _data; 
@@ -17,21 +19,21 @@ namespace GameOfLife
         {
             _application = application;
             _data = data;
+            Message = new Message();
         }
         public void SetPlayersInput()
         {
-            _application.WriteText("Welcome to the Game of Life!\n\n" +
-                "PLAYER'S SETUP\n");
+            _application.WriteText(Message.Welcome);
 
-            _application.WriteText("Player's name:");
+            _application.WriteText(Message.AskName);
             PlayerName = GetValidatedNameInput();
 
-           _application.WriteText($"Please choose game field set up for 0.Generation ({(int)Option.RANDOM} - for randomly filled, {(int)Option.PRESET} - pre-set, {(int)Option.RESTORE} - restore saved game): ");
+           _application.WriteText(Message.AskStartOption);
              PlayerStartOption = GetValidatedOptionInput();
              
             if (PlayerStartOption != Option.RESTORE) 
             {
-                _application.WriteText($"Please input the size of the field({IField.MinSize} - {IField.MaxSize} cells): ");  // hardcoded values
+                _application.WriteText(Message.AskFieldSize);
                 PlayerFieldSize = GetValidatedDimensionInput();
             }
         }
@@ -41,7 +43,7 @@ namespace GameOfLife
 
             while (string.IsNullOrEmpty(input))
             {
-                _application.ShowErrorMessage("Name is required!");
+                _application.ShowErrorMessage(Message.BlankName);
                 
                 input = _application.ReadInput();
             }
@@ -56,11 +58,11 @@ namespace GameOfLife
             {
                if (!int.TryParse(_application.ReadInput(), out dimensionInput))
                 {
-                    _application.ShowErrorMessage("Invalid input! Please input numbers only.");
+                    _application.ShowErrorMessage(Message.InvalidInput);
                 }
                 else if (dimensionInput < IField.MinSize || dimensionInput > IField.MaxSize) 
                 {
-                    _application.ShowErrorMessage("Size is out of range!");
+                    _application.ShowErrorMessage(Message.OutOfRange);
                 }
                 else
                 {
@@ -81,12 +83,12 @@ namespace GameOfLife
                 
                 if (!isOptionValid)
                 {
-                    _application.ShowErrorMessage("Invalid input!");
+                    _application.ShowErrorMessage(Message.InvalidInput);
                 }
 
                 if (optionIndex == (int)Option.RESTORE && !_data.DataExists(PlayerName))
                 {
-                        _application.ShowErrorMessage("No saved games found for this Player!");
+                        _application.ShowErrorMessage(Message.NoSavedGames);
                         isOptionValid = false;
                  }
             }
