@@ -1,4 +1,5 @@
 ﻿using GameOfLife.Application;
+using GameOfLife.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,4 +1,6 @@
-﻿namespace GameOfLife
+﻿using GameOfLife.Enums;
+
+namespace GameOfLife
 {
     public interface IPlayerSetup
     {

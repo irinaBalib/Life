@@ -1,8 +1,6 @@
 ﻿using GameOfLife.Application;
+using GameOfLife.Enums;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading;
 
 namespace GameOfLife
