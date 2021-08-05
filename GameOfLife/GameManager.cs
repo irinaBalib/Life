@@ -9,12 +9,12 @@ namespace GameOfLife
     {
         public Message Message { get; set; }
         IField _field;
-        IPlayerSetup _playerSetup;
+        ISetup _playerSetup;
         IDataStorage _dataStorage;
         IApplication _application;
         IKeyControls _keyControls;
 
-        public GameManager(IField field, IPlayerSetup playerSetup, IDataStorage dataStorage, IApplication application, IKeyControls keyControls)
+        public GameManager(IField field, ISetup playerSetup, IDataStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
             Message = new Message();
             try
@@ -55,17 +55,17 @@ namespace GameOfLife
 
         public void SetInitFieldState()
         {
-            switch (_playerSetup.PlayerStartOption)
+            switch (_playerSetup.StartOption)
             {
                 case Option.RANDOM:
                     {
-                        _field.Create(_playerSetup.PlayerFieldSize);  // call Create in init methods?
+                        _field.Create(_playerSetup.FieldSizeInput);  // call Create in init methods?
                         _field.SetRandomInitField();
                         break;
                     }
                 case Option.PRESET:
                     {
-                        _field.Create(_playerSetup.PlayerFieldSize);
+                        _field.Create(_playerSetup.FieldSizeInput);
                         _field.SetPredefinedInitField();
                         break;
                     }

@@ -7,35 +7,40 @@ using System.Text;
 
 namespace GameOfLife
 {
-    public class PlayerSetup : IPlayerSetup
+    public class Setup : ISetup
     {
-        public string PlayerName { get; set; }
-        public int PlayerFieldSize { get; set; }
-        public Option PlayerStartOption { get; set; }
+      //  public string PlayerName { get; set; }
+        public int FieldSizeInput { get; set; }
+        public Option StartOption { get; set; }
         public Message Message { get; set; }
 
         IApplication _application;
-        IDataStorage _data; 
-        public PlayerSetup(IApplication application, IDataStorage data)
+        
+        IPlayer _player;
+        
+        public Setup(IApplication application, IPlayer player)
         {
             _application = application;
-            _data = data;
+            _player = player;
             Message = new Message();
         }
         public void SetPlayersInput()
         {
             _application.WriteText(Message.Welcome);
 
-            _application.WriteText(Message.AskName);
-            PlayerName = GetValidatedNameInput();
+            if (string.IsNullOrEmpty(_player.Name))
+            {
+                _application.WriteText(Message.AskName);
+                _player.Name = GetValidatedNameInput(); ; 
+            }
 
-           _application.WriteText(Message.AskStartOption);
-             PlayerStartOption = GetValidatedOptionInput();
+            _application.WriteText(Message.AskStartOption(_player.HasSavedGame()));
+             StartOption = GetValidatedOptionInput();
              
-            if (PlayerStartOption != Option.RESTORE) 
+            if (StartOption != Option.RESTORE) 
             {
                 _application.WriteText(Message.AskFieldSize);
-                PlayerFieldSize = GetValidatedDimensionInput();
+                FieldSizeInput = GetValidatedDimensionInput();
             }
         }
         public string GetValidatedNameInput()
@@ -80,18 +85,13 @@ namespace GameOfLife
             while (!isOptionValid)
             {
                 isOptionValid = (int.TryParse(_application.ReadInput(), out optionIndex))
-                    && Enum.IsDefined(typeof(Option), optionIndex);
+                    && Enum.IsDefined(typeof(Option), optionIndex)
+                    || (optionIndex == (int)Option.RESTORE && _player.HasSavedGame());
                 
                 if (!isOptionValid)
                 {
                     _application.ShowErrorMessage(Message.InvalidInput);
                 }
-
-                if (optionIndex == (int)Option.RESTORE && !_data.DataExists(PlayerName))
-                {
-                        _application.ShowErrorMessage(Message.NoSavedGames);
-                        isOptionValid = false;
-                 }
             }
             return (Option)optionIndex;
         }

@@ -13,9 +13,11 @@ namespace GameOfLife
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterType<Game>().As<IGame>();
+            builder.RegisterType<Player>().As<IPlayer>();
             builder.RegisterType<GameManager>().As<IGameManager>();
             builder.RegisterType<FileStorage>().As<IDataStorage>();
-            builder.RegisterType<PlayerSetup>().As<IPlayerSetup>();
+            builder.RegisterType<Setup>().As<ISetup>();
             builder.RegisterType<SquareField>().As<IField>();
             //builder.RegisterInstance(new Cell()).As<ICell>();
             //builder.RegisterType<Cell[,]>().As<ICell[,]>();
