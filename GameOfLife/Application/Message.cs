@@ -9,7 +9,7 @@ namespace GameOfLife.Application
     {
         public const string Welcome = "Welcome to the Game of Life!\n\n" +
                 "PLAYER'S SETUP\n";
-        public const string AskName = "Player's name:";
+        public const string AskName = "Player's name: ";
         
          public readonly string AskFieldSize = $"Please input the size of the field({IField.MinSize} - {IField.MaxSize} cells): ";
 
@@ -35,7 +35,7 @@ namespace GameOfLife.Application
             }
             else
             {
-                output += $"({ (int)Option.RANDOM} - for randomly filled, { (int)Option.PRESET} -pre-set: ";
+                output += $"({ (int)Option.RANDOM} - for randomly filled, { (int)Option.PRESET} -pre-set): ";
             }
             return output;
         }

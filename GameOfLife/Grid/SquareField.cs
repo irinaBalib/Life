@@ -22,7 +22,7 @@ namespace GameOfLife
         public void Create(int size)
         {
             Dimension = size;
-            
+            Generation = 0;
             CurrentCells = new bool[Dimension, Dimension];
             FutureCells = new bool[Dimension, Dimension];
         }

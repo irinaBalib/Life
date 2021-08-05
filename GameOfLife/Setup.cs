@@ -28,11 +28,11 @@ namespace GameOfLife
         {
             _application.WriteText(Message.Welcome);
 
-            if (string.IsNullOrEmpty(_player.Name))
-            {
-                _application.WriteText(Message.AskName);
+            //if (string.IsNullOrEmpty(_player.Name))
+            //{
+               _application.WriteText(Message.AskName);
                 _player.Name = GetValidatedNameInput(); ; 
-            }
+            //}
 
             _application.WriteText(Message.AskStartOption(_player.HasSavedGame()));
              StartOption = GetValidatedOptionInput();
