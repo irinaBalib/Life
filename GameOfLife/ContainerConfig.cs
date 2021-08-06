@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using GameOfLife.Application;
-using GameOfLife.Data;
+using GameOfLife.SaveGame;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +16,7 @@ namespace GameOfLife
             builder.RegisterType<Game>().As<IGame>();
             builder.RegisterType<Player>().As<IPlayer>();
             builder.RegisterType<GameManager>().As<IGameManager>();
-            builder.RegisterType<FileStorage>().As<IDataStorage>();
+            builder.RegisterType<GameFile>().As<IGameStorage>();
             builder.RegisterType<Setup>().As<ISetup>();
             builder.RegisterType<SquareField>().As<IField>();
             builder.RegisterType<ConsoleApplication>().As<IApplication>();

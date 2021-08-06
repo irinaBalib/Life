@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLife.SaveGame;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,9 +8,9 @@ namespace GameOfLife
     public class Player : IPlayer
     {
         public string Name { get; set; }
-        IDataStorage _data;
+        IGameStorage _data;
 
-        public Player(IDataStorage data)
+        public Player(IGameStorage data)
         {
             _data = data;
         }

@@ -3,15 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameOfLife.Application
+namespace GameOfLife.Constants
 {
-   public class Message
+   public class TextMessages
     {
         public const string Welcome = "Welcome to the Game of Life!\n\n" +
                 "PLAYER'S SETUP\n";
         public const string AskName = "Player's name: ";
         
-         public readonly string AskFieldSize = $"Please input the size of the field({IField.MinSize} - {IField.MaxSize} cells): ";
+         public readonly string AskFieldSize = $"Please input the size of the field({NumericData.FieldMinSize} - {NumericData.FieldMaxSize} cells): ";
 
         public const string BlankName = "Name is required!";
         public const string InvalidInput = "Invalid input!";
@@ -26,16 +26,16 @@ namespace GameOfLife.Application
         public const string GameOver = "GAME OVER \n";
         public const string NewGame = "Press ENTER to start a new game";
 
-        public string AskStartOption(bool hasSavedGame) 
+        public string AskStartOption(bool hasSavedGame)   //move to  other cs
         {
             string output = "Please choose game field set up for 0.Generation ";
             if (hasSavedGame)
             {
-                output += $"({ (int)Option.RANDOM} - for randomly filled, { (int)Option.PRESET} -pre-set, { (int)Option.RESTORE} - restore saved game): ";
+                output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set, { (int)Option.Restore} - restore saved game): ";
             }
             else
             {
-                output += $"({ (int)Option.RANDOM} - for randomly filled, { (int)Option.PRESET} -pre-set): ";
+                output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set): ";
             }
             return output;
         }
@@ -47,6 +47,7 @@ namespace GameOfLife.Application
         public string GameSaved(string name)
         {
             return $"~~~~~~~~~~~     Game for Player {name} saved. ~~~~~~~~~~~";
+
         }
     }
 }

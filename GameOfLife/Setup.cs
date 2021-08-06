@@ -1,4 +1,5 @@
 ﻿using GameOfLife.Application;
+using GameOfLife.Constants;
 using GameOfLife.Enums;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,10 @@ namespace GameOfLife
 {
     public class Setup : ISetup
     {
-      //  public string PlayerName { get; set; }
+      public string PlayerName { get; set; }
         public int FieldSizeInput { get; set; }
         public Option StartOption { get; set; }
-        public Message Message { get; set; }
+        public TextMessages Message { get; set; }
 
         IApplication _application;
         
@@ -22,22 +23,23 @@ namespace GameOfLife
         {
             _application = application;
             _player = player;
-            Message = new Message();
+            Message = new TextMessages();
         }
         public void SetPlayersInput()
         {
-            _application.WriteText(Message.Welcome);
+            _application.WriteText(TextMessages.Welcome);
 
             //if (string.IsNullOrEmpty(_player.Name))
             //{
-               _application.WriteText(Message.AskName);
+               _application.WriteText(TextMessages.AskName);
                 _player.Name = GetValidatedNameInput(); ; 
             //}
+            
 
             _application.WriteText(Message.AskStartOption(_player.HasSavedGame()));
              StartOption = GetValidatedOptionInput();
              
-            if (StartOption != Option.RESTORE) 
+            if (StartOption != Option.Restore) 
             {
                 _application.WriteText(Message.AskFieldSize);
                 FieldSizeInput = GetValidatedDimensionInput();
@@ -49,7 +51,7 @@ namespace GameOfLife
 
             while (string.IsNullOrEmpty(input))
             {
-                _application.ShowErrorMessage(Message.BlankName);
+                _application.ShowErrorMessage(TextMessages.BlankName);
                 
                 input = _application.ReadInput();
             }
@@ -64,11 +66,11 @@ namespace GameOfLife
             {
                if (!int.TryParse(_application.ReadInput(), out dimensionInput))
                 {
-                    _application.ShowErrorMessage(Message.InvalidInput);
+                    _application.ShowErrorMessage(TextMessages.InvalidInput);
                 }
-                else if (dimensionInput < IField.MinSize || dimensionInput > IField.MaxSize) 
+                else if (dimensionInput < NumericData.FieldMinSize || dimensionInput > NumericData.FieldMaxSize) 
                 {
-                    _application.ShowErrorMessage(Message.OutOfRange);
+                    _application.ShowErrorMessage(TextMessages.OutOfRange);
                 }
                 else
                 {
@@ -86,11 +88,11 @@ namespace GameOfLife
             {
                 isOptionValid = (int.TryParse(_application.ReadInput(), out optionIndex))
                     && Enum.IsDefined(typeof(Option), optionIndex)
-                    || (optionIndex == (int)Option.RESTORE && _player.HasSavedGame());
+                    || (optionIndex == (int)Option.Restore && _player.HasSavedGame());
                 
                 if (!isOptionValid)
                 {
-                    _application.ShowErrorMessage(Message.InvalidInput);
+                    _application.ShowErrorMessage(TextMessages.InvalidInput);
                 }
             }
             return (Option)optionIndex;

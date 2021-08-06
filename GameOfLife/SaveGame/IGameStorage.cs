@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameOfLife
+namespace GameOfLife.SaveGame
 {
-   public interface IDataStorage
+   public interface IGameStorage
     {
         void Save(string playername, IField field);
        IField Restore(string playername);

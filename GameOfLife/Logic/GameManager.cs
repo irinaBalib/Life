@@ -1,5 +1,7 @@
 ﻿using GameOfLife.Application;
+using GameOfLife.Constants;
 using GameOfLife.Enums;
+using GameOfLife.SaveGame;
 using System;
 using System.Threading;
 
@@ -7,17 +9,17 @@ namespace GameOfLife
 {
     public class GameManager : IGameManager
     {
-        public Message Message { get; set; }
+        public TextMessages Message { get; set; }
         IField _field;
         ISetup _playerSetup;
-        IDataStorage _dataStorage;
+        IGameStorage _dataStorage;
         IApplication _application;
         IKeyControls _keyControls;
         IPlayer _player;
 
-        public GameManager(IField field, ISetup playerSetup, IDataStorage dataStorage, IApplication application, IKeyControls keyControls, IPlayer player)
+        public GameManager(IField field, ISetup playerSetup, IGameStorage dataStorage, IApplication application, IKeyControls keyControls, IPlayer player)
         {
-            Message = new Message();
+            Message = new TextMessages();
             try
             {
                 _player = player;
@@ -59,19 +61,19 @@ namespace GameOfLife
         {
             switch (_playerSetup.StartOption)
             {
-                case Option.RANDOM:
+                case Option.Random:
                     {
                         _field.Create(_playerSetup.FieldSizeInput);  // call Create in init methods? Factory?
                         _field.SetRandomInitField();
                         break;
                     }
-                case Option.PRESET:
+                case Option.Preset:
                     {
                         _field.Create(_playerSetup.FieldSizeInput);
                         _field.SetPredefinedInitField();
                         break;
                     }
-                case Option.RESTORE:
+                case Option.Restore:
                     {
                        IField restoredField = _dataStorage.Restore(_player.Name);
                         _field.Create(restoredField.Dimension, restoredField.CurrentCells, restoredField.Generation);
@@ -99,7 +101,7 @@ namespace GameOfLife
         {
             if (_field.CountAliveCells() == 0)  
             {
-                HasNoAliveCells();
+                HasNoAliveCells();  //naming
                 return true;
             }
 
@@ -133,18 +135,18 @@ namespace GameOfLife
 
         public void HasNoAliveCells() 
         {
-            ModifyInfoBar(Message.Extinction);
+            ModifyInfoBar(TextMessages.Extinction);
             Thread.Sleep(2000);
         }
 
         public void EndGame()
         {
-            ModifyInfoBar(Message.GameEnded);
+            ModifyInfoBar(TextMessages.GameEnded);
             Thread.Sleep(2000);
         }
         public void PauseGame() 
         {
-            ModifyInfoBar(Message.Paused);
+            ModifyInfoBar(TextMessages.Paused);
         }
 
         public void SaveGame()

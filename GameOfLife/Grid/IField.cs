@@ -4,8 +4,6 @@ namespace GameOfLife
 {
     public interface IField
     {
-        static int MinSize = 15;
-        static int MaxSize = 40;
        bool[,] CurrentCells { get; set; }
         int Generation { get; set; }
         int Dimension { get; set; }

@@ -6,6 +6,6 @@ namespace GameOfLife.Enums
 {
     public enum Option
     {
-        RANDOM = 1, PRESET, RESTORE
+        Random = 1, Preset, Restore
     }
 }
