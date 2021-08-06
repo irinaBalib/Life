@@ -34,7 +34,7 @@ namespace GameOfLife
             Generation = generation;
         }
 
-        public void ViewField()
+        public void ViewField()  //naming
         {
             for (int r = 0; r < CurrentCells.GetLength(0); r++)
             {

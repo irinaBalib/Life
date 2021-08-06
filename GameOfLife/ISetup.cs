@@ -5,7 +5,7 @@ namespace GameOfLife
     public interface ISetup
     {
         int FieldSizeInput { get; set; }
-      //  string PlayerName { get; set; }
+      string PlayerName { get; set; }
         Option StartOption { get; set; }
 
         int GetValidatedDimensionInput();

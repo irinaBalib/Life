@@ -14,7 +14,7 @@ namespace GameOfLife
             var builder = new ContainerBuilder();
 
             builder.RegisterType<Game>().As<IGame>();
-            builder.RegisterType<Player>().As<IPlayer>();
+           // builder.RegisterType<Player>().As<IPlayer>();
             builder.RegisterType<GameManager>().As<IGameManager>();
             builder.RegisterType<GameFile>().As<IGameStorage>();
             builder.RegisterType<Setup>().As<ISetup>();

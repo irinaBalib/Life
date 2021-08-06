@@ -1,6 +1,7 @@
 ﻿using GameOfLife.Application;
 using GameOfLife.Constants;
 using GameOfLife.Enums;
+using GameOfLife.SaveGame;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,27 +17,23 @@ namespace GameOfLife
         public TextMessages Message { get; set; }
 
         IApplication _application;
+        IGameStorage _storage;
+      
         
-        IPlayer _player;
-        
-        public Setup(IApplication application, IPlayer player)
+        public Setup(IApplication application, IGameStorage storage)
         {
             _application = application;
-            _player = player;
+            _storage = storage;
             Message = new TextMessages();
         }
         public void SetPlayersInput()
         {
             _application.WriteText(TextMessages.Welcome);
 
-            //if (string.IsNullOrEmpty(_player.Name))
-            //{
                _application.WriteText(TextMessages.AskName);
-                _player.Name = GetValidatedNameInput(); ; 
-            //}
-            
-
-            _application.WriteText(Message.AskStartOption(_player.HasSavedGame()));
+                PlayerName = GetValidatedNameInput(); ; 
+           
+            _application.WriteText(Message.AskStartOption(_storage.DataExists(PlayerName)));
              StartOption = GetValidatedOptionInput();
              
             if (StartOption != Option.Restore) 
@@ -88,7 +85,7 @@ namespace GameOfLife
             {
                 isOptionValid = (int.TryParse(_application.ReadInput(), out optionIndex))
                     && Enum.IsDefined(typeof(Option), optionIndex)
-                    || (optionIndex == (int)Option.Restore && _player.HasSavedGame());
+                    || (optionIndex == (int)Option.Restore && _storage.DataExists(PlayerName));
                 
                 if (!isOptionValid)
                 {

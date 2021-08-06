@@ -15,14 +15,12 @@ namespace GameOfLife
         IGameStorage _dataStorage;
         IApplication _application;
         IKeyControls _keyControls;
-        IPlayer _player;
 
-        public GameManager(IField field, ISetup playerSetup, IGameStorage dataStorage, IApplication application, IKeyControls keyControls, IPlayer player)
+        public GameManager(IField field, ISetup playerSetup, IGameStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
             Message = new TextMessages();
             try
             {
-                _player = player;
                 _field = field;
                 _playerSetup = playerSetup;
                 _dataStorage = dataStorage;
@@ -75,7 +73,7 @@ namespace GameOfLife
                     }
                 case Option.Restore:
                     {
-                       IField restoredField = _dataStorage.Restore(_player.Name);
+                       IField restoredField = _dataStorage.Restore(_playerSetup.PlayerName);
                         _field.Create(restoredField.Dimension, restoredField.CurrentCells, restoredField.Generation);
                         break;
                     }
@@ -151,9 +149,9 @@ namespace GameOfLife
 
         public void SaveGame()
         {
-            _dataStorage.Save(_player.Name, _field);
+            _dataStorage.Save(_playerSetup.PlayerName, _field);
 
-            ModifyInfoBar(Message.GameSaved(_player.Name));
+            ModifyInfoBar(Message.GameSaved(_playerSetup.PlayerName));
             Thread.Sleep(2000);
         }
         public bool RestartGame()
