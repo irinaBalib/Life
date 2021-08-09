@@ -26,7 +26,7 @@ namespace GameOfLife.Constants
         public const string GameOver = "GAME OVER \n";
         public const string NewGame = "Press ENTER to start a new game";
 
-        public string AskStartOption(bool hasSavedGame)   //move to  other cs
+        public string AskStartOption(bool hasSavedGame)   // TODO: move to  other cs
         {
             string output = "Please choose game field set up for 0.Generation ";
             if (hasSavedGame)

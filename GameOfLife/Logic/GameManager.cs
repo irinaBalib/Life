@@ -61,7 +61,7 @@ namespace GameOfLife
             {
                 case Option.Random:
                     {
-                        _field.Create(_playerSetup.FieldSizeInput);  // call Create in init methods? Factory?
+                        _field.Create(_playerSetup.FieldSizeInput);  // TODO: Factory?
                         _field.SetRandomInitField();
                         break;
                     }
@@ -99,7 +99,7 @@ namespace GameOfLife
         {
             if (_field.CountAliveCells() == 0)  
             {
-                HasNoAliveCells();  //naming
+                HasNoAliveCells();  //TODO: naming
                 return true;
             }
 
