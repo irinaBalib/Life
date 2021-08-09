@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using System;
+using System.IO;
 using System.Threading;
 
 namespace GameOfLife
@@ -11,8 +12,8 @@ namespace GameOfLife
             var container = ContainerConfig.Configure();
             using (var scope = container.BeginLifetimeScope())
             {
-                var app = scope.Resolve<IGameManager>();
-                app.RunTheGame();
+                var app = scope.Resolve<IGame>();
+                app.Run();
             }
         }
     }

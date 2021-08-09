@@ -6,7 +6,7 @@ namespace GameOfLife
     {
         void CreatePlayersSetup();
         void EndGame();
-        void HasNoAliveCells();
+        void NotifyOfExtinction();
         bool IsActionRequired();
         void PauseGame();
         void RunTheGame();

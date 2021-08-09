@@ -2,11 +2,11 @@
 
 namespace GameOfLife
 {
-    public interface IPlayerSetup
+    public interface ISetup
     {
-        int PlayerFieldSize { get; set; }
-        string PlayerName { get; set; }
-        Option PlayerStartOption { get; set; }
+        int FieldSizeInput { get; set; }
+      string PlayerName { get; set; }
+        Option StartOption { get; set; }
 
         int GetValidatedDimensionInput();
         string GetValidatedNameInput();

@@ -3,18 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameOfLife.Application
+namespace GameOfLife.Constants
 {
-   public class Message
+   public class TextMessages
     {
         public const string Welcome = "Welcome to the Game of Life!\n\n" +
                 "PLAYER'S SETUP\n";
-        public const string AskName = "Player's name:";
+        public const string AskName = "Player's name: ";
+        public readonly string AskFieldSize = $"Please input the size of the field({NumericData.FieldMinSize} - {NumericData.FieldMaxSize} cells): ";
         
-        public readonly string AskStartOption = $"Please choose game field set up for 0.Generation ({(int)Option.RANDOM} - for randomly filled, {(int)Option.PRESET} - pre-set, {(int)Option.RESTORE} - restore saved game): ";
-
-        public readonly string AskFieldSize = $"Please input the size of the field({IField.MinSize} - {IField.MaxSize} cells): ";
-
         public const string BlankName = "Name is required!";
         public const string InvalidInput = "Invalid input!";
         public const string OutOfRange = "Size is out of range!";
@@ -28,14 +25,6 @@ namespace GameOfLife.Application
         public const string GameOver = "GAME OVER \n";
         public const string NewGame = "Press ENTER to start a new game";
 
-        public string InfoBar2Line(int generation, int liveCellCount)
-        { 
-            return $" Generation {generation} \t Live cells count: {liveCellCount}"; 
-        }
 
-        public string GameSaved(string name)
-        {
-            return $"~~~~~~~~~~~     Game for Player {name} saved. ~~~~~~~~~~~";
-        }
     }
 }

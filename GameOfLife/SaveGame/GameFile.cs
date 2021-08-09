@@ -5,13 +5,13 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 
-namespace GameOfLife.Data
+namespace GameOfLife.SaveGame
 {
-     public class FileStorage : IDataStorage
+     public class GameFile : IGameStorage
     {
         IApplication _application;
         IField _field;
-        public FileStorage(IApplication application, IField field)
+        public GameFile(IApplication application, IField field)
         {
             _application = application;
             _field = field;
@@ -44,7 +44,7 @@ namespace GameOfLife.Data
                     using (StreamReader streamReader = new StreamReader(filePath))
                     {
                         string jsonString = streamReader.ReadToEnd();
-                     _field = JsonConvert.DeserializeObject<SquareField>(jsonString);  //IField..?
+                     _field = JsonConvert.DeserializeObject<SquareField>(jsonString);  
                     }
                 }
                 catch (Exception e)
@@ -56,7 +56,7 @@ namespace GameOfLife.Data
 
         private string GetDirectoryPath()
         {
-            string path = $"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}\\SavedGames\\";
+            string path = $"{Directory.GetParent(Environment.CurrentDirectory).Parent.FullName}\\SavedGames\\";
 
             DirectoryInfo dirInfo = new DirectoryInfo(path);
             if (!dirInfo.Exists)

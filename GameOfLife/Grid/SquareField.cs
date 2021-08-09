@@ -12,7 +12,7 @@ namespace GameOfLife
         public bool[,] CurrentCells { get; set; }
         private bool[,] FutureCells { get; set; }
         public int Generation { get; set; }
-        IApplication _application;
+        IApplication _application; // TODO: separate cell printing
      
         public SquareField(IApplication application)
         {
@@ -34,7 +34,7 @@ namespace GameOfLife
             Generation = generation;
         }
 
-        public void ViewField()
+        public void ViewField()  //TODO: naming
         {
             for (int r = 0; r < CurrentCells.GetLength(0); r++)
             {
