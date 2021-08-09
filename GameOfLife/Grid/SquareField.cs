@@ -12,7 +12,7 @@ namespace GameOfLife
         public bool[,] CurrentCells { get; set; }
         private bool[,] FutureCells { get; set; }
         public int Generation { get; set; }
-        IApplication _application; //sep
+        IApplication _application; // TODO: separate cell printing
      
         public SquareField(IApplication application)
         {

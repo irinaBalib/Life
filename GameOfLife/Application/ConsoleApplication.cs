@@ -33,7 +33,8 @@ namespace GameOfLife
         {
             Message = new TextMessages();
             string firstLine = TextMessages.InfoBar1Line;
-            string secondLine = Message.InfoBar2Line(generation, liveCellCount); 
+            string secondLine = $" Generation {generation} \t Live cells count: {liveCellCount}";
+               
 
             if (!string.IsNullOrEmpty(message))
             {
@@ -52,7 +53,7 @@ namespace GameOfLife
             Console.ResetColor();
             Console.SetCursorPosition(0, 3);
         }
-
+       
         public void ShowPreExitScreen()
         {
             Console.Clear();

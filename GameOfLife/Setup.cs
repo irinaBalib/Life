@@ -33,7 +33,7 @@ namespace GameOfLife
                _application.WriteText(TextMessages.AskName);
                 PlayerName = GetValidatedNameInput(); ; 
            
-            _application.WriteText(Message.AskStartOption(_storage.DataExists(PlayerName)));
+            _application.WriteText(AskStartOption());
              StartOption = GetValidatedOptionInput();
              
             if (StartOption != Option.Restore) 
@@ -94,6 +94,20 @@ namespace GameOfLife
             }
             return (Option)optionIndex;
         }
-       
+
+        public string AskStartOption()  
+        {
+            string output = "Please choose game field set up ";
+           
+            if (_storage.DataExists(PlayerName))
+            {
+                output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set, { (int)Option.Restore} - restore saved game): ";
+            }
+            else
+            {
+                output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set): ";
+            }
+            return output;
+        }
     }
 }

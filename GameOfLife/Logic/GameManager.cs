@@ -99,7 +99,7 @@ namespace GameOfLife
         {
             if (_field.CountAliveCells() == 0)  
             {
-                HasNoAliveCells();  //TODO: naming
+                NotifyOfExtinction(); 
                 return true;
             }
 
@@ -131,7 +131,7 @@ namespace GameOfLife
             return false;
         }
 
-        public void HasNoAliveCells() 
+        public void NotifyOfExtinction() 
         {
             ModifyInfoBar(TextMessages.Extinction);
             Thread.Sleep(2000);
@@ -151,7 +151,7 @@ namespace GameOfLife
         {
             _dataStorage.Save(_playerSetup.PlayerName, _field);
 
-            ModifyInfoBar(Message.GameSaved(_playerSetup.PlayerName));
+            ModifyInfoBar($" Game for Player {_playerSetup.PlayerName} saved. ");
             Thread.Sleep(2000);
         }
         public bool RestartGame()
@@ -168,6 +168,7 @@ namespace GameOfLife
         {
             _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), message);
         }
+
 
         private bool IsGameSaveRequested()
         {
