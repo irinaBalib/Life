@@ -14,7 +14,7 @@ namespace GameOfLife
         IApplication _application;
         IKeyControls _keyControls;
 
-        public GameManager(IField field, IPlayerSetup playerSetup, IDataStorage dataStorage, IApplication application, IKeyControls keyControls)
+        public GameManager(/*IField field*/ IPlayerSetup playerSetup, IDataStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
             Message = new Message();
             try
