@@ -12,9 +12,9 @@ namespace GameOfLife
         public bool[,] CurrentCells { get; set; }
         private bool[,] FutureCells { get; set; }
         public int Generation { get; set; }
-        IApplication _application; // TODO: separate cell printing
+        IApplication _application; // TODO: move cell printing to service layer
      
-        public SquareField(IApplication application)
+        public SquareField(IApplication application)  // TODO: test
         {
             _application = application;
         }
@@ -28,7 +28,7 @@ namespace GameOfLife
         }
         public void Create(int size, bool[,] cells, int generation)
         {
-             Dimension = size;
+            Dimension = size;
             CurrentCells = cells;
             FutureCells = new bool[Dimension, Dimension];
             Generation = generation;

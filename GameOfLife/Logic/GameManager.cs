@@ -2,6 +2,7 @@
 using GameOfLife.Constants;
 using GameOfLife.Enums;
 using GameOfLife.SaveGame;
+using GameOfLife.Input;
 using System;
 using System.Threading;
 
@@ -9,20 +10,21 @@ namespace GameOfLife
 {
     public class GameManager : IGameManager
     {
+        public PlayerInput PlayerInput { get; set; }
         public TextMessages Message { get; set; }
         IField _field;
-        ISetup _playerSetup;
+        IPlayerInputCapture _inputCapture;
         IGameStorage _dataStorage;
         IApplication _application;
         IKeyControls _keyControls;
 
-        public GameManager(IField field, ISetup playerSetup, IGameStorage dataStorage, IApplication application, IKeyControls keyControls)
+        public GameManager(IField field, IPlayerInputCapture inputCapture, IGameStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
             Message = new TextMessages();
             try
             {
                 _field = field;
-                _playerSetup = playerSetup;
+                _inputCapture = inputCapture;
                 _dataStorage = dataStorage;
                 _application = application;
                 _keyControls = keyControls;
@@ -50,30 +52,30 @@ namespace GameOfLife
 
         public void CreatePlayersSetup()
         {
-            _playerSetup.SetPlayersInput();
+           PlayerInput = _inputCapture.GetPlayersInput();
 
             _application.ClearScreen();  
         }
 
         public void SetInitFieldState()
         {
-            switch (_playerSetup.StartOption)
+            switch (PlayerInput.StartOption)
             {
                 case Option.Random:
                     {
-                        _field.Create(_playerSetup.FieldSizeInput);  // TODO: Factory?
+                        _field.Create(PlayerInput.FieldSize);  
                         _field.SetRandomInitField();
                         break;
                     }
                 case Option.Preset:
                     {
-                        _field.Create(_playerSetup.FieldSizeInput);
+                        _field.Create(PlayerInput.FieldSize);
                         _field.SetPredefinedInitField();
                         break;
                     }
                 case Option.Restore:
                     {
-                       IField restoredField = _dataStorage.Restore(_playerSetup.PlayerName);
+                       IField restoredField = _dataStorage.Restore(PlayerInput.PlayerName);
                         _field.Create(restoredField.Dimension, restoredField.CurrentCells, restoredField.Generation);
                         break;
                     }
@@ -149,9 +151,9 @@ namespace GameOfLife
 
         public void SaveGame()
         {
-            _dataStorage.Save(_playerSetup.PlayerName, _field);
+            _dataStorage.Save(PlayerInput.PlayerName, _field);
 
-            ModifyInfoBar($" Game for Player {_playerSetup.PlayerName} saved. ");
+            ModifyInfoBar($" Game for Player {PlayerInput.PlayerName} saved. ");
             Thread.Sleep(2000);
         }
         public bool RestartGame()

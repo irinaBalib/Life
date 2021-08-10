@@ -7,9 +7,11 @@ namespace GameOfLife.Grid
 {
     public class FieldFactory
     {
-        public IField CreateField(Option option)
-        {
+        // TODO: class for only creating the Field obj
 
-        }
+        //public IField CreateField(Option option)
+        //{
+
+        //}
     }
 }
