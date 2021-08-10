@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using GameOfLife.Application;
+using GameOfLife.Grid;
 using GameOfLife.Input;
 using GameOfLife.SaveGame;
 using System;
@@ -19,6 +20,8 @@ namespace GameOfLife
             builder.RegisterType<GameManager>().As<IGameManager>();
             builder.RegisterType<GameFile>().As<IGameStorage>();
             builder.RegisterType<PlayerInputCapture>().As<IPlayerInputCapture>();
+            builder.RegisterType<FieldFactory>().As<IFieldFactory>();
+            builder.RegisterType<FieldManager>().As<IFieldManager>();
             builder.RegisterType<SquareField>().As<IField>();
             builder.RegisterType<ConsoleApplication>().As<IApplication>();
             builder.RegisterType<ConsoleKeyControls>().As<IKeyControls>();

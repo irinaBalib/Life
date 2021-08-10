@@ -5,13 +5,34 @@ using System.Text;
 
 namespace GameOfLife.Grid
 {
-    public class FieldFactory
+    public class FieldFactory : IFieldFactory
     {
-        // TODO: class for only creating the Field obj
+        IField _field;
 
-        //public IField CreateField(Option option)
-        //{
+        public FieldFactory(IField field)
+        {
+            _field = field;
+        }
 
-        //}
+        public IField Create(int size)
+        {
+            _field.Dimension = size;
+            _field.Generation = 0;
+            _field.CurrentCells = new bool[_field.Dimension, _field.Dimension];
+            _field.FutureCells = new bool[_field.Dimension, _field.Dimension];
+
+            return _field;
+        }
+
+        public IField Create(int size, bool[,] cells, int generation)
+        {
+            _field.Dimension = size;
+            _field.Generation = generation;
+            _field.CurrentCells = cells;
+            _field.FutureCells = new bool[_field.Dimension, _field.Dimension];
+
+            return _field;
+        }
+
     }
 }

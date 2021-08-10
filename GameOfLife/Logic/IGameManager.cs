@@ -4,14 +4,14 @@ namespace GameOfLife
 {
     public interface IGameManager
     {
-        void CreatePlayersSetup();
+        void CreatePlayerSetup();
         void EndGame();
         void NotifyOfExtinction();
         bool IsActionRequired();
         void PauseGame();
         void RunTheGame();
         void SaveGame();
-        void SetInitFieldState();
+        void GetGameField();
         void ShiftFieldGenerations();
         bool RestartGame();
     }
