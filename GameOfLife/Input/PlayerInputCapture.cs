@@ -11,18 +11,15 @@ namespace GameOfLife.Input
 {
     public class PlayerInputCapture : IPlayerInputCapture
     {
-       
-        public TextMessages Message { get; set; }
         IApplication _application;
         IValidator _validator;
         IGameStorage _storage;
         
         public PlayerInputCapture(IApplication application, IValidator validator, IGameStorage storage)
         {
-            _application = application;
-            _validator = validator;
-            _storage = storage;
-            Message = new TextMessages();
+            _application = application ?? throw new ArgumentNullException(nameof(application));
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
         public PlayerInput GetPlayersInput()
         {
@@ -31,14 +28,14 @@ namespace GameOfLife.Input
             PlayerInput playerInput = new PlayerInput();
 
             _application.WriteText(TextMessages.AskName);
-                playerInput.PlayerName = _validator.ValidateName(); ; 
+                playerInput.PlayerName = _validator.ValidateName(); 
            
             _application.WriteText(AskStartOption(playerInput.PlayerName));
             playerInput.StartOption = _validator.ValidateOption(playerInput.PlayerName);
              
             if (playerInput.StartOption != Option.Restore) 
             {
-                _application.WriteText(Message.AskFieldSize);
+                _application.WriteText(TextMessages.AskFieldSize);
                 playerInput.FieldSize = _validator.ValidateDimension();
             }
             return playerInput;

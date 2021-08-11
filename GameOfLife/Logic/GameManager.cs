@@ -11,8 +11,8 @@ namespace GameOfLife
 {
     public class GameManager : IGameManager
     {
-        public PlayerInput PlayerInput { get; set; }
-        public TextMessages Message { get; set; }
+        private PlayerInput PlayerInput;
+       // private TextMessages Message; 
         IFieldManager _fieldManager;
         IPlayerInputCapture _inputCapture;
         IGameStorage _dataStorage;
@@ -21,20 +21,11 @@ namespace GameOfLife
 
         public GameManager(IFieldManager fieldManager, IPlayerInputCapture inputCapture, IGameStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
-            Message = new TextMessages();
-            try
-            {
-                _fieldManager = fieldManager;
-                _inputCapture = inputCapture;
-                _dataStorage = dataStorage;
-                _application = application;
-                _keyControls = keyControls;
-            }
-            catch (Exception e)
-            {
-
-                _application.WriteText(e.Message);
-            }
+            _fieldManager = fieldManager ?? throw new ArgumentNullException(nameof(fieldManager));  
+            _inputCapture = inputCapture ?? throw new ArgumentNullException(nameof(inputCapture));
+            _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
+            _application = application ?? throw new ArgumentNullException(nameof(application));
+            _keyControls = keyControls ?? throw new ArgumentNullException(nameof(keyControls));
         }
         public void RunTheGame()  
         {
@@ -48,7 +39,6 @@ namespace GameOfLife
                 _application.ClearScreen();
 
             } while (gameContinues);
-            Environment.Exit(0);
         }
 
         public void CreatePlayerSetup()
@@ -151,7 +141,6 @@ namespace GameOfLife
         {
             _application.ShowFieldInfoBar(_fieldManager.GetGeneration(), _fieldManager.CountAliveCells(), message);
         }
-
 
         private bool IsGameSaveRequested()
         {

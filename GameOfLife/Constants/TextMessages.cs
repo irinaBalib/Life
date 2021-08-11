@@ -5,12 +5,12 @@ using System.Text;
 
 namespace GameOfLife.Constants
 {
-   public class TextMessages
+   public static class TextMessages
     {
         public const string Welcome = "Welcome to the Game of Life!\n\n" +
                 "PLAYER'S SETUP\n";
         public const string AskName = "Player's name: ";
-        public readonly string AskFieldSize = $"Please input the size of the field({NumericData.FieldMinSize} - {NumericData.FieldMaxSize} cells): ";
+        public static string AskFieldSize = "Please input the size of the field(" + NumericData.FieldMinSize +" - "+ NumericData.FieldMaxSize + "cells): ";
         
         public const string BlankName = "Name is required!";
         public const string InvalidInput = "Invalid input!";

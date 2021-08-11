@@ -10,7 +10,7 @@ namespace GameOfLife
 
         public Game(IGameManager gameManager)
         {
-            _gameManager = gameManager;
+            _gameManager = gameManager ?? throw new ArgumentNullException(nameof(gameManager));
         }
 
         public void Run()

@@ -13,8 +13,8 @@ namespace GameOfLife.SaveGame
         IField _field;
         public GameFile(IApplication application, IField field)
         {
-            _application = application;
-            _field = field;
+            _application = application ?? throw new ArgumentNullException(nameof(application));
+            _field = field ?? throw new ArgumentNullException(nameof(field));
         }
         public void Save(string playername, IField field)
         {

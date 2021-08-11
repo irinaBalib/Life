@@ -8,7 +8,6 @@ namespace GameOfLife
 {
     public class ConsoleApplication : IApplication
     {
-        public TextMessages Message { get; set; }
         public void WriteText(string text)
         {
             Console.WriteLine(text);
@@ -31,7 +30,6 @@ namespace GameOfLife
 
         public void ShowFieldInfoBar(int generation, int liveCellCount, string message)
         {
-            Message = new TextMessages();
             string firstLine = TextMessages.InfoBar1Line;
             string secondLine = $" Generation {generation} \t Live cells count: {liveCellCount}";
                

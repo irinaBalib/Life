@@ -16,9 +16,9 @@ namespace GameOfLife.Grid
         IApplication _application;
         public FieldManager(IFieldFactory factory, IGameStorage storage, IApplication application)
         {
-             _factory = factory;
-            _storage = storage;
-            _application = application;
+             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
+            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+            _application = application ?? throw new ArgumentNullException(nameof(application));
         }
 
         public void SetUpField(Option option, int fieldSize, string playerName)

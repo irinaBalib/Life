@@ -9,15 +9,13 @@ namespace GameOfLife.Input
 {
     public class InputValidator : IValidator
     {
-        public TextMessages Message { get; set; }
         IApplication _application;
         IGameStorage _storage;
 
         public InputValidator(IApplication application, IGameStorage storage)
         {
-            _application = application;
-            _storage = storage;
-            Message = new TextMessages();
+            _application = application ?? throw new ArgumentNullException(nameof(application));
+            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
         public string ValidateName()
         {
@@ -76,8 +74,5 @@ namespace GameOfLife.Input
             }
             return (Option)optionIndex;
         }
-
-        
-        
     }
 }

@@ -11,7 +11,7 @@ namespace GameOfLife.Grid
 
         public FieldFactory(IField field)
         {
-            _field = field;
+            _field = field ?? throw new ArgumentNullException(nameof(field));
         }
 
         public IField Create(int size)
