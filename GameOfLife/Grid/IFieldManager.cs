@@ -13,7 +13,7 @@ namespace GameOfLife.Grid
         void SetFutureState(int row, int column);
         void SetUpField(Option option, int fieldSize, string playerName);
         void UpdateFieldData();
-        void ViewField();
+        void PrintCurrentSetFuture();
         int GetGeneration();
         IField GetField();
     }

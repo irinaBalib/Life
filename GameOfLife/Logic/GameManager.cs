@@ -12,7 +12,6 @@ namespace GameOfLife
     public class GameManager : IGameManager
     {
         private PlayerInput PlayerInput;
-       // private TextMessages Message; 
         IFieldManager _fieldManager;
         IPlayerInputCapture _inputCapture;
         IGameStorage _dataStorage;
@@ -60,7 +59,7 @@ namespace GameOfLife
             while (canContinue)
             {
                 _application.ShowFieldInfoBar(_fieldManager.GetGeneration(), _fieldManager.CountAliveCells());
-                _fieldManager.ViewField();
+                _fieldManager.PrintCurrentSetFuture();
                 Thread.Sleep(1000);
                 canContinue = !IsActionRequired();
                 

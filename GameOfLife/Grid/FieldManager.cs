@@ -53,7 +53,7 @@ namespace GameOfLife.Grid
             IField restoredField = _storage.Restore(playerName);
             field = _factory.Create(restoredField.Dimension, restoredField.CurrentCells, restoredField.Generation);
         }
-        public void ViewField()  //TODO: naming
+        public void PrintCurrentSetFuture()  
         {
             for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
             {
