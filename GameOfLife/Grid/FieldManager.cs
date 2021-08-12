@@ -23,36 +23,16 @@ namespace GameOfLife.Grid
 
         public void SetUpField(Option option, int fieldSize, string playerName)
         {
-            switch (option)
+            if (option == Option.Restore)
             {
-                case Option.Random:
-                    {
-                        CreateFromInput(fieldSize);
-                        SetRandomInitField();
-                        break;
-                    }
-                case Option.Preset:
-                    {
-                        CreateFromInput(fieldSize);
-                        SetPredefinedInitField();
-                        break;
-                    }
-                case Option.Restore:
-                    {
-                        CreateFromSaved(playerName);
-                        break;
-                    }
+                field = _factory.BuildFromRestored(GetRestoredField(playerName));
+            }
+            else
+            {
+                field = _factory.Build(option, fieldSize);
             }
         }
-        public void CreateFromInput(int size)
-        {
-            field = _factory.Create(size);
-        }
-        public void CreateFromSaved(string playerName)
-        {
-            IField restoredField = _storage.Restore(playerName);
-            field = _factory.Create(restoredField.Dimension, restoredField.CurrentCells, restoredField.Generation);
-        }
+       
         public void PrintCurrentSetFuture()  
         {
             for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
@@ -66,7 +46,51 @@ namespace GameOfLife.Grid
             }
         }
 
-        public void SetFutureState(int row, int column)
+        public void UpdateFieldData()
+        {
+            for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
+            {
+                for (int c = 0; c < field.CurrentCells.GetLength(1); c++)
+                {
+                    field.CurrentCells[r, c] = field.FutureCells[r, c];
+                }
+            }
+
+            field.Generation++;
+        }
+
+        public int CountAliveCells()
+        {
+            int liveCellCount = 0;
+            for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
+            {
+                for (int c = 0; c < field.CurrentCells.GetLength(1); c++)
+                {
+                    if (field.CurrentCells[r, c])
+                    {
+                        liveCellCount++;
+                    }
+                }
+            }
+            return liveCellCount;
+        }
+
+        public int GetGeneration()
+        {
+            return field.Generation;
+        }
+
+        public IField GetField()
+        {
+            return field;
+        }
+
+        private IField GetRestoredField(string playerName)
+        {
+            return _storage.Restore(playerName);
+        }
+
+        private void SetFutureState(int row, int column)
         {
             int aliveNeigbours = CountAliveNeighbours(row, column);
             if (aliveNeigbours == 3 || (field.CurrentCells[row, column] && aliveNeigbours == 2))
@@ -78,7 +102,8 @@ namespace GameOfLife.Grid
                 field.FutureCells[row, column] = false;
             }
         }
-        public int CountAliveNeighbours(int r, int c)
+
+        private int CountAliveNeighbours(int r, int c)
         {
             List<bool> neighbours = GetNeighbours(r, c);
 
@@ -86,7 +111,7 @@ namespace GameOfLife.Grid
             return count;
         }
 
-        public List<bool> GetNeighbours(int r, int c)
+        private List<bool> GetNeighbours(int r, int c)
         {
             List<bool> neighbours = new List<bool>();
             int[,] neighbourCoordinates = new int[8, 2] {
@@ -112,76 +137,5 @@ namespace GameOfLife.Grid
             return neighbours;
         }
 
-        public void UpdateFieldData()
-        {
-            for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
-            {
-                for (int c = 0; c < field.CurrentCells.GetLength(1); c++)
-                {
-                    field.CurrentCells[r, c] = field.FutureCells[r, c];
-                }
-            }
-
-            field.Generation++;
-        }
-
-
-        public int CountAliveCells()
-        {
-            int liveCellCount = 0;
-            for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
-            {
-                for (int c = 0; c < field.CurrentCells.GetLength(1); c++)
-                {
-                    if (field.CurrentCells[r, c])
-                    {
-                        liveCellCount++;
-                    }
-                }
-            }
-            return liveCellCount;
-        }
-
-        private void SetRandomInitField()
-        {
-            var random = new Random();
-
-            for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
-            {
-                for (int c = 0; c < field.CurrentCells.GetLength(1); c++)
-                {
-                    field.CurrentCells[r, c] = random.Next(2) == 1;
-                }
-            }
-        }
-
-        private void SetPredefinedInitField()
-        {
-
-            field.CurrentCells[0, 10] = true; // "Glider"
-            field.CurrentCells[1, 8] = true;
-            field.CurrentCells[1, 10] = true;
-            field.CurrentCells[2, 9] = true;
-            field.CurrentCells[2, 10] = true;
-
-            field.CurrentCells[5, 5] = true; //"0+"
-            field.CurrentCells[6, 4] = true;
-            field.CurrentCells[6, 5] = true;
-            field.CurrentCells[6, 6] = true;
-
-            field.CurrentCells[1, 0] = true; // "Blinker" at the edge
-            field.CurrentCells[2, 0] = true;
-            field.CurrentCells[3, 0] = true;
-        }
-
-        public int GetGeneration()
-        {
-            return field.Generation;
-        }
-
-        public IField GetField()
-        {
-            return field;
-        }
     }
 }
