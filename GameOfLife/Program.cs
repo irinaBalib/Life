@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using GameOfLife.Logic;
 using System;
 using System.IO;
 using System.Threading;

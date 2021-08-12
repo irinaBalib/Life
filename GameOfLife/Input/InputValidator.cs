@@ -1,5 +1,6 @@
 ﻿using GameOfLife.Constants;
 using GameOfLife.Enums;
+using GameOfLife.Logic;
 using GameOfLife.SaveGame;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,16 @@ namespace GameOfLife.Input
     public class InputValidator : IValidator
     {
         IApplication _application;
-        IGameStorage _storage;
 
-        public InputValidator(IApplication application, IGameStorage storage)
+        public InputValidator(IApplication application, IOptions options)
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
-            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
         public string ValidateName()
         {
             var input = _application.ReadInput();
 
-            while (string.IsNullOrEmpty(input))
+            while (string.IsNullOrEmpty(input))    // TODO: length validation
             {
                 _application.ShowErrorMessage(TextMessages.BlankName);
 
@@ -52,7 +51,7 @@ namespace GameOfLife.Input
             }
             return dimensionInput;
         }
-        public Option ValidateOption(string playerName)
+        public Option ValidateOption(List<Option> listOfAvailableOptions)
         {
             var optionIndex = 0;
             var isOptionValid = false;
@@ -60,12 +59,14 @@ namespace GameOfLife.Input
             while (!isOptionValid)
             {
                 isOptionValid = (int.TryParse(_application.ReadInput(), out optionIndex))
-                    && Enum.IsDefined(typeof(Option), optionIndex);
+                && listOfAvailableOptions.Exists(option => (int)option == optionIndex);
+                    
+                //    Enum.IsDefined(typeof(Option), optionIndex);
                    
-                if (optionIndex == (int)Option.Restore && !_storage.DataExists(playerName))
-                {
-                    isOptionValid = false;
-                }
+                //if (optionIndex == (int)Option.Restore && !_storage.DataExists(playerName))
+                //{
+                //    isOptionValid = false;
+                //}
 
                 if (!isOptionValid)
                 {

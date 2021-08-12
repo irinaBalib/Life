@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameOfLife
 {
-    class Game : IGame
+      public class Game : IGame
     {
         IGameManager _gameManager;
 
@@ -15,7 +15,7 @@ namespace GameOfLife
 
         public void Run()
         {
-            _gameManager.RunTheGame();
+            _gameManager.RunTheGame(); // x1k
         }
     }
 }

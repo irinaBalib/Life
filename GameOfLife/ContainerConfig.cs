@@ -2,6 +2,7 @@
 using GameOfLife.Application;
 using GameOfLife.Grid;
 using GameOfLife.Input;
+using GameOfLife.Logic;
 using GameOfLife.SaveGame;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace GameOfLife
             var builder = new ContainerBuilder();
 
             builder.RegisterType<Game>().As<IGame>();
+            builder.RegisterType<AvailableOptions>().As<IOptions>();
             builder.RegisterType<InputValidator>().As<IValidator>();
             builder.RegisterType<GameManager>().As<IGameManager>();
             builder.RegisterType<GameFile>().As<IGameStorage>();

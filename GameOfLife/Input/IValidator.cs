@@ -1,5 +1,6 @@
 ﻿using GameOfLife.Constants;
 using GameOfLife.Enums;
+using System.Collections.Generic;
 
 namespace GameOfLife.Input
 {
@@ -7,6 +8,6 @@ namespace GameOfLife.Input
     {
         int ValidateDimension();
         string ValidateName();
-        Option ValidateOption(string playerName);
+        Option ValidateOption(/*string playerName*/ List<Option> listOfAvailableOptions);
     }
 }

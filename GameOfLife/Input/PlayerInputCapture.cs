@@ -1,6 +1,7 @@
 ﻿using GameOfLife.Application;
 using GameOfLife.Constants;
 using GameOfLife.Enums;
+using GameOfLife.Logic;
 using GameOfLife.SaveGame;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,18 @@ namespace GameOfLife.Input
 {
     public class PlayerInputCapture : IPlayerInputCapture
     {
+        private List<Option> listOfAvailableOptions;
         IApplication _application;
         IValidator _validator;
         IGameStorage _storage;
-        
-        public PlayerInputCapture(IApplication application, IValidator validator, IGameStorage storage)
+        IOptions _options;
+
+        public PlayerInputCapture(IApplication application, IValidator validator, IGameStorage storage, IOptions options)
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
             _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
         }
         public PlayerInput GetPlayersInput()
         {
@@ -28,10 +32,12 @@ namespace GameOfLife.Input
             PlayerInput playerInput = new PlayerInput();
 
             _application.WriteText(TextMessages.AskName);
-                playerInput.PlayerName = _validator.ValidateName(); 
-           
-            _application.WriteText(AskStartOption(playerInput.PlayerName));
-            playerInput.StartOption = _validator.ValidateOption(playerInput.PlayerName);
+            playerInput.PlayerName = _validator.ValidateName();
+
+            listOfAvailableOptions = _options.GetList(playerInput.PlayerName);
+
+            _application.WriteText(AskStartOption());
+            playerInput.StartOption = _validator.ValidateOption(listOfAvailableOptions);
              
             if (playerInput.StartOption != Option.Restore) 
             {
@@ -40,18 +46,23 @@ namespace GameOfLife.Input
             }
             return playerInput;
         }
-        private string AskStartOption(string playerName)
+        private string AskStartOption()
         {
-            string output = "Please choose game field set up ";
+            string output = "Please choose game field set up: ";
 
-            if (_storage.DataExists(playerName))  // TODO: make class with list of available options, check storage there
+            foreach (var option in listOfAvailableOptions)
             {
-                output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set, { (int)Option.Restore} - restore saved game): ";
+               output += (int)option + " - " + option + "  ";
             }
-            else
-            {
-                output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set): ";
-            }
+
+            //if (_storage.DataExists(playerName))  
+            //{
+            //    output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set, { (int)Option.Restore} - restore saved game): ";
+            //}
+            //else
+            //{
+            //    output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set): ";
+            //}
             return output;
         }
 
