@@ -2,82 +2,54 @@
 using GameOfLife.Constants;
 using GameOfLife.Enums;
 using GameOfLife.SaveGame;
+using GameOfLife.Input;
 using System;
 using System.Threading;
+using GameOfLife.Grid;
 
 namespace GameOfLife
 {
     public class GameManager : IGameManager
     {
-        public TextMessages Message { get; set; }
-        IField _field;
-        ISetup _playerSetup;
+        private PlayerInput PlayerInput;
+        IFieldManager _fieldManager;
+        IPlayerInputCapture _inputCapture;
         IGameStorage _dataStorage;
         IApplication _application;
         IKeyControls _keyControls;
 
-        public GameManager(IField field, ISetup playerSetup, IGameStorage dataStorage, IApplication application, IKeyControls keyControls)
+        public GameManager(IFieldManager fieldManager, IPlayerInputCapture inputCapture, IGameStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
-            Message = new TextMessages();
-            try
-            {
-                _field = field;
-                _playerSetup = playerSetup;
-                _dataStorage = dataStorage;
-                _application = application;
-                _keyControls = keyControls;
-            }
-            catch (Exception e)
-            {
-
-                _application.WriteText(e.Message);
-            }
+            _fieldManager = fieldManager ?? throw new ArgumentNullException(nameof(fieldManager));  
+            _inputCapture = inputCapture ?? throw new ArgumentNullException(nameof(inputCapture));
+            _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
+            _application = application ?? throw new ArgumentNullException(nameof(application));
+            _keyControls = keyControls ?? throw new ArgumentNullException(nameof(keyControls));
         }
         public void RunTheGame()  
         {
             bool gameContinues;
             do
             { 
-                CreatePlayersSetup();
-                SetInitFieldState();
+                CreatePlayerSetup();
+                GetGameField();
                 ShiftFieldGenerations();
                 gameContinues = RestartGame();
                 _application.ClearScreen();
 
             } while (gameContinues);
-            Environment.Exit(0);
         }
 
-        public void CreatePlayersSetup()
+        public void CreatePlayerSetup()
         {
-            _playerSetup.SetPlayersInput();
+           PlayerInput = _inputCapture.GetPlayersInput();
 
             _application.ClearScreen();  
         }
 
-        public void SetInitFieldState()
+        public void GetGameField()
         {
-            switch (_playerSetup.StartOption)
-            {
-                case Option.Random:
-                    {
-                        _field.Create(_playerSetup.FieldSizeInput);  // TODO: Factory?
-                        _field.SetRandomInitField();
-                        break;
-                    }
-                case Option.Preset:
-                    {
-                        _field.Create(_playerSetup.FieldSizeInput);
-                        _field.SetPredefinedInitField();
-                        break;
-                    }
-                case Option.Restore:
-                    {
-                       IField restoredField = _dataStorage.Restore(_playerSetup.PlayerName);
-                        _field.Create(restoredField.Dimension, restoredField.CurrentCells, restoredField.Generation);
-                        break;
-                    }
-            }
+            _fieldManager.SetUpField(PlayerInput.StartOption, PlayerInput.FieldSize, PlayerInput.PlayerName);
         }
 
         public void ShiftFieldGenerations()
@@ -86,18 +58,18 @@ namespace GameOfLife
 
             while (canContinue)
             {
-                _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells());
-                _field.ViewField();
+                _application.ShowFieldInfoBar(_fieldManager.GetGeneration(), _fieldManager.CountAliveCells());
+                _fieldManager.PrintCurrentSetFuture();
                 Thread.Sleep(1000);
                 canContinue = !IsActionRequired();
                 
-                _field.UpdateFieldData();
+                _fieldManager.UpdateFieldData();
             }
         }
 
         public bool IsActionRequired()
         {
-            if (_field.CountAliveCells() == 0)  
+            if (_fieldManager.CountAliveCells() == 0)  
             {
                 NotifyOfExtinction(); 
                 return true;
@@ -149,9 +121,9 @@ namespace GameOfLife
 
         public void SaveGame()
         {
-            _dataStorage.Save(_playerSetup.PlayerName, _field);
+            _dataStorage.Save(PlayerInput.PlayerName, _fieldManager.GetField()); ;
 
-            ModifyInfoBar($" Game for Player {_playerSetup.PlayerName} saved. ");
+            ModifyInfoBar($" Game for Player {PlayerInput.PlayerName} saved. ");
             Thread.Sleep(2000);
         }
         public bool RestartGame()
@@ -166,9 +138,8 @@ namespace GameOfLife
         }
         private void ModifyInfoBar(string message)
         {
-            _application.ShowFieldInfoBar(_field.Generation, _field.CountAliveCells(), message);
+            _application.ShowFieldInfoBar(_fieldManager.GetGeneration(), _fieldManager.CountAliveCells(), message);
         }
-
 
         private bool IsGameSaveRequested()
         {
