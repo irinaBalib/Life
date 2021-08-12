@@ -19,10 +19,23 @@ namespace GameOfLife.Input
         public string ValidateName()
         {
             var input = _application.ReadInput();
+            var nameIsValid = string.IsNullOrEmpty(input) && input.Length > NumericData.NameMaxLength;
 
-            while (string.IsNullOrEmpty(input))    // TODO: length validation
+            while (!nameIsValid)   
             {
-                _application.ShowErrorMessage(TextMessages.BlankName);
+                if (string.IsNullOrEmpty(input))
+                {
+                    _application.ShowErrorMessage(TextMessages.BlankName); 
+                }
+                else if (input.Length > NumericData.NameMaxLength)
+                {
+                    _application.ShowErrorMessage(TextMessages.LongName);
+                }
+                else
+                {
+                    nameIsValid = true;
+                    break;
+                }
 
                 input = _application.ReadInput();
             }

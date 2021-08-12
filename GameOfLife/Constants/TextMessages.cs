@@ -13,6 +13,7 @@ namespace GameOfLife.Constants
         public static string AskFieldSize = "Please input the size of the field (" + NumericData.FieldMinSize +" - "+ NumericData.FieldMaxSize + " cells): ";
         
         public const string BlankName = "Name is required!";
+        public static string LongName = "Name length can not be more than " + NumericData.NameMaxLength + " symbols!";
         public const string InvalidInput = "Invalid input!";
         public const string OutOfRange = "Size is out of range!";
         public const string NoSavedGames = "No saved games found for this Player!";

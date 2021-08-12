@@ -15,14 +15,12 @@ namespace GameOfLife.Input
         private List<Option> listOfAvailableOptions;
         IApplication _application;
         IValidator _validator;
-        IGameStorage _storage;
         IOptions _options;
 
-        public PlayerInputCapture(IApplication application, IValidator validator, IGameStorage storage, IOptions options)
+        public PlayerInputCapture(IApplication application, IValidator validator, IOptions options)
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
-            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
         public PlayerInput GetPlayersInput()
