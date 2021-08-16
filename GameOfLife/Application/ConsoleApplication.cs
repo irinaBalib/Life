@@ -66,14 +66,14 @@ namespace GameOfLife
             {
                 Console.BackgroundColor = ConsoleColor.DarkCyan;
                 Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write("[_]");
+                Console.Write("  ");
                 Console.ResetColor();
             }
             else
             {
                 Console.BackgroundColor = ConsoleColor.Gray;
                 Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write("[_]");
+                Console.Write("  ");
                 Console.ResetColor();
             }
 

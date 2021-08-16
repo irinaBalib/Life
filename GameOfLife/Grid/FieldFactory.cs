@@ -30,6 +30,12 @@ namespace GameOfLife.Grid
                         SetPredefinedInitField();
                         break;
                     }
+                case Option.Multiple:
+                    {
+                        Create(fieldSize);
+                        SetRandomInitField();
+                        break;
+                    }
             }
             return _field;
         }

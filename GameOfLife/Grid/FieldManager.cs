@@ -1,9 +1,11 @@
-﻿using GameOfLife.Enums;
+﻿using GameOfLife.Constants;
+using GameOfLife.Enums;
 using GameOfLife.SaveGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GameOfLife.Grid
 {  
@@ -11,6 +13,7 @@ namespace GameOfLife.Grid
     {
        
         private IField field;
+        private List<IField> ListOfFields;
         IFieldFactory _factory;
         IGameStorage _storage;
         IApplication _application;
@@ -26,6 +29,14 @@ namespace GameOfLife.Grid
             if (option == Option.Restore)
             {
                 field = _factory.BuildFromRestored(GetRestoredField(playerName));
+            }
+            else if (option == Option.Multiple)
+            {
+                for (int i = 0; i < NumericData.FieldCount; i++)
+                {
+                    field = _factory.Build(option, fieldSize);
+                    ListOfFields.Add(field);
+                }
             }
             else
             {
@@ -46,6 +57,12 @@ namespace GameOfLife.Grid
             }
         }
 
+        public async void PrintCurrentSetFutureAsync()
+        {
+            ParallelLoopResult result = Parallel.ForEach<IField>(ListOfFields, PrintCurrentSetFuture);
+            
+        }
+       
         public void UpdateFieldData()
         {
             for (int r = 0; r < field.CurrentCells.GetLength(0); r++)

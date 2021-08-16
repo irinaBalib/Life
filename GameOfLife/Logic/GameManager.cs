@@ -6,6 +6,8 @@ using GameOfLife.Input;
 using System;
 using System.Threading;
 using GameOfLife.Grid;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GameOfLife
 {
@@ -33,7 +35,14 @@ namespace GameOfLife
             { 
                 CreatePlayerSetup();
                 GetGameField();
-                ShiftFieldGenerations();
+                if (PlayerInput.StartOption == Option.Multiple)
+                {
+                    ShiftFieldGenerationsAsync();
+                }
+                else
+                {
+                    ShiftFieldGenerations();
+                }
                 gameContinues = RestartGame();
                 _application.ClearScreen();
 
@@ -65,6 +74,11 @@ namespace GameOfLife
                 
                 _fieldManager.UpdateFieldData();
             }
+        }
+        public async void ShiftFieldGenerationsAsync()
+        {
+            
+
         }
 
         public bool IsActionRequired()

@@ -36,8 +36,12 @@ namespace GameOfLife.Input
 
             _application.WriteText(AskStartOption());
             playerInput.StartOption = _validator.ValidateOption(listOfAvailableOptions);
-             
-            if (playerInput.StartOption != Option.Restore) 
+            if (playerInput.StartOption == Option.Multiple)
+            {
+                playerInput.FieldSize = NumericData.FieldSize;
+            }
+
+            if (playerInput.StartOption != Option.Restore && playerInput.StartOption != Option.Multiple) 
             {
                 _application.WriteText(TextMessages.AskFieldSize);
                 playerInput.FieldSize = _validator.ValidateDimension();
