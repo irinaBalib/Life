@@ -87,6 +87,11 @@ namespace GameOfLife
         {
             Console.Clear();
         }
+
+        public void EmptyLine()
+        {
+            Console.WriteLine();
+        }
         private void ClearLine()
         {
             Console.SetCursorPosition(0, Console.CursorTop);

@@ -9,10 +9,10 @@ namespace GameOfLife.Grid
     {
         IField _field;
 
-        public FieldFactory(IField field)
-        {
-            _field = field ?? throw new ArgumentNullException(nameof(field));
-        }
+        //public FieldFactory(IField field)
+        //{
+        //    _field = field ?? throw new ArgumentNullException(nameof(field));
+        //}
 
         public IField Build(Option option, int fieldSize)
         {
@@ -48,6 +48,7 @@ namespace GameOfLife.Grid
 
         private void Create(int size)
         {
+            _field = new SquareField();
             _field.Dimension = size;
             _field.Generation = 0;
             _field.CurrentCells = new bool[_field.Dimension, _field.Dimension];
@@ -56,6 +57,7 @@ namespace GameOfLife.Grid
 
         private void Create(int size, bool[,] cells, int generation)
         {
+            _field = new SquareField();
             _field.Dimension = size;
             _field.Generation = generation;
             _field.CurrentCells = cells;

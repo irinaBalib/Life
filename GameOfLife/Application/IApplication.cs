@@ -9,5 +9,6 @@
         void ShowFieldInfoBar(int generation, int liveCellCount, string message = "");
         void ShowPreExitScreen();
         void ClearScreen();
+        void EmptyLine();
     }
 }

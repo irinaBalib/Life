@@ -14,19 +14,21 @@ namespace GameOfLife
     public class GameManager : IGameManager
     {
         private PlayerInput PlayerInput;
+        IGridManager _gridManager;
         IFieldManager _fieldManager;
         IPlayerInputCapture _inputCapture;
         IGameStorage _dataStorage;
         IApplication _application;
         IKeyControls _keyControls;
 
-        public GameManager(IFieldManager fieldManager, IPlayerInputCapture inputCapture, IGameStorage dataStorage, IApplication application, IKeyControls keyControls)
+        public GameManager(IGridManager gridManager, IFieldManager fieldManager, IPlayerInputCapture inputCapture, IGameStorage dataStorage, IApplication application, IKeyControls keyControls)
         {
             _fieldManager = fieldManager ?? throw new ArgumentNullException(nameof(fieldManager));  
             _inputCapture = inputCapture ?? throw new ArgumentNullException(nameof(inputCapture));
             _dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
             _application = application ?? throw new ArgumentNullException(nameof(application));
             _keyControls = keyControls ?? throw new ArgumentNullException(nameof(keyControls));
+            _gridManager = gridManager ?? throw new ArgumentNullException(nameof(gridManager));
         }
         public void RunTheGame()  
         {
@@ -34,15 +36,9 @@ namespace GameOfLife
             do
             { 
                 CreatePlayerSetup();
-                GetGameField();
-                if (PlayerInput.StartOption == Option.Multiple)
-                {
-                    ShiftFieldGenerationsAsync();
-                }
-                else
-                {
-                    ShiftFieldGenerations();
-                }
+                GetGameGrid();
+                ShiftGenerations();
+                
                 gameContinues = RestartGame();
                 _application.ClearScreen();
 
@@ -56,36 +52,42 @@ namespace GameOfLife
             _application.ClearScreen();  
         }
 
-        public void GetGameField()
+        public void GetGameGrid()
         {
-            _fieldManager.SetUpField(PlayerInput.StartOption, PlayerInput.FieldSize, PlayerInput.PlayerName);
+            _gridManager.SetGridContent(PlayerInput.StartOption, PlayerInput.FieldSize, PlayerInput.PlayerName);
+            //_fieldManager.GetField(PlayerInput.StartOption, PlayerInput.FieldSize, PlayerInput.PlayerName);
         }
 
-        public void ShiftFieldGenerations()
+        public void ShiftGenerations()
         {
             bool canContinue = true;
 
             while (canContinue)
             {
-                _application.ShowFieldInfoBar(_fieldManager.GetGeneration(), _fieldManager.CountAliveCells());
-                _fieldManager.PrintCurrentSetFuture();
+                _application.ShowFieldInfoBar(_gridManager.GetGeneration(), _gridManager.CountAliveCells());
+                _gridManager.LoopGridData();
                 Thread.Sleep(1000);
                 canContinue = !IsActionRequired();
-                
-                _fieldManager.UpdateFieldData();
-            }
-        }
-        public async void ShiftFieldGenerationsAsync()
-        {
-            
 
+                _gridManager.UpdateGridData(); ;
+            }
+
+            //while (canContinue)
+            //{
+            //    _application.ShowFieldInfoBar(_fieldManager.GetGeneration(), _fieldManager.CountAliveCells());
+            //    _fieldManager.PrintCurrentSetFuture();
+            //    Thread.Sleep(1000);
+            //    canContinue = !IsActionRequired();
+
+            //    _fieldManager.UpdateFieldData();
+            //}
         }
 
         public bool IsActionRequired()
         {
-            if (_fieldManager.CountAliveCells() == 0)  
+            if (_gridManager.CountAliveCells() == 0)
             {
-                NotifyOfExtinction(); 
+                NotifyOfExtinction();
                 return true;
             }
 
@@ -135,8 +137,8 @@ namespace GameOfLife
 
         public void SaveGame()
         {
-            _dataStorage.Save(PlayerInput.PlayerName, _fieldManager.GetField()); ;
-
+            // _dataStorage.Save(PlayerInput.PlayerName, _fieldManager.GetField()); ;
+            _gridManager.SaveGridData(PlayerInput.PlayerName);
             ModifyInfoBar($" Game for Player {PlayerInput.PlayerName} saved. ");
             Thread.Sleep(2000);
         }
@@ -152,7 +154,7 @@ namespace GameOfLife
         }
         private void ModifyInfoBar(string message)
         {
-            _application.ShowFieldInfoBar(_fieldManager.GetGeneration(), _fieldManager.CountAliveCells(), message);
+            _application.ShowFieldInfoBar(_gridManager.GetGeneration(), _gridManager.CountAliveCells(), message);
         }
 
         private bool IsGameSaveRequested()

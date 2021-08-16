@@ -11,8 +11,8 @@ namespace GameOfLife
         void PauseGame();
         void RunTheGame();
         void SaveGame();
-        void GetGameField();
-        void ShiftFieldGenerations();
+        void GetGameGrid();
+        void ShiftGenerations();
         bool RestartGame();
     }
 }

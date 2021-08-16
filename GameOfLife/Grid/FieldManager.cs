@@ -12,8 +12,8 @@ namespace GameOfLife.Grid
     public class FieldManager : IFieldManager
     {
        
-        private IField field;
-        private List<IField> ListOfFields;
+      //  private IField field;
+        //private List<IField> ListOfFields;
         IFieldFactory _factory;
         IGameStorage _storage;
         IApplication _application;
@@ -24,27 +24,19 @@ namespace GameOfLife.Grid
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
 
-        public void SetUpField(Option option, int fieldSize, string playerName)
+        public IField GetField(Option option, int fieldSize, string playerName)
         {
             if (option == Option.Restore)
             {
-                field = _factory.BuildFromRestored(GetRestoredField(playerName));
-            }
-            else if (option == Option.Multiple)
-            {
-                for (int i = 0; i < NumericData.FieldCount; i++)
-                {
-                    field = _factory.Build(option, fieldSize);
-                    ListOfFields.Add(field);
-                }
+                return _factory.BuildFromRestored(GetRestoredField(playerName));
             }
             else
             {
-                field = _factory.Build(option, fieldSize);
+                return _factory.Build(option, fieldSize);
             }
         }
        
-        public void PrintCurrentSetFuture()  
+        public void PrintCurrentSetFuture(IField field)  
         {
             for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
             {
@@ -52,18 +44,18 @@ namespace GameOfLife.Grid
                 {
                     bool isEndOfRow = c == field.Dimension - 1;
                     _application.DrawCell(field.CurrentCells[r, c], isEndOfRow);
-                    SetFutureState(r, c);
+                    SetFutureState(r, c, field);
                 }
             }
         }
 
-        public async void PrintCurrentSetFutureAsync()
-        {
-            ParallelLoopResult result = Parallel.ForEach<IField>(ListOfFields, PrintCurrentSetFuture);
+        //public async void PrintCurrentSetFutureAsync()
+        //{
+        //    ParallelLoopResult result = Parallel.ForEach<IField>(ListOfFields, PrintCurrentSetFuture);
             
-        }
+        //}
        
-        public void UpdateFieldData()
+        public void UpdateFieldData(IField field)
         {
             for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
             {
@@ -76,7 +68,7 @@ namespace GameOfLife.Grid
             field.Generation++;
         }
 
-        public int CountAliveCells()
+        public int CountAliveCells(IField field)
         {
             int liveCellCount = 0;
             for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
@@ -92,14 +84,19 @@ namespace GameOfLife.Grid
             return liveCellCount;
         }
 
-        public int GetGeneration()
+        public int GetGeneration(IField field)
         {
             return field.Generation;
         }
 
-        public IField GetField()
+        //public IField GetField()
+        //{
+        //    return field;
+        //}
+
+        public void SaveField(string playerName, IField field)
         {
-            return field;
+            _storage.Save(playerName, field);
         }
 
         private IField GetRestoredField(string playerName)
@@ -107,9 +104,9 @@ namespace GameOfLife.Grid
             return _storage.Restore(playerName);
         }
 
-        private void SetFutureState(int row, int column)
+        private void SetFutureState(int row, int column, IField field)
         {
-            int aliveNeigbours = CountAliveNeighbours(row, column);
+            int aliveNeigbours = CountAliveNeighbours(row, column, field);
             if (aliveNeigbours == 3 || (field.CurrentCells[row, column] && aliveNeigbours == 2))
             {
                 field.FutureCells[row, column] = true;
@@ -120,15 +117,15 @@ namespace GameOfLife.Grid
             }
         }
 
-        private int CountAliveNeighbours(int r, int c)
+        private int CountAliveNeighbours(int r, int c, IField field)
         {
-            List<bool> neighbours = GetNeighbours(r, c);
+            List<bool> neighbours = GetNeighbours(r, c, field);
 
             int count = neighbours.Where(n => n == true).Count();
             return count;
         }
 
-        private List<bool> GetNeighbours(int r, int c)
+        private List<bool> GetNeighbours(int r, int c, IField field)
         {
             List<bool> neighbours = new List<bool>();
             int[,] neighbourCoordinates = new int[8, 2] {
