@@ -28,10 +28,10 @@ namespace GameOfLife
             Console.ResetColor();
         }
 
-        public void ShowFieldInfoBar(int generation, int liveCellCount, string message)
+        public void ShowFieldInfoBar(int generation, int liveCellCount, int liveFieldCount, string message)
         {
             string firstLine = TextMessages.InfoBar1Line;
-            string secondLine = $" Generation {generation} \t Live cells count: {liveCellCount}";
+            string secondLine = $" Generation {generation} \t Live cells count: {liveCellCount} \t Live field count: {liveFieldCount}";
                
 
             if (!string.IsNullOrEmpty(message))

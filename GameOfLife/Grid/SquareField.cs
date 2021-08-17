@@ -9,7 +9,7 @@ namespace GameOfLife
     public class SquareField : IField
     {
         public int Dimension { get; set; }
-        public bool[,] CurrentCells { get; set; }
+        public bool[,] Cells { get; set; }
         public bool[,] FutureCells { get; set; }
         public int Generation { get; set; }
     }

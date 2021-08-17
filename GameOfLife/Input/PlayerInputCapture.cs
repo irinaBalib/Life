@@ -38,7 +38,7 @@ namespace GameOfLife.Input
             playerInput.StartOption = _validator.ValidateOption(listOfAvailableOptions);
             if (playerInput.StartOption == Option.Multiple)
             {
-                playerInput.FieldSize = NumericData.FieldSize;
+                playerInput.FieldSize = NumericData.MultiFieldSize;
             }
 
             if (playerInput.StartOption != Option.Restore && playerInput.StartOption != Option.Multiple) 

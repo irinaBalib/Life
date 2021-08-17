@@ -11,57 +11,62 @@ namespace GameOfLife.Grid
 {  
     public class FieldManager : IFieldManager
     {
-       
-      //  private IField field;
-        //private List<IField> ListOfFields;
-        IFieldFactory _factory;
-        IGameStorage _storage;
         IApplication _application;
-        public FieldManager(IFieldFactory factory, IGameStorage storage, IApplication application)
+        public FieldManager(IApplication application)
         {
-             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
+        public void CheckCellsForSurvival(IField field)  // TODO: naming?
+        {
+            field.FutureCells = new bool[field.Dimension, field.Dimension];
 
-        public IField GetField(Option option, int fieldSize, string playerName)
-        {
-            if (option == Option.Restore)
+            for (int r = 0; r < field.Cells.GetLength(0); r++)
             {
-                return _factory.BuildFromRestored(GetRestoredField(playerName));
-            }
-            else
-            {
-                return _factory.Build(option, fieldSize);
-            }
-        }
-       
-        public void PrintCurrentSetFuture(IField field)  
-        {
-            for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
-            {
-                for (int c = 0; c < field.CurrentCells.GetLength(1); c++)
+                for (int c = 0; c < field.Cells.GetLength(1); c++)
                 {
-                    bool isEndOfRow = c == field.Dimension - 1;
-                    _application.DrawCell(field.CurrentCells[r, c], isEndOfRow);
                     SetFutureState(r, c, field);
                 }
             }
         }
 
+        public void PrintField(IField field)
+        {
+            for (int r = 0; r < field.Cells.GetLength(0); r++)
+            {
+                for (int c = 0; c < field.Cells.GetLength(1); c++)
+                {
+                    bool isEndOfRow = c == field.Dimension - 1;
+                    _application.DrawCell(field.Cells[r, c], isEndOfRow);
+                }
+            }
+            _application.EmptyLine();
+        }
+
+        private void SetFutureState(int row, int column, IField field)
+        {
+            int aliveNeigbours = CountAliveNeighbours(row, column, field);
+            if (aliveNeigbours == 3 || (field.Cells[row, column] && aliveNeigbours == 2))
+            {
+                field.FutureCells[row, column] = true;
+            }
+            else
+            {
+                field.FutureCells[row, column] = false;
+            }
+        }
         //public async void PrintCurrentSetFutureAsync()
         //{
         //    ParallelLoopResult result = Parallel.ForEach<IField>(ListOfFields, PrintCurrentSetFuture);
-            
+
         //}
-       
+
         public void UpdateFieldData(IField field)
         {
-            for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
+            for (int r = 0; r < field.Cells.GetLength(0); r++)
             {
-                for (int c = 0; c < field.CurrentCells.GetLength(1); c++)
+                for (int c = 0; c < field.Cells.GetLength(1); c++)
                 {
-                    field.CurrentCells[r, c] = field.FutureCells[r, c];
+                    field.Cells[r, c] = field.FutureCells[r, c];
                 }
             }
 
@@ -71,11 +76,11 @@ namespace GameOfLife.Grid
         public int CountAliveCells(IField field)
         {
             int liveCellCount = 0;
-            for (int r = 0; r < field.CurrentCells.GetLength(0); r++)
+            for (int r = 0; r < field.Cells.GetLength(0); r++)
             {
-                for (int c = 0; c < field.CurrentCells.GetLength(1); c++)
+                for (int c = 0; c < field.Cells.GetLength(1); c++)
                 {
-                    if (field.CurrentCells[r, c])
+                    if (field.Cells[r, c])
                     {
                         liveCellCount++;
                     }
@@ -83,40 +88,6 @@ namespace GameOfLife.Grid
             }
             return liveCellCount;
         }
-
-        public int GetGeneration(IField field)
-        {
-            return field.Generation;
-        }
-
-        //public IField GetField()
-        //{
-        //    return field;
-        //}
-
-        public void SaveField(string playerName, IField field)
-        {
-            _storage.Save(playerName, field);
-        }
-
-        private IField GetRestoredField(string playerName)
-        {
-            return _storage.Restore(playerName);
-        }
-
-        private void SetFutureState(int row, int column, IField field)
-        {
-            int aliveNeigbours = CountAliveNeighbours(row, column, field);
-            if (aliveNeigbours == 3 || (field.CurrentCells[row, column] && aliveNeigbours == 2))
-            {
-                field.FutureCells[row, column] = true;
-            }
-            else
-            {
-                field.FutureCells[row, column] = false;
-            }
-        }
-
         private int CountAliveNeighbours(int r, int c, IField field)
         {
             List<bool> neighbours = GetNeighbours(r, c, field);
@@ -145,7 +116,7 @@ namespace GameOfLife.Grid
 
                 if (neighbourRow >= 0 && neighbourRow < field.Dimension && neighbourColumn >= 0 && neighbourColumn < field.Dimension)
                 {
-                    neighbours.Add(field.CurrentCells[neighbourRow, neighbourColumn]);
+                    neighbours.Add(field.Cells[neighbourRow, neighbourColumn]);
                 }
             }
             return neighbours;

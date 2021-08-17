@@ -4,7 +4,8 @@ namespace GameOfLife.Grid
 {
     public interface IFieldFactory
     {
-        IField Build(Option option, int fieldSize);
-        IField BuildFromRestored(IField restoredField);
+        IField BuildRandomField(int fieldSize);
+        IField BuildPresetField(int fieldSize);
+       // IField BuildFromRestored(IField restoredField);
     }
 }

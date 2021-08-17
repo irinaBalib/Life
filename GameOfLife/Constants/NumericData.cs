@@ -10,8 +10,7 @@ namespace GameOfLife.Constants
         public const int FieldMaxSize = 40;
         public const int NameMaxLength = 15;
 
-        public const int SingleFieldGrid = 1;
-        public const int MultiFieldGrid = 3;
-        public const int FieldSize = 5;
+        public const int MultiFieldCount = 3;
+        public const int MultiFieldSize = 5;
     }
 }
