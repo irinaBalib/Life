@@ -16,7 +16,7 @@ namespace GameOfLife.Grid
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
-        public void CheckCellsForSurvival(IField field)  // TODO: naming?
+        public void CheckCellsForSurvival(IField field)
         {
             field.FutureCells = new bool[field.Dimension, field.Dimension];
 
@@ -31,14 +31,14 @@ namespace GameOfLife.Grid
 
         public void PrintField(IField field)
         {
-            for (int r = 0; r < field.Cells.GetLength(0); r++)
-            {
-                for (int c = 0; c < field.Cells.GetLength(1); c++)
-                {
+             for (int r = 0; r < field.Cells.GetLength(0); r++)
+             {
+                 for (int c = 0; c < field.Cells.GetLength(1); c++)
+                 {
                     bool isEndOfRow = c == field.Dimension - 1;
                     _application.DrawCell(field.Cells[r, c], isEndOfRow);
-                }
-            }
+                 }
+             }
             _application.EmptyLine();
         }
 
@@ -54,12 +54,6 @@ namespace GameOfLife.Grid
                 field.FutureCells[row, column] = false;
             }
         }
-        //public async void PrintCurrentSetFutureAsync()
-        //{
-        //    ParallelLoopResult result = Parallel.ForEach<IField>(ListOfFields, PrintCurrentSetFuture);
-
-        //}
-
         public void UpdateFieldData(IField field)
         {
             for (int r = 0; r < field.Cells.GetLength(0); r++)

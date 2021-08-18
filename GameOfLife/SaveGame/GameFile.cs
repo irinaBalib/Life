@@ -20,7 +20,7 @@ namespace GameOfLife.SaveGame
         {
             string filePath = $"{GetDirectoryPath()}{playername}.json"; 
 
-            string jsonString = JsonConvert.SerializeObject(field);
+            string jsonString = JsonConvert.SerializeObject(field); // TODO: remove future cells / DTO .cs
 
             try
             {

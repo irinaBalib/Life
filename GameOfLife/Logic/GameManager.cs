@@ -91,27 +91,53 @@ namespace GameOfLife
             while (canContinue)
             {
                 _application.ShowFieldInfoBar(GetGeneration(), GetLiveCellCount(), GetLiveFieldCount());
-                LoopFieldDataWithPrinting();
+              
+                RunGameField();
+               
                 Thread.Sleep(1000);
                 canContinue = !IsActionRequired();
 
-                UpdateFieldData(); ;
+                UpdateFieldData(); 
             }
         }
-        private void LoopFieldDataWithPrinting() // TODO: print selected fields
+
+        private void RunGameField()
         {
-            foreach (IField field in listOfFields)
+
+            if (listOfFields.Count()>1)
             {
-                _fieldManager.CheckCellsForSurvival(field);
+                Parallel.Invoke(() =>
+                   {
+                       LoopFieldData();
+                   },
+
+                   () =>
+                   {
+                       PrintSelectedFields(NumericData.MultiFieldPrint);
+                   });
+            }
+            else
+            {
+                LoopFieldData();
+                PrintSelectedFields();
+            }
+        }
+        private void PrintSelectedFields(int fieldCount=1) 
+        {
+            List<IField> selectedFields = listOfFields.GetRange(0,fieldCount);
+            foreach (IField field in selectedFields)
+            {
                 _fieldManager.PrintField(field);
             }
+            
         }
-        private void LoopFieldDataWithoutPrinting()  // TODO: parallel looping&printing
+        private void LoopFieldData()  
         {
             foreach (IField field in listOfFields)
             {
                 _fieldManager.CheckCellsForSurvival(field);
             }
+          //  Parallel.ForEach
         }
         private void UpdateFieldData()
         {
