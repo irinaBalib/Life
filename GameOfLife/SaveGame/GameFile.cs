@@ -4,23 +4,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace GameOfLife.SaveGame
 {
      public class GameFile : IGameStorage
     {
         IApplication _application;
-        IField _field;
-        public GameFile(IApplication application, IField field)
+        public GameFile(IApplication application)
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
-            _field = field ?? throw new ArgumentNullException(nameof(field));
         }
-        public void Save(string playername, IField field)
+        public void Save(string playername, List<IField> fields)
         {
-            string filePath = $"{GetDirectoryPath()}{playername}.json"; 
+            string filePath = $"{GetDirectoryPath()}{playername}.json";
 
-            string jsonString = JsonConvert.SerializeObject(field); // TODO: remove future cells / DTO .cs
+            var fieldDTOs = ConvertFieldToDTO(fields);
+
+            string jsonString = JsonConvert.SerializeObject(fieldDTOs); // TODO: remove future cells / DTO .cs
 
             try
             {
@@ -35,25 +36,34 @@ namespace GameOfLife.SaveGame
             }
         }
         
-        public IField Restore(string playername)
+        public List<IField> Restore(string playername)
         {
            string filePath = $"{GetDirectoryPath()}{playername}.json";
-
+            List<FieldDTO> fieldDTOs = new List<FieldDTO>();
                 try
                 {
                     using (StreamReader streamReader = new StreamReader(filePath))
                     {
                         string jsonString = streamReader.ReadToEnd();
-                     _field = JsonConvert.DeserializeObject<SquareField>(jsonString);  
+                        fieldDTOs = JsonConvert.DeserializeObject<List<FieldDTO>>(jsonString);  
                     }
                 }
                 catch (Exception e)
                 {
                     _application.WriteText(e.Message);
                 }
-        return _field;
+
+            List<IField> restoredFields = ConvertDtoToField(fieldDTOs);
+        return restoredFields;
         }
 
+       
+
+        public bool DataExists(string playername)
+        {
+           string filePath = $"{GetDirectoryPath()}{playername}.json";
+            return File.Exists(filePath);
+        }
         private string GetDirectoryPath()
         {
             string path = $"{Directory.GetParent(Environment.CurrentDirectory).Parent.FullName}\\SavedGames\\";
@@ -66,10 +76,23 @@ namespace GameOfLife.SaveGame
             return path;
         }
 
-        public bool DataExists(string playername)
+        private List<FieldDTO> ConvertFieldToDTO (List<IField> fields)
         {
-           string filePath = $"{GetDirectoryPath()}{playername}.json";
-            return File.Exists(filePath);
+            List<FieldDTO> fieldDTOs = new List<FieldDTO>();
+            Parallel.ForEach(fields, field =>
+            {
+                fieldDTOs.Add(new FieldDTO { Cells = field.Cells, Generation = field.Generation, Dimension = field.Dimension });
+            });
+            return fieldDTOs;
+        }
+        private List<IField> ConvertDtoToField(List<FieldDTO> fieldDTOs)
+        {
+            List<IField> restoredFields = new List<IField>();
+            Parallel.ForEach(fieldDTOs, fieldDTO =>
+            {
+                restoredFields.Add(new SquareField { Cells = fieldDTO.Cells, Generation = fieldDTO.Generation, Dimension = fieldDTO.Dimension, FutureCells = new bool[fieldDTO.Dimension, fieldDTO.Dimension] });
+            });
+            return restoredFields;
         }
     }
 }

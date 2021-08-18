@@ -78,7 +78,7 @@ namespace GameOfLife
                     }
                 case Option.Restore:
                     {
-                        listOfFields.Add(RestoreGame(PlayerInput.PlayerName));
+                        RestoreGame();
                         break;
                     }
             }
@@ -238,18 +238,14 @@ namespace GameOfLife
         {
             ModifyInfoBar(TextMessages.Paused);
         }
-        private IField RestoreGame(string playerName) 
+        private void RestoreGame() 
         {
-            IField field = _dataStorage.Restore(playerName);
-            field.FutureCells = new bool[field.Dimension, field.Dimension];
-            return field;
+            listOfFields = _dataStorage.Restore(PlayerInput.PlayerName);
         }
-        private void SaveGame() // TODO: need to save multiple games (to ONE file?)
+        private void SaveGame()
         {
-            foreach (IField field in listOfFields)
-            {
-                _dataStorage.Save(PlayerInput.PlayerName, field);
-            }
+            _dataStorage.Save(PlayerInput.PlayerName, listOfFields);
+            
             ModifyInfoBar($" Game for Player {PlayerInput.PlayerName} saved. ");
             Thread.Sleep(2000);
         }

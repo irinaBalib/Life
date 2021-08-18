@@ -6,8 +6,8 @@ namespace GameOfLife.SaveGame
 {
    public interface IGameStorage
     {
-        void Save(string playername, IField field);
-        IField Restore(string playername);
+        void Save(string playername, List<IField> fields);
+        List<IField> Restore(string playername);
         bool DataExists(string playername);
     }
 }
