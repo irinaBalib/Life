@@ -103,22 +103,26 @@ namespace GameOfLife
 
         private void RunGameField()
         {
+            LoopFieldData();
 
             if (listOfFields.Count()>1)
             {
-                Parallel.Invoke(() =>
-                   {
-                       LoopFieldData();
-                   },
+                #region parallel looping and printing
+                //Parallel.Invoke(() =>
+                //   {
+                //       LoopFieldData();
+                //   },
 
-                   () =>
-                   {
-                       PrintSelectedFields(NumericData.MultiFieldPrint);
-                   });
+                //   () =>
+                //   {
+                //       PrintSelectedFields(NumericData.MultiFieldPrint);
+                //   });
+                #endregion
+
+                PrintSelectedFields(NumericData.MultiFieldPrint);
             }
             else
             {
-                LoopFieldData();
                 PrintSelectedFields();
             }
         }
@@ -133,19 +137,30 @@ namespace GameOfLife
         }
         private void LoopFieldData()  
         {
-            foreach (IField field in listOfFields)
+            Parallel.ForEach(listOfFields, field =>
             {
                 _fieldManager.CheckCellsForSurvival(field);
-            }
+            });
+
+            //foreach (IField field in listOfFields)
+            //{
+            //    _fieldManager.CheckCellsForSurvival(field);
+            //}
           //  Parallel.ForEach
         }
         private void UpdateFieldData()
         {
-            foreach (IField field in listOfFields)
+            Parallel.ForEach(listOfFields, field =>
             {
                 _fieldManager.UpdateFieldData(field);
                 field.Generation++;
-            }
+            });
+
+            //foreach (IField field in listOfFields)
+            //{
+            //    _fieldManager.UpdateFieldData(field);
+            //    field.Generation++;
+            //}
         }
 
         private int GetLiveFieldCount()
