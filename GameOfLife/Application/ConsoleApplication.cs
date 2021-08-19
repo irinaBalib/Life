@@ -10,6 +10,7 @@ namespace GameOfLife
     {
         public void WriteText(string text)
         {
+            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
             Console.WriteLine(text);
         }
 
