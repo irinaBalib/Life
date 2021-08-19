@@ -29,17 +29,40 @@ namespace GameOfLife.Grid
             }
         }
 
-        public void PrintField(IField field)
+        public void PrintCells(IField field, int fieldIndex) // TODO: move out Console methods
         {
-             for (int r = 0; r < field.Cells.GetLength(0); r++)
-             {
-                 for (int c = 0; c < field.Cells.GetLength(1); c++)
+            int cursorLeft = 0;
+            int cursorTop = Console.CursorTop;
+
+            if (fieldIndex == 1 || fieldIndex == 5)
+            {
+                cursorLeft = Console.WindowWidth / 4;
+                cursorTop = Console.CursorTop - field.Dimension - 1;
+            }
+            if (fieldIndex == 2 || fieldIndex == 6)
+            {
+                cursorLeft = (Console.WindowWidth / 4) * 2;
+                cursorTop = Console.CursorTop - field.Dimension - 1;
+
+            }
+            if (fieldIndex == 3 || fieldIndex == 7)
+            {
+                cursorLeft = (Console.WindowWidth / 4) * 3;
+                cursorTop = Console.CursorTop - field.Dimension - 1;
+            }
+            
+            for (int r = 0; r < field.Cells.GetLength(0); r++)
+            {
+               Console.SetCursorPosition(cursorLeft, cursorTop);
+
+                for (int c = 0; c < field.Cells.GetLength(1); c++)
                  {
                     bool isEndOfRow = c == field.Dimension - 1;
                     _application.DrawCell(field.Cells[r, c], isEndOfRow);
                  }
-             }
-            _application.EmptyLine();
+                cursorTop++;
+            }
+            _application.NextLine();
         }
 
         private void SetFutureState(int row, int column, IField field)

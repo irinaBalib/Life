@@ -97,7 +97,7 @@ namespace GameOfLife
                 Thread.Sleep(1000);
                 canContinue = !IsActionRequired();
 
-                UpdateFieldData(); 
+              //  UpdateFieldData(); 
             }
         }
 
@@ -129,9 +129,13 @@ namespace GameOfLife
         private void PrintSelectedFields(int fieldCount=1) 
         {
             List<IField> selectedFields = listOfFields.GetRange(0,fieldCount);
-            foreach (IField field in selectedFields)
+            //foreach (IField field in selectedFields)
+            //{
+            //    _fieldManager.PrintCells(field);
+            //}
+            for (int i = 0; i < selectedFields.Count; i++)
             {
-                _fieldManager.PrintField(field);
+                _fieldManager.PrintCells(selectedFields[i], i);
             }
             
         }
@@ -140,28 +144,24 @@ namespace GameOfLife
             Parallel.ForEach(listOfFields, field =>
             {
                 _fieldManager.CheckCellsForSurvival(field);
+                _fieldManager.UpdateFieldData(field);
             });
 
-            //foreach (IField field in listOfFields)
-            //{
-            //    _fieldManager.CheckCellsForSurvival(field);
-            //}
-          //  Parallel.ForEach
         }
-        private void UpdateFieldData()
-        {
-            Parallel.ForEach(listOfFields, field =>
-            {
-                _fieldManager.UpdateFieldData(field);
-                field.Generation++;
-            });
+        //private void UpdateFieldData()
+        //{
+        //    Parallel.ForEach(listOfFields, field =>
+        //    {
+        //        _fieldManager.UpdateFieldData(field);
+        //        field.Generation++;
+        //    });
 
             //foreach (IField field in listOfFields)
             //{
             //    _fieldManager.UpdateFieldData(field);
             //    field.Generation++;
             //}
-        }
+       // }
 
         private int GetLiveFieldCount()
         {

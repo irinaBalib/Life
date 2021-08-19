@@ -60,6 +60,15 @@ namespace GameOfLife
             Console.SetCursorPosition(Console.WindowWidth / 2 - 9, Console.WindowHeight / 2);
             Console.WriteLine(TextMessages.NewGame);
         }
+
+        public void SetCursor(int fieldIndex, int fieldSize)
+        {
+            throw new NotImplementedException();
+        }
+        public void UpdateCursor(int row)
+        {
+            throw new NotImplementedException();
+        }
         public void DrawCell(bool isAlive, bool isEndOfRow)
         {
             if (isAlive)
@@ -88,7 +97,7 @@ namespace GameOfLife
             Console.Clear();
         }
 
-        public void EmptyLine()
+        public void NextLine()
         {
             Console.WriteLine();
         }

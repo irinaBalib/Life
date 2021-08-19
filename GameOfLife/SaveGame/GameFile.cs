@@ -78,7 +78,7 @@ namespace GameOfLife.SaveGame
 
         private List<FieldDTO> ConvertFieldToDTO (List<IField> fields)
         {
-            List<FieldDTO> fieldDTOs = new List<FieldDTO>();
+            List<FieldDTO> fieldDTOs = new List<FieldDTO>();  //remove parallel
             Parallel.ForEach(fields, field =>
             {
                 fieldDTOs.Add(new FieldDTO { Cells = field.Cells, Generation = field.Generation, Dimension = field.Dimension });
