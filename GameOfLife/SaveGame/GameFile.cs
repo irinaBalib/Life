@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -19,9 +20,9 @@ namespace GameOfLife.SaveGame
         {
             string filePath = $"{GetDirectoryPath()}{playername}.json";
 
-            var fieldDTOs = ConvertFieldToDTO(fields);
+            var DTO = ConvertFieldToDTO(fields);
 
-            string jsonString = JsonConvert.SerializeObject(fieldDTOs); // TODO: remove future cells / DTO .cs
+            string jsonString = JsonConvert.SerializeObject(DTO); 
 
             try
             {
@@ -39,13 +40,13 @@ namespace GameOfLife.SaveGame
         public List<IField> Restore(string playername)
         {
            string filePath = $"{GetDirectoryPath()}{playername}.json";
-            List<FieldDTO> fieldDTOs = new List<FieldDTO>();
+            DTO gameDTO = new DTO();
                 try
                 {
                     using (StreamReader streamReader = new StreamReader(filePath))
                     {
                         string jsonString = streamReader.ReadToEnd();
-                        fieldDTOs = JsonConvert.DeserializeObject<List<FieldDTO>>(jsonString);  
+                        gameDTO = JsonConvert.DeserializeObject<DTO>(jsonString);  
                     }
                 }
                 catch (Exception e)
@@ -53,7 +54,7 @@ namespace GameOfLife.SaveGame
                     _application.WriteText(e.Message);
                 }
 
-            List<IField> restoredFields = ConvertDtoToField(fieldDTOs);
+            List<IField> restoredFields = ConvertDtoToField(gameDTO);
         return restoredFields;
         }
 
@@ -76,22 +77,31 @@ namespace GameOfLife.SaveGame
             return path;
         }
 
-        private List<FieldDTO> ConvertFieldToDTO (List<IField> fields)
+        private DTO ConvertFieldToDTO (List<IField> fields)
         {
-            List<FieldDTO> fieldDTOs = new List<FieldDTO>();  //remove parallel
-            Parallel.ForEach(fields, field =>
+            List<FieldDTO> fieldDTOs = new List<FieldDTO>(); 
+
+            foreach (IField field in fields)
             {
-                fieldDTOs.Add(new FieldDTO { Cells = field.Cells, Generation = field.Generation, Dimension = field.Dimension });
-            });
-            return fieldDTOs;
+                fieldDTOs.Add(new FieldDTO { Cells = field.Cells });
+            }
+
+            DTO gameDTO = new DTO();
+            gameDTO.FieldDTOs = fieldDTOs;
+            gameDTO.Dimension = fields.FirstOrDefault().Dimension;
+            gameDTO.Generation = fields.FirstOrDefault().Generation;
+            
+            return gameDTO;
         }
-        private List<IField> ConvertDtoToField(List<FieldDTO> fieldDTOs)
+
+        private List<IField> ConvertDtoToField(DTO gameDTO)
         {
             List<IField> restoredFields = new List<IField>();
-            Parallel.ForEach(fieldDTOs, fieldDTO =>
+            foreach (var fieldDTO in gameDTO.FieldDTOs)
             {
-                restoredFields.Add(new SquareField { Cells = fieldDTO.Cells, Generation = fieldDTO.Generation, Dimension = fieldDTO.Dimension, FutureCells = new bool[fieldDTO.Dimension, fieldDTO.Dimension] });
-            });
+                restoredFields.Add(new SquareField { Cells = fieldDTO.Cells, Generation = gameDTO.Generation, Dimension = gameDTO.Dimension, FutureCells = new bool[gameDTO.Dimension, gameDTO.Dimension] });
+            }
+
             return restoredFields;
         }
     }

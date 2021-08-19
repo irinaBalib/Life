@@ -96,8 +96,6 @@ namespace GameOfLife
                
                 Thread.Sleep(1000);
                 canContinue = !IsActionRequired();
-
-              //  UpdateFieldData(); 
             }
         }
 
@@ -129,15 +127,11 @@ namespace GameOfLife
         private void PrintSelectedFields(int fieldCount=1) 
         {
             List<IField> selectedFields = listOfFields.GetRange(0,fieldCount);
-            //foreach (IField field in selectedFields)
-            //{
-            //    _fieldManager.PrintCells(field);
-            //}
+           
             for (int i = 0; i < selectedFields.Count; i++)
             {
                 _fieldManager.PrintCells(selectedFields[i], i);
             }
-            
         }
         private void LoopFieldData()  
         {
