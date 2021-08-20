@@ -41,7 +41,6 @@ namespace GameOfLife.Input
             }
             return input;
         }
-
         public int ValidateDimension()
         {
             var inputIsValid = false;
@@ -73,14 +72,7 @@ namespace GameOfLife.Input
             {
                 isOptionValid = (int.TryParse(_application.ReadInput(), out optionIndex))
                 && listOfAvailableOptions.Exists(option => (int)option == optionIndex);
-                    
-                //    Enum.IsDefined(typeof(Option), optionIndex);
-                   
-                //if (optionIndex == (int)Option.Restore && !_storage.DataExists(playerName))
-                //{
-                //    isOptionValid = false;
-                //}
-
+                
                 if (!isOptionValid)
                 {
                     _application.ShowErrorMessage(TextMessages.InvalidInput);

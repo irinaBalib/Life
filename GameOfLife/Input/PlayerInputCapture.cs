@@ -57,14 +57,6 @@ namespace GameOfLife.Input
                output += (int)option + " - " + option + "  ";
             }
 
-            //if (_storage.DataExists(playerName))  
-            //{
-            //    output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set, { (int)Option.Restore} - restore saved game): ";
-            //}
-            //else
-            //{
-            //    output += $"({ (int)Option.Random} - for randomly filled, { (int)Option.Preset} -pre-set): ";
-            //}
             return output;
         }
 

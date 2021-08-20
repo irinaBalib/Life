@@ -40,13 +40,13 @@ namespace GameOfLife.SaveGame
         public List<IField> Restore(string playername)
         {
            string filePath = $"{GetDirectoryPath()}{playername}.json";
-            DTO gameDTO = new DTO();
+            GameDTO gameDTO = new GameDTO();
                 try
                 {
                     using (StreamReader streamReader = new StreamReader(filePath))
                     {
                         string jsonString = streamReader.ReadToEnd();
-                        gameDTO = JsonConvert.DeserializeObject<DTO>(jsonString);  
+                        gameDTO = JsonConvert.DeserializeObject<GameDTO>(jsonString);  
                     }
                 }
                 catch (Exception e)
@@ -57,8 +57,6 @@ namespace GameOfLife.SaveGame
             List<IField> restoredFields = ConvertDtoToField(gameDTO);
         return restoredFields;
         }
-
-       
 
         public bool DataExists(string playername)
         {
@@ -76,8 +74,7 @@ namespace GameOfLife.SaveGame
             }
             return path;
         }
-
-        private DTO ConvertFieldToDTO (List<IField> fields)
+        private GameDTO ConvertFieldToDTO (List<IField> fields)
         {
             List<FieldDTO> fieldDTOs = new List<FieldDTO>(); 
 
@@ -86,15 +83,14 @@ namespace GameOfLife.SaveGame
                 fieldDTOs.Add(new FieldDTO { Cells = field.Cells });
             }
 
-            DTO gameDTO = new DTO();
+            GameDTO gameDTO = new GameDTO();
             gameDTO.FieldDTOs = fieldDTOs;
             gameDTO.Dimension = fields.FirstOrDefault().Dimension;
             gameDTO.Generation = fields.FirstOrDefault().Generation;
             
             return gameDTO;
         }
-
-        private List<IField> ConvertDtoToField(DTO gameDTO)
+        private List<IField> ConvertDtoToField(GameDTO gameDTO)
         {
             List<IField> restoredFields = new List<IField>();
             foreach (var fieldDTO in gameDTO.FieldDTOs)

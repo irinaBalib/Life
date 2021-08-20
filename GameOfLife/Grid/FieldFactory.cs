@@ -19,12 +19,6 @@ namespace GameOfLife.Grid
             SetPredefined(presetField);
             return presetField;
         }
-        //public IField BuildFromRestored(IField restoredField)
-        //{
-        //   IField field = Create(restoredField.Dimension, restoredField.Cells, restoredField.Generation);
-        //    return field;
-        //}
-
         private IField Create(int size)
         {
             IField field = new SquareField() 
@@ -35,7 +29,6 @@ namespace GameOfLife.Grid
             };
             return field;
         }
-
         private IField Create(int size, bool[,] cells, int generation)
         {
             IField field = new SquareField()
@@ -46,7 +39,6 @@ namespace GameOfLife.Grid
             };
            return field;
         }
-
         private void FillRandomly(IField field)
         {
             var random = new Random();
@@ -59,7 +51,6 @@ namespace GameOfLife.Grid
                 }
             }
         }
-
         private void SetPredefined(IField field)
         {
             field.Cells[0, 10] = true; // "Glider"

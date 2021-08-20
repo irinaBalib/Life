@@ -7,6 +7,6 @@ namespace GameOfLife.SaveGame
     public class FieldDTO
     {
         public bool[,] Cells { get; set; }
-        
+      
     }
 }

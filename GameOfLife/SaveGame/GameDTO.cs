@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameOfLife.SaveGame
 {
-    public class DTO
+    public class GameDTO
     {
         public int Generation { get; set; }
         public int Dimension { get; set; }

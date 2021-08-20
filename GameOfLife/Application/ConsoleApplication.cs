@@ -62,14 +62,6 @@ namespace GameOfLife
             Console.WriteLine(TextMessages.NewGame);
         }
 
-        public void SetCursor(int fieldIndex, int fieldSize)
-        {
-            throw new NotImplementedException();
-        }
-        public void UpdateCursor(int row)
-        {
-            throw new NotImplementedException();
-        }
         public void DrawCell(bool isAlive, bool isEndOfRow)
         {
             if (isAlive)
@@ -97,7 +89,6 @@ namespace GameOfLife
         {
             Console.Clear();
         }
-
         public void NextLine()
         {
             Console.WriteLine();

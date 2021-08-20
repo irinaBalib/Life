@@ -105,18 +105,6 @@ namespace GameOfLife
 
             if (listOfFields.Count()>1)
             {
-                #region parallel looping and printing
-                //Parallel.Invoke(() =>
-                //   {
-                //       LoopFieldData();
-                //   },
-
-                //   () =>
-                //   {
-                //       PrintSelectedFields(NumericData.MultiFieldPrint);
-                //   });
-                #endregion
-
                 PrintSelectedFields(NumericData.MultiFieldPrint);
             }
             else
@@ -140,23 +128,7 @@ namespace GameOfLife
                 _fieldManager.CheckCellsForSurvival(field);
                 _fieldManager.UpdateFieldData(field);
             });
-
         }
-        //private void UpdateFieldData()
-        //{
-        //    Parallel.ForEach(listOfFields, field =>
-        //    {
-        //        _fieldManager.UpdateFieldData(field);
-        //        field.Generation++;
-        //    });
-
-            //foreach (IField field in listOfFields)
-            //{
-            //    _fieldManager.UpdateFieldData(field);
-            //    field.Generation++;
-            //}
-       // }
-
         private int GetLiveFieldCount()
         {
             var count = 0;
@@ -257,7 +229,6 @@ namespace GameOfLife
         {
             _application.ShowFieldInfoBar(GetGeneration(), GetLiveCellCount(), GetLiveFieldCount(), message);
         }
-
         private bool IsGameSaveRequested()
         {
             KeyAction keyPressed;

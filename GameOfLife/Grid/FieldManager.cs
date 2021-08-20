@@ -29,7 +29,7 @@ namespace GameOfLife.Grid
             }
         }
 
-        public void PrintCells(IField field, int fieldIndex) // TODO: move out Console methods
+        public void PrintCells(IField field, int fieldIndex) //TODO: remove hardcoded values; move out Console methods
         {
             int cursorLeft = 0;
             int cursorTop = Console.CursorTop;
@@ -89,7 +89,6 @@ namespace GameOfLife.Grid
 
             field.Generation++;
         }
-
         public int CountAliveCells(IField field)
         {
             int liveCellCount = 0;
@@ -112,7 +111,6 @@ namespace GameOfLife.Grid
             int count = neighbours.Where(n => n == true).Count();
             return count;
         }
-
         private List<bool> GetNeighbours(int r, int c, IField field)
         {
             List<bool> neighbours = new List<bool>();
