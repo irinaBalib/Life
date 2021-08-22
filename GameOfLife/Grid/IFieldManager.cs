@@ -7,7 +7,6 @@ namespace GameOfLife.Grid
     {
      
         void CheckCellsForSurvival(IField field);
-       
         void UpdateFieldData(IField field);
         int CountAliveCells(IField field);
         

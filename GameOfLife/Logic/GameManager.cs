@@ -114,12 +114,10 @@ namespace GameOfLife
         }
         private void PrintSelectedFields(int fieldCount=1) 
         {
-            List<IField> selectedFields = listOfFields.GetRange(0,fieldCount);
-           
-            for (int i = 0; i < selectedFields.Count; i++)
-            {
-                _application.PrintField(selectedFields[i], i);
-            }
+            List<IField> selectedFields = listOfFields.GetRange(0,fieldCount);  // TODO: choosing which fields to print
+
+            _application.PrintFields(selectedFields);
+
         }
         private void LoopFieldData()  
         {
