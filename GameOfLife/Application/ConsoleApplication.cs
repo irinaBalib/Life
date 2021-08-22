@@ -62,6 +62,41 @@ namespace GameOfLife
             Console.WriteLine(TextMessages.NewGame);
         }
 
+        public void PrintField(IField field, int fieldIndex) //TODO: remove hardcoded values
+        {
+            int cursorLeft = 0;
+            int cursorTop = Console.CursorTop;
+
+            if (fieldIndex == 1 || fieldIndex == 5)
+            {
+                cursorLeft = Console.WindowWidth / 4;
+                cursorTop = Console.CursorTop - field.Dimension - 1;
+            }
+            if (fieldIndex == 2 || fieldIndex == 6)
+            {
+                cursorLeft = (Console.WindowWidth / 4) * 2;
+                cursorTop = Console.CursorTop - field.Dimension - 1;
+
+            }
+            if (fieldIndex == 3 || fieldIndex == 7)
+            {
+                cursorLeft = (Console.WindowWidth / 4) * 3;
+                cursorTop = Console.CursorTop - field.Dimension - 1;
+            }
+
+            for (int r = 0; r < field.Cells.GetLength(0); r++)
+            {
+                Console.SetCursorPosition(cursorLeft, cursorTop);
+
+                for (int c = 0; c < field.Cells.GetLength(1); c++)
+                {
+                    bool isEndOfRow = c == field.Dimension - 1;
+                    DrawCell(field.Cells[r, c], isEndOfRow);
+                }
+                cursorTop++;
+            }
+            Console.WriteLine();
+        }
         public void DrawCell(bool isAlive, bool isEndOfRow)
         {
             if (isAlive)

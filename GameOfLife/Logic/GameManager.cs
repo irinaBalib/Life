@@ -118,7 +118,7 @@ namespace GameOfLife
            
             for (int i = 0; i < selectedFields.Count; i++)
             {
-                _fieldManager.PrintCells(selectedFields[i], i);
+                _application.PrintField(selectedFields[i], i);
             }
         }
         private void LoopFieldData()  
