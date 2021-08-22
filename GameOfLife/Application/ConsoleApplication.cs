@@ -2,6 +2,7 @@
 using GameOfLife.Constants;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GameOfLife
@@ -52,7 +53,11 @@ namespace GameOfLife
             Console.ResetColor();
             Console.SetCursorPosition(0, 3);
         }
-       
+
+        public void ClearScreen()
+        {
+            Console.Clear();
+        }
         public void ShowPreExitScreen()
         {
             Console.Clear();
@@ -62,27 +67,60 @@ namespace GameOfLife
             Console.WriteLine(TextMessages.NewGame);
         }
 
-        public void PrintField(IField field, int fieldIndex) //TODO: remove hardcoded values
+        public void PrintFields(List<IField> fields)
         {
-            int cursorLeft = 0;
-            int cursorTop = Console.CursorTop;
+            do
+            {
+                for (int row = 0; row < fields.Count / NumericData.ColumnCount; row++)
+                {
+                    for (int column = 0; column < NumericData.ColumnCount; column++)
+                    {
+                        var fieldHeight = fields.FirstOrDefault().Dimension;
+                        var cursorLeft = 0;
+                        var cursorTop = Console.CursorTop;
+                       
+                        if (column > 0)
+                        {
+                            cursorLeft = Console.WindowWidth / NumericData.ColumnCount * column;
+                            cursorTop = Console.CursorTop - fieldHeight;
+                        }
+                        if (row > 0)
+                        {
+                            cursorTop = Console.CursorTop + (fieldHeight * row);
+                        }
 
-            if (fieldIndex == 1 || fieldIndex == 5)
-            {
-                cursorLeft = Console.WindowWidth / 4;
-                cursorTop = Console.CursorTop - field.Dimension - 1;
-            }
-            if (fieldIndex == 2 || fieldIndex == 6)
-            {
-                cursorLeft = (Console.WindowWidth / 4) * 2;
-                cursorTop = Console.CursorTop - field.Dimension - 1;
+                        PrintField(fields[0], cursorTop, cursorLeft);
+                        fields.RemoveAt(0);
+                    }
+                    Console.WriteLine();
+                }   
+            } while (fields.Count>0);
+            
+        }
 
-            }
-            if (fieldIndex == 3 || fieldIndex == 7)
-            {
-                cursorLeft = (Console.WindowWidth / 4) * 3;
-                cursorTop = Console.CursorTop - field.Dimension - 1;
-            }
+        private void PrintField(IField field, int cursorTop, int cursorLeft) 
+        {
+            #region oldway
+            //int cursorLeft = 0;
+            //int cursorTop = Console.CursorTop;
+
+            //if (fieldIndex == 1 || fieldIndex == 5)
+            //{
+            //    cursorLeft = Console.WindowWidth / 4;
+            //    cursorTop = Console.CursorTop - field.Dimension - 1;
+            //}
+            //if (fieldIndex == 2 || fieldIndex == 6)
+            //{
+            //    cursorLeft = (Console.WindowWidth / 4) * 2;
+            //    cursorTop = Console.CursorTop - field.Dimension - 1;
+
+            //}
+            //if (fieldIndex == 3 || fieldIndex == 7)
+            //{
+            //    cursorLeft = (Console.WindowWidth / 4) * 3;
+            //    cursorTop = Console.CursorTop - field.Dimension - 1;
+            //}
+            #endregion
 
             for (int r = 0; r < field.Cells.GetLength(0); r++)
             {
@@ -90,44 +128,45 @@ namespace GameOfLife
 
                 for (int c = 0; c < field.Cells.GetLength(1); c++)
                 {
-                    bool isEndOfRow = c == field.Dimension - 1;
-                    DrawCell(field.Cells[r, c], isEndOfRow);
+                  // PrintCell(field.Cells[r, c]);
+
+                    if (field.Cells[r, c] == true)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkCyan;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write("[_]");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write("[_]");
+                        Console.ResetColor();
+                    }
                 }
+                Console.WriteLine();
                 cursorTop++;
             }
-            Console.WriteLine();
         }
-        public void DrawCell(bool isAlive, bool isEndOfRow)
-        {
-            if (isAlive)
-            {
-                Console.BackgroundColor = ConsoleColor.DarkCyan;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write("[_]");
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write("[_]");
-                Console.ResetColor();
-            }
-
-            if (isEndOfRow)
-            {
-                Console.WriteLine();
-            }
-        }
-
-        public void ClearScreen()
-        {
-            Console.Clear();
-        }
-        public void NextLine()
-        {
-            Console.WriteLine();
-        }
+        //private void PrintCell(bool isAlive)
+        //{
+        //    if (isAlive)
+        //    {
+        //        Console.BackgroundColor = ConsoleColor.DarkCyan;
+        //        Console.ForegroundColor = ConsoleColor.Black;
+        //        Console.Write("[_]");
+        //        Console.ResetColor();
+        //    }
+        //    else
+        //    {
+        //        Console.BackgroundColor = ConsoleColor.Gray;
+        //        Console.ForegroundColor = ConsoleColor.Black;
+        //        Console.Write("[_]");
+        //        Console.ResetColor();
+        //    }
+        //}
+        
         private void ClearLine()
         {
             Console.SetCursorPosition(0, Console.CursorTop);
