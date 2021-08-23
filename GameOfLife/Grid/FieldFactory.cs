@@ -25,11 +25,12 @@ namespace GameOfLife.Grid
             {
                 Dimension = size,
                 Generation = 0,
+                Index = 1,
                 Cells = new bool[size, size]
             };
             return field;
         }
-        private IField Create(int size, bool[,] cells, int generation)
+        private IField Create(int size, bool[,] cells, int generation) // TODO: add field Index to Save & Restore actions 
         {
             IField field = new SquareField()
             {

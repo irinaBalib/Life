@@ -22,7 +22,8 @@ namespace GameOfLife.Constants
        
         public const string Extinction = "xxxxxxxxxx  TOTAL EXTINCTION  xxxxxxxxxxxxxxxxxxxxxx ";
         public const string GameEnded = " ~~~~~~~~~~~     Game ended by the Player! ~~~~~~~~~~~";
-        public const string Paused = "**PAUSED** Press SPACEBAR to resume or F12 to save & exit";
+        public const string Paused = "**PAUSED**  SPACEBAR - resume  | F12 - save & exit";
+        public const string PausedForMultiple = Paused + " | F2 - change fields";
         public const string GameOver = "GAME OVER \n";
         public const string NewGame = "Press ENTER to start a new game";
 

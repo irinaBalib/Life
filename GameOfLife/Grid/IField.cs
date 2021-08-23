@@ -8,6 +8,7 @@ namespace GameOfLife
         bool[,] FutureCells { get; set; }
         int Generation { get; set; }
         int Dimension { get; set; }
+        int Index { get; set; }
 
     }
 }

@@ -86,7 +86,7 @@ namespace GameOfLife
                         }
                         if (row > 0)
                         {
-                            cursorTop = Console.CursorTop + (fieldHeight * row);
+                            cursorTop = Console.CursorTop + (fieldHeight * row)+1;
                         }
 
                         PrintField(fields[0], cursorTop, cursorLeft);
@@ -100,32 +100,13 @@ namespace GameOfLife
 
         private void PrintField(IField field, int cursorTop, int cursorLeft) 
         {
-            #region oldway
-            //int cursorLeft = 0;
-            //int cursorTop = Console.CursorTop;
-
-            //if (fieldIndex == 1 || fieldIndex == 5)
-            //{
-            //    cursorLeft = Console.WindowWidth / 4;
-            //    cursorTop = Console.CursorTop - field.Dimension - 1;
-            //}
-            //if (fieldIndex == 2 || fieldIndex == 6)
-            //{
-            //    cursorLeft = (Console.WindowWidth / 4) * 2;
-            //    cursorTop = Console.CursorTop - field.Dimension - 1;
-
-            //}
-            //if (fieldIndex == 3 || fieldIndex == 7)
-            //{
-            //    cursorLeft = (Console.WindowWidth / 4) * 3;
-            //    cursorTop = Console.CursorTop - field.Dimension - 1;
-            //}
-            #endregion
-
             for (int r = 0; r < field.Cells.GetLength(0); r++)
             {
                 Console.SetCursorPosition(cursorLeft, cursorTop);
-
+                if (r==0)
+                {
+                    Console.WriteLine("Field #{0}", field.Index); 
+                }
                 for (int c = 0; c < field.Cells.GetLength(1); c++)
                 {
                   // PrintCell(field.Cells[r, c]);  //do I need a separate method

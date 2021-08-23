@@ -73,6 +73,7 @@ namespace GameOfLife
                         for (int i = 0; i < NumericData.MultiFieldCount; i++)
                         {
                             listOfFields.Add(_factory.BuildRandomField(PlayerInput.FieldSize));
+                            listOfFields[i].Index = i+1;
                         }
                         break;
                     }
@@ -176,7 +177,7 @@ namespace GameOfLife
                         {
                             PauseGame();
 
-                            if (IsGameSaveRequested())
+                            if (GetActionWhilePaused())
                             {
                                 return true;
                             }
@@ -201,6 +202,10 @@ namespace GameOfLife
         private void PauseGame() 
         {
             ModifyInfoBar(TextMessages.Paused);
+            if (PlayerInput.StartOption == Option.Multiple)
+            {
+                ModifyInfoBar(TextMessages.PausedForMultiple);
+            }
         }
         private void RestoreGame() 
         {
@@ -227,7 +232,7 @@ namespace GameOfLife
         {
             _application.ShowFieldInfoBar(GetGeneration(), GetLiveCellCount(), GetLiveFieldCount(), message);
         }
-        private bool IsGameSaveRequested()
+        private bool GetActionWhilePaused()
         {
             KeyAction keyPressed;
             do

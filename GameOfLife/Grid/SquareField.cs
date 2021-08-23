@@ -12,6 +12,7 @@ namespace GameOfLife
         public bool[,] Cells { get; set; }
         public bool[,] FutureCells { get; set; }
         public int Generation { get; set; }
+        public int Index { get; set; }
     }
 
 }

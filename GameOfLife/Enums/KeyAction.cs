@@ -6,6 +6,6 @@ namespace GameOfLife.Enums
 {
     public enum KeyAction
     {
-        NoAction, Exit, PauseOnOff, SaveAndExit, Restart
+        NoAction, Exit, PauseOnOff, SaveAndExit, Restart, ChangeFieldSelection
     }
 }

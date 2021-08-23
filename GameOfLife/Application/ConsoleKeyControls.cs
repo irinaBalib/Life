@@ -29,6 +29,10 @@ namespace GameOfLife.Application
                     {
                         return KeyAction.SaveAndExit;
                     }
+                case ConsoleKey.F2:
+                    {
+                        return KeyAction.ChangeFieldSelection;
+                    }
                 case ConsoleKey.Enter:
                     {
                         return KeyAction.Restart;
