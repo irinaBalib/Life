@@ -80,5 +80,32 @@ namespace GameOfLife.Input
             }
             return (Option)optionIndex;
         }
+
+        public int GetValidatedIndex(List<int> indexes)
+        {
+            var inputIsValid = false;
+            var indexInput = 0;
+
+            while (!inputIsValid)
+            {
+                if (!int.TryParse(_application.ReadInput(), out indexInput))
+                {
+                    _application.ShowErrorMessage(TextMessages.InvalidInput);
+                }
+                else if (indexInput <= 0 || indexInput > NumericData.MultiFieldCount)
+                {
+                    _application.ShowErrorMessage(TextMessages.OutOfRange);
+                }
+                else if (indexes.Contains(indexInput))
+                {
+                    _application.ShowErrorMessage(TextMessages.Duplicate);
+                }
+                else
+                {
+                    inputIsValid = true;
+                }
+            }
+            return indexInput;
+        }
     }
 }

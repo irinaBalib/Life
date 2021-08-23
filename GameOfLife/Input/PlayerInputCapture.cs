@@ -48,6 +48,21 @@ namespace GameOfLife.Input
             }
             return playerInput;
         }
+
+        public List<int> GetPlayersFieldSelection()
+        {
+            List<int> indexes = new List<int>();
+            _application.WriteText(TextMessages.AskFields);
+
+            for (int i = 1; i <= NumericData.MultiFieldPrint; i++)
+            {
+                _application.Write(i + ": ");
+                int input = _validator.GetValidatedIndex(indexes);
+                indexes.Add(input);
+
+            }
+            return indexes;
+        }
         private string AskStartOption()
         {
             string output = "Please choose game field set up: ";

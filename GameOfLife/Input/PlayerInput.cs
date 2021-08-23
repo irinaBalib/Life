@@ -10,5 +10,6 @@ namespace GameOfLife.Input
         public string PlayerName { get; set; }
         public int FieldSize { get; set; }
         public Option StartOption { get; set; }
+        //public List<int> FieldsSelection { get; set; }
     }
 }

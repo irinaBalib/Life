@@ -16,6 +16,7 @@ namespace GameOfLife
     {
         private PlayerInput PlayerInput;
         private List<IField> listOfFields;
+        private List<IField> selectedFields;
        IFieldManager _fieldManager;
         IFieldFactory _factory;
         IPlayerInputCapture _inputCapture;
@@ -70,12 +71,13 @@ namespace GameOfLife
                     }
                 case Option.Multiple:
                     {
-                        for (int i = 0; i < NumericData.MultiFieldCount; i++)
+                        for (int i = 0; i <= NumericData.MultiFieldCount; i++)
                         {
                             listOfFields.Add(_factory.BuildRandomField(PlayerInput.FieldSize));
                             listOfFields[i].Index = i+1;
                         }
-                        break;
+                        selectedFields = new List<IField>();
+                       break;
                     }
                 case Option.Restore:
                     {
@@ -104,21 +106,32 @@ namespace GameOfLife
         {
             LoopFieldData();
 
-            if (listOfFields.Count()>1)
+            if (listOfFields.Count > 1)
             {
-                PrintSelectedFields(NumericData.MultiFieldPrint);
+                if (selectedFields.Count == 0)
+                {
+                    selectedFields = listOfFields.GetRange(0, NumericData.MultiFieldPrint); // by default - printing top 8 fields
+                }
+                _application.PrintFields(selectedFields);
             }
             else
             {
-                PrintSelectedFields();
+                _application.PrintFields(listOfFields);
             }
         }
-        private void PrintSelectedFields(int fieldCount=1) 
+        private void ChangePrintedFields()
         {
-            List<IField> selectedFields = listOfFields.GetRange(0,fieldCount);  // TODO: choosing which fields to print
-
-            _application.PrintFields(selectedFields);
-
+            _application.ClearScreen();
+            selectedFields.Clear();
+            List<int> fieldIndexes = _inputCapture.GetPlayersFieldSelection();
+            foreach (int index in fieldIndexes)
+            {
+                IField field = listOfFields.FirstOrDefault(field => field.Index == index);
+                if (field != null)
+                {
+                    selectedFields.Add(field); 
+                }
+            }
         }
         private void LoopFieldData()  
         {
@@ -177,10 +190,21 @@ namespace GameOfLife
                         {
                             PauseGame();
 
-                            if (GetActionWhilePaused())
+                            KeyAction keyWhilePaused = GetActionWhilePaused();
+                            switch (keyWhilePaused)
                             {
-                                return true;
+                                case KeyAction.SaveAndExit:
+                                    {
+                                        SaveGame();
+                                        return true;
+                                    }
+                                case KeyAction.ChangeFieldSelection:
+                                    {
+                                        ChangePrintedFields();
+                                        return false;
+                                    }
                             }
+                            
                             return false;
                         }
                     default:
@@ -232,21 +256,22 @@ namespace GameOfLife
         {
             _application.ShowFieldInfoBar(GetGeneration(), GetLiveCellCount(), GetLiveFieldCount(), message);
         }
-        private bool GetActionWhilePaused()
+        private KeyAction GetActionWhilePaused()
         {
             KeyAction keyPressed;
             do
             {
                 keyPressed = _keyControls.GetKeyAction();
 
-            } while (keyPressed != KeyAction.SaveAndExit && keyPressed != KeyAction.PauseOnOff);
+            } while (keyPressed != KeyAction.SaveAndExit && keyPressed != KeyAction.PauseOnOff && keyPressed != KeyAction.ChangeFieldSelection);
 
-            if (keyPressed == KeyAction.SaveAndExit)
-            {
-                SaveGame();
-                return true;
-            }
-            return false;
+            return keyPressed;
+            //if (keyPressed == KeyAction.SaveAndExit)
+            //{
+            //    SaveGame();
+            //    return true;
+            //}
+            //return false;
         }
        
     }

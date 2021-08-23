@@ -42,9 +42,6 @@ namespace GameOfLife.Application
                         return KeyAction.NoAction;
                     }
             }
-
-
-
         }
     }
 }

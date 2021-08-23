@@ -8,6 +8,7 @@ namespace GameOfLife.Input
     {
         int ValidateDimension();
         string ValidateName();
-        Option ValidateOption(/*string playerName*/ List<Option> listOfAvailableOptions);
+        Option ValidateOption(List<Option> listOfAvailableOptions);
+        int GetValidatedIndex(List<int> indexes);
     }
 }

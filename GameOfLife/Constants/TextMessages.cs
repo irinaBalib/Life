@@ -11,11 +11,12 @@ namespace GameOfLife.Constants
                 "PLAYER'S SETUP\n";
         public const string AskName = "Player's name: ";
         public static string AskFieldSize = "Please input the size of the field (" + NumericData.FieldMinSize +" - "+ NumericData.FieldMaxSize + " cells): ";
-        
+        public const string AskFields = "Please input indexes of fields to display: ";
         public const string BlankName = "Name is required!";
         public static string LongName = "Name length can not be more than " + NumericData.NameMaxLength + " symbols!";
         public const string InvalidInput = "Invalid input!";
-        public const string OutOfRange = "Size is out of range!";
+        public const string Duplicate = "Duplicate value!";
+        public const string OutOfRange = "Value is out of range!";
         public const string NoSavedGames = "No saved games found for this Player!";
 
         public const string InfoBar1Line = "|Controls|  ESC - exit  | SPACEBAR - pause |";

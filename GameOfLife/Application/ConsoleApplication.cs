@@ -15,6 +15,10 @@ namespace GameOfLife
             Console.WriteLine(text);
         }
 
+        public void Write(string text)
+        {
+            Console.Write(text);
+        }
         public string ReadInput()
         {
             return Console.ReadLine();

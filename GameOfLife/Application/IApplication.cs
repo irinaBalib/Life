@@ -5,6 +5,7 @@ namespace GameOfLife
     public interface IApplication
     {
         void WriteText(string text);
+        void Write(string text);
         string ReadInput();
         void ShowErrorMessage(string message);
         void PrintFields(List<IField> fields);
