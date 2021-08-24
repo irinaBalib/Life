@@ -71,13 +71,13 @@ namespace GameOfLife
                     }
                 case Option.Multiple:
                     {
-                        for (int i = 0; i <= NumericData.MultiFieldCount; i++)
+                        for (int i = 0; i < NumericData.MultiFieldCount; i++)
                         {
                             listOfFields.Add(_factory.BuildRandomField(PlayerInput.FieldSize));
                             listOfFields[i].Index = i+1;
                         }
-                        selectedFields = new List<IField>();
-                       break;
+                        selectedFields = listOfFields.Where(f => f.Index > 0 && f.Index <= NumericData.MultiFieldPrint).ToList(); 
+                        break;   // by default - printing first 8 fields
                     }
                 case Option.Restore:
                     {
@@ -108,10 +108,6 @@ namespace GameOfLife
 
             if (listOfFields.Count > 1)
             {
-                if (selectedFields.Count == 0)
-                {
-                    selectedFields = listOfFields.GetRange(0, NumericData.MultiFieldPrint); // by default - printing top 8 fields
-                }
                 _application.PrintFields(selectedFields);
             }
             else

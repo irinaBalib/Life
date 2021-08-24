@@ -56,10 +56,8 @@ namespace GameOfLife.Input
 
             for (int i = 1; i <= NumericData.MultiFieldPrint; i++)
             {
-                _application.Write(i + ": ");
-                int input = _validator.GetValidatedIndex(indexes);
+                int input = _validator.GetValidatedIndex(indexes, i);
                 indexes.Add(input);
-
             }
             return indexes;
         }

@@ -81,13 +81,14 @@ namespace GameOfLife.Input
             return (Option)optionIndex;
         }
 
-        public int GetValidatedIndex(List<int> indexes)
+        public int GetValidatedIndex(List<int> indexes, int i)
         {
             var inputIsValid = false;
             var indexInput = 0;
 
             while (!inputIsValid)
             {
+                _application.Write(i + ": ");
                 if (!int.TryParse(_application.ReadInput(), out indexInput))
                 {
                     _application.ShowErrorMessage(TextMessages.InvalidInput);

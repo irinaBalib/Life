@@ -17,6 +17,7 @@ namespace GameOfLife
 
         public void Write(string text)
         {
+            ClearLine();
             Console.Write(text);
         }
         public string ReadInput()
@@ -73,13 +74,16 @@ namespace GameOfLife
 
         public void PrintFields(List<IField> fields)
         {
+            List<IField> fieldsTemp = new List<IField>();
+            fields.ForEach(field => fieldsTemp.Add(field));
+            
             do
             {
-                for (int row = 0; row < fields.Count / NumericData.ColumnCount; row++)
+                for (int row = 0; row < fieldsTemp.Count / NumericData.ColumnCount; row++)
                 {
                     for (int column = 0; column < NumericData.ColumnCount; column++)
                     {
-                        var fieldHeight = fields.FirstOrDefault().Dimension;
+                        var fieldHeight = fieldsTemp.FirstOrDefault().Dimension;
                         var cursorLeft = 0;
                         var cursorTop = Console.CursorTop;
                        
@@ -93,12 +97,12 @@ namespace GameOfLife
                             cursorTop = Console.CursorTop + (fieldHeight * row)+1;
                         }
 
-                        PrintField(fields[0], cursorTop, cursorLeft);
-                        fields.RemoveAt(0);
+                        PrintField(fieldsTemp[0], cursorTop, cursorLeft);
+                        fieldsTemp.RemoveAt(0);
                     }
                     Console.WriteLine();
                 }   
-            } while (fields.Count>0);
+            } while (fieldsTemp.Count>0);
             
         }
 
