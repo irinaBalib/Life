@@ -81,7 +81,7 @@ namespace GameOfLife.SaveGame
 
             foreach (IField field in fields)
             {
-                ListOfFieldDTO.Add(new FieldDTO { Cells = field.Cells, Index = field.Index });
+                ListOfFieldDTO.Add(new FieldDTO { Cells = field.Cells, Index = field.Index, IsPrinted = field.IsPrinted });
             }
 
             GameDTO gameDTO = new GameDTO();
@@ -96,7 +96,13 @@ namespace GameOfLife.SaveGame
             List<IField> restoredFields = new List<IField>();
             foreach (var fieldDTO in gameDTO.FieldDTOs)
             {
-                restoredFields.Add(new SquareField { Cells = fieldDTO.Cells, Index = fieldDTO.Index, Generation = gameDTO.Generation, Dimension = gameDTO.Dimension, FutureCells = new bool[gameDTO.Dimension, gameDTO.Dimension] });
+                restoredFields.Add(new SquareField { 
+                    Cells = fieldDTO.Cells, 
+                    Index = fieldDTO.Index, 
+                    IsPrinted = fieldDTO.IsPrinted, 
+                    Generation = gameDTO.Generation, 
+                    Dimension = gameDTO.Dimension, 
+                    FutureCells = new bool[gameDTO.Dimension, gameDTO.Dimension] });
             }
 
             return restoredFields;

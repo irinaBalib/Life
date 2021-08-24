@@ -21,11 +21,12 @@ namespace GameOfLife.Grid
         }
         private IField Create(int size)
         {
-            IField field = new SquareField() 
+            IField field = new SquareField()
             {
                 Dimension = size,
                 Generation = 0,
                 Index = 1,
+                IsPrinted = true,
                 Cells = new bool[size, size]
             };
             return field;

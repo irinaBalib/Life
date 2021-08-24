@@ -8,5 +8,6 @@ namespace GameOfLife.SaveGame
     {
         public bool[,] Cells { get; set; }
         public int Index { get; set; }
+        public bool IsPrinted { get; set; }
     }
 }

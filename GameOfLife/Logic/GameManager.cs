@@ -16,7 +16,7 @@ namespace GameOfLife
     {
         private PlayerInput PlayerInput;
         private List<IField> listOfFields;
-        private List<IField> selectedFields;
+        private List<IField> printedFields;
        IFieldManager _fieldManager;
         IFieldFactory _factory;
         IPlayerInputCapture _inputCapture;
@@ -75,18 +75,21 @@ namespace GameOfLife
                         {
                             listOfFields.Add(_factory.BuildRandomField(PlayerInput.FieldSize));
                             listOfFields[i].Index = i+1;
+                            if (listOfFields.Where(field => field.IsPrinted == true).ToList().Count > NumericData.MultiFieldPrint)
+                            {
+                                listOfFields[i].IsPrinted = false; // by default - printing first N fields
+                            }
                         }
-                        selectedFields = listOfFields.Where(f => f.Index > 0 && f.Index <= NumericData.MultiFieldPrint).ToList(); 
-                        break;   // by default - printing first 8 fields
+                        break;   
                     }
                 case Option.Restore:
                     {
                         RestoreGame();
-                        selectedFields = listOfFields.Where(f => f.Index > 0 && f.Index <= NumericData.MultiFieldPrint).ToList();
                         break;
                     }
+
             }
-           
+            printedFields = listOfFields.Where(field => field.IsPrinted == true).ToList();
         }
         private void ShiftGenerations()
         {
@@ -107,28 +110,23 @@ namespace GameOfLife
         {
             //LoopFieldData();
 
-            if (listOfFields.Count > 1)
-            {
-                _application.PrintFields(selectedFields);
-            }
-            else
-            {
-                _application.PrintFields(listOfFields);
-            }
-
+            _application.PrintFields(printedFields);
             LoopFieldData();  // First print init state, then loop&update
         }
         private void ChangePrintedFields()
         {
             _application.ClearScreen();
-            selectedFields.Clear();
+            printedFields.ForEach(field => field.IsPrinted = false);
+            printedFields.Clear();
             List<int> fieldIndexes = _inputCapture.GetPlayersFieldSelection();
+
             foreach (int index in fieldIndexes)
             {
                 IField field = listOfFields.FirstOrDefault(field => field.Index == index);
                 if (field != null)
                 {
-                    selectedFields.Add(field); 
+                    field.IsPrinted = true;
+                    printedFields.Add(field); 
                 }
             }
         }
@@ -269,7 +267,7 @@ namespace GameOfLife
 
             } while (keyPressed != KeyAction.SaveAndExit 
             && keyPressed != KeyAction.PauseOnOff 
-            && (listOfFields.Count == 1 && keyPressed == KeyAction.ChangeFieldSelection) );
+            && (listOfFields.Count == 1 && keyPressed == KeyAction.ChangeFieldSelection));
 
             return keyPressed;
           
