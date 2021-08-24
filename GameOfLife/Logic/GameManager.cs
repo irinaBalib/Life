@@ -82,6 +82,7 @@ namespace GameOfLife
                 case Option.Restore:
                     {
                         RestoreGame();
+                        selectedFields = listOfFields.Where(f => f.Index > 0 && f.Index <= NumericData.MultiFieldPrint).ToList();
                         break;
                     }
             }
@@ -229,7 +230,7 @@ namespace GameOfLife
         private void PauseGame() 
         {
             ModifyInfoBar(TextMessages.Paused);
-            if (PlayerInput.StartOption == Option.Multiple)
+            if (listOfFields.Count > 1)
             {
                 ModifyInfoBar(TextMessages.PausedForMultiple);
             }
@@ -268,7 +269,7 @@ namespace GameOfLife
 
             } while (keyPressed != KeyAction.SaveAndExit 
             && keyPressed != KeyAction.PauseOnOff 
-            && (PlayerInput.StartOption != Option.Multiple && keyPressed == KeyAction.ChangeFieldSelection) );
+            && (listOfFields.Count == 1 && keyPressed == KeyAction.ChangeFieldSelection) );
 
             return keyPressed;
           

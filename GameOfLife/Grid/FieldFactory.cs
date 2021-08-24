@@ -30,16 +30,16 @@ namespace GameOfLife.Grid
             };
             return field;
         }
-        private IField Create(int size, bool[,] cells, int generation) // TODO: add field Index to Save & Restore actions 
-        {
-            IField field = new SquareField()
-            {
-                Dimension = size,
-                Generation = generation,
-                Cells = cells
-            };
-           return field;
-        }
+        //private IField Create(int size, bool[,] cells, int generation) 
+        //{
+        //    IField field = new SquareField()
+        //    {
+        //        Dimension = size,
+        //        Generation = generation,
+        //        Cells = cells
+        //    };
+        //   return field;
+        //}
         private void FillRandomly(IField field)
         {
             var random = new Random();

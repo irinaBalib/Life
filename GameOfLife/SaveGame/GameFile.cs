@@ -16,6 +16,7 @@ namespace GameOfLife.SaveGame
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
+        
         public void Save(string playername, List<IField> fields)
         {
             string filePath = $"{GetDirectoryPath()}{playername}.json";
@@ -76,15 +77,15 @@ namespace GameOfLife.SaveGame
         }
         private GameDTO ConvertFieldToDTO (List<IField> fields)
         {
-            List<FieldDTO> fieldDTOs = new List<FieldDTO>(); 
+            List<FieldDTO> ListOfFieldDTO = new List<FieldDTO>(); 
 
             foreach (IField field in fields)
             {
-                fieldDTOs.Add(new FieldDTO { Cells = field.Cells });
+                ListOfFieldDTO.Add(new FieldDTO { Cells = field.Cells, Index = field.Index });
             }
 
             GameDTO gameDTO = new GameDTO();
-            gameDTO.FieldDTOs = fieldDTOs;
+            gameDTO.FieldDTOs = ListOfFieldDTO;
             gameDTO.Dimension = fields.FirstOrDefault().Dimension;
             gameDTO.Generation = fields.FirstOrDefault().Generation;
             
@@ -95,7 +96,7 @@ namespace GameOfLife.SaveGame
             List<IField> restoredFields = new List<IField>();
             foreach (var fieldDTO in gameDTO.FieldDTOs)
             {
-                restoredFields.Add(new SquareField { Cells = fieldDTO.Cells, Generation = gameDTO.Generation, Dimension = gameDTO.Dimension, FutureCells = new bool[gameDTO.Dimension, gameDTO.Dimension] });
+                restoredFields.Add(new SquareField { Cells = fieldDTO.Cells, Index = fieldDTO.Index, Generation = gameDTO.Generation, Dimension = gameDTO.Dimension, FutureCells = new bool[gameDTO.Dimension, gameDTO.Dimension] });
             }
 
             return restoredFields;
