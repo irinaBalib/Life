@@ -6,6 +6,7 @@ namespace GameOfLife
     {
         void WriteText(string text);
         void Write(string text);
+        void Rewrite(string text);
         string ReadInput();
         void ShowErrorMessage(string message);
         void PrintFields(List<IField> fields);

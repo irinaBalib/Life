@@ -12,7 +12,7 @@ namespace GameOfLife.Constants
 
         public const int MultiFieldCount = 100;
         public const int MultiFieldSize = 10;
-        public const int MultiFieldPrint = 8;
+        public const int MultiFieldPrint = 6;
         public const int ColumnCount = 4;
     }
 }

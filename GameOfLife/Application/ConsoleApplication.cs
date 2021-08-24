@@ -17,6 +17,11 @@ namespace GameOfLife
 
         public void Write(string text)
         {
+            Console.Write(text);
+        }
+
+        public void Rewrite(string text)
+        {
             ClearLine();
             Console.Write(text);
         }
@@ -76,45 +81,51 @@ namespace GameOfLife
         {
             List<IField> fieldsTemp = new List<IField>();
             fields.ForEach(field => fieldsTemp.Add(field));
-            
-            do
+
+            var fieldHeight = fieldsTemp.FirstOrDefault().Dimension;
+            var columnCount = NumericData.ColumnCount;
+            var rowCount = fieldsTemp.Count / NumericData.ColumnCount; 
+            if (fieldsTemp.Count % NumericData.ColumnCount > 0)
             {
-                for (int row = 0; row < fieldsTemp.Count / NumericData.ColumnCount; row++)
+                rowCount++;
+            }
+
+                for (int row = 0; row < rowCount; row++)
                 {
-                    for (int column = 0; column < NumericData.ColumnCount; column++)
+                    for (int column = 0; column < columnCount; column++)
                     {
-                        var fieldHeight = fieldsTemp.FirstOrDefault().Dimension;
                         var cursorLeft = 0;
                         var cursorTop = Console.CursorTop;
                        
                         if (column > 0)
                         {
                             cursorLeft = Console.WindowWidth / NumericData.ColumnCount * column;
-                            cursorTop = Console.CursorTop - fieldHeight;
-                        }
-                        if (row > 0)
-                        {
-                            cursorTop = Console.CursorTop + (fieldHeight * row)+1;
+                            cursorTop = Console.CursorTop - fieldHeight - 1;
                         }
 
                         PrintField(fieldsTemp[0], cursorTop, cursorLeft);
                         fieldsTemp.RemoveAt(0);
-                    }
-                    Console.WriteLine();
-                }   
-            } while (fieldsTemp.Count>0);
-            
-        }
 
+                        if (fieldsTemp.Count == 0)
+                        {
+                            columnCount = column;
+                            break;
+                        }
+                    }
+                    Console.WriteLine();  
+                }
+        }
         private void PrintField(IField field, int cursorTop, int cursorLeft) 
         {
+            Console.SetCursorPosition(cursorLeft, cursorTop);
+            
+            Console.WriteLine("Field #{0}", field.Index);
+            cursorTop++;
+            
             for (int r = 0; r < field.Cells.GetLength(0); r++)
             {
                 Console.SetCursorPosition(cursorLeft, cursorTop);
-                if (r==0)
-                {
-                    Console.WriteLine("Field #{0}", field.Index); 
-                }
+                
                 for (int c = 0; c < field.Cells.GetLength(1); c++)
                 {
                   // PrintCell(field.Cells[r, c]);  //do I need a separate method
@@ -134,8 +145,8 @@ namespace GameOfLife
                         Console.ResetColor();
                     }
                 }
-                Console.WriteLine();
                 cursorTop++;
+               Console.WriteLine();
             }
         }
         //private void PrintCell(bool isAlive)

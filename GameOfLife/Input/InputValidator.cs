@@ -88,7 +88,7 @@ namespace GameOfLife.Input
 
             while (!inputIsValid)
             {
-                _application.Write(i + ": ");
+                 _application.Rewrite(i + ": ");
                 if (!int.TryParse(_application.ReadInput(), out indexInput))
                 {
                     _application.ShowErrorMessage(TextMessages.InvalidInput);

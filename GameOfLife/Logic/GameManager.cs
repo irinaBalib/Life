@@ -104,7 +104,7 @@ namespace GameOfLife
 
         private void RunGameField()
         {
-            LoopFieldData();
+            //LoopFieldData();
 
             if (listOfFields.Count > 1)
             {
@@ -114,6 +114,8 @@ namespace GameOfLife
             {
                 _application.PrintFields(listOfFields);
             }
+
+            LoopFieldData();  // First print init state, then loop&update
         }
         private void ChangePrintedFields()
         {
@@ -133,7 +135,12 @@ namespace GameOfLife
         {
             Parallel.ForEach(listOfFields, field =>
             {
-                _fieldManager.CheckCellsForSurvival(field);
+                _fieldManager.CheckCellsForSurvival(field); //TODO: ? executes 2  methods simultaneously?
+               // _fieldManager.UpdateFieldData(field);
+            });
+            Parallel.ForEach(listOfFields, field =>
+            {
+              //  _fieldManager.CheckCellsForSurvival(field);
                 _fieldManager.UpdateFieldData(field);
             });
         }
@@ -259,15 +266,12 @@ namespace GameOfLife
             {
                 keyPressed = _keyControls.GetKeyAction();
 
-            } while (keyPressed != KeyAction.SaveAndExit && keyPressed != KeyAction.PauseOnOff && keyPressed != KeyAction.ChangeFieldSelection);
+            } while (keyPressed != KeyAction.SaveAndExit 
+            && keyPressed != KeyAction.PauseOnOff 
+            && (PlayerInput.StartOption != Option.Multiple && keyPressed == KeyAction.ChangeFieldSelection) );
 
             return keyPressed;
-            //if (keyPressed == KeyAction.SaveAndExit)
-            //{
-            //    SaveGame();
-            //    return true;
-            //}
-            //return false;
+          
         }
        
     }
