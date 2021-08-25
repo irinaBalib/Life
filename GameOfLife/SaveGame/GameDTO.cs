@@ -9,5 +9,6 @@ namespace GameOfLife.SaveGame
         public int Generation { get; set; }
         public int Dimension { get; set; }
         public List<FieldDTO> FieldDTOs {get;set;}
+        public List<int> PrintedFieldIndexes { get; set; }
     }
 }

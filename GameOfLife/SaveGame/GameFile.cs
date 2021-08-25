@@ -17,11 +17,11 @@ namespace GameOfLife.SaveGame
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
         
-        public void Save(string playername, List<IField> fields)
+        public void Save(string playername, List<IField> fields, List<int> printedFieldIndexes)
         {
             string filePath = $"{GetDirectoryPath()}{playername}.json";
 
-            var DTO = ConvertFieldToDTO(fields);
+            GameDTO DTO = ConvertFieldToDTO(fields, printedFieldIndexes);
 
             string jsonString = JsonConvert.SerializeObject(DTO); 
 
@@ -38,7 +38,7 @@ namespace GameOfLife.SaveGame
             }
         }
         
-        public List<IField> Restore(string playername)
+        public (List<IField>, List<int>) Restore(string playername)
         {
            string filePath = $"{GetDirectoryPath()}{playername}.json";
             GameDTO gameDTO = new GameDTO();
@@ -55,8 +55,9 @@ namespace GameOfLife.SaveGame
                     _application.WriteText(e.Message);
                 }
 
-            List<IField> restoredFields = ConvertDtoToField(gameDTO);
-        return restoredFields;
+            List<IField> restoredFields = ConvertDtoToField(gameDTO); 
+            
+        return (restoredFields, gameDTO.PrintedFieldIndexes);
         }
 
         public bool DataExists(string playername)
@@ -75,19 +76,20 @@ namespace GameOfLife.SaveGame
             }
             return path;
         }
-        private GameDTO ConvertFieldToDTO (List<IField> fields)
+        private GameDTO ConvertFieldToDTO (List<IField> fields, List<int> printedFieldIndexes)
         {
             List<FieldDTO> ListOfFieldDTO = new List<FieldDTO>(); 
 
             foreach (IField field in fields)
             {
-                ListOfFieldDTO.Add(new FieldDTO { Cells = field.Cells, Index = field.Index, IsPrinted = field.IsPrinted });
+                ListOfFieldDTO.Add(new FieldDTO { Cells = field.Cells, Index = field.Index});
             }
 
             GameDTO gameDTO = new GameDTO();
             gameDTO.FieldDTOs = ListOfFieldDTO;
             gameDTO.Dimension = fields.FirstOrDefault().Dimension;
             gameDTO.Generation = fields.FirstOrDefault().Generation;
+            gameDTO.PrintedFieldIndexes = printedFieldIndexes;
             
             return gameDTO;
         }
@@ -98,13 +100,12 @@ namespace GameOfLife.SaveGame
             {
                 restoredFields.Add(new SquareField { 
                     Cells = fieldDTO.Cells, 
-                    Index = fieldDTO.Index, 
-                    IsPrinted = fieldDTO.IsPrinted, 
+                    Index = fieldDTO.Index,
                     Generation = gameDTO.Generation, 
                     Dimension = gameDTO.Dimension, 
                     FutureCells = new bool[gameDTO.Dimension, gameDTO.Dimension] });
             }
-
+            
             return restoredFields;
         }
     }

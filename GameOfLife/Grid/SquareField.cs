@@ -13,7 +13,6 @@ namespace GameOfLife
         public bool[,] FutureCells { get; set; }
         public int Generation { get; set; }
         public int Index { get; set; }
-        public bool IsPrinted { get; set; }
     }
 
 }

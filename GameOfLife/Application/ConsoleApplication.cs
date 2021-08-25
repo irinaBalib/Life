@@ -77,15 +77,15 @@ namespace GameOfLife
             Console.WriteLine(TextMessages.NewGame);
         }
 
-        public void PrintFields(List<IField> fields)
+        public void PrintFields(List<IField> fieldsToPrint)
         {
-            List<IField> fieldsTemp = new List<IField>();
-            fields.ForEach(field => fieldsTemp.Add(field));
+            List<IField> fieldsTemp = new List<IField>();    // TODO: to improve
+            fieldsToPrint.ForEach(field => fieldsTemp.Add(field));
 
             var fieldHeight = fieldsTemp.FirstOrDefault().Dimension;
             var columnCount = NumericData.ColumnCount;
             var rowCount = fieldsTemp.Count / NumericData.ColumnCount; 
-            if (fieldsTemp.Count % NumericData.ColumnCount > 0)
+            if (fieldsTemp.Count % NumericData.ColumnCount > 0) // for 1field, or for fields qty not fully dividable to columns 
             {
                 rowCount++;
             }

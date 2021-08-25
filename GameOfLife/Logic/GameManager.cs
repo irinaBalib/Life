@@ -62,6 +62,7 @@ namespace GameOfLife
                 case Option.Random:
                     {
                         listOfFields.Add(_factory.BuildRandomField(PlayerInput.FieldSize));
+                        printedFields = listOfFields;
                         break;
                     }
                 case Option.Preset:
@@ -75,11 +76,8 @@ namespace GameOfLife
                         {
                             listOfFields.Add(_factory.BuildRandomField(PlayerInput.FieldSize));
                             listOfFields[i].Index = i+1;
-                            if (listOfFields.Where(field => field.IsPrinted == true).ToList().Count > NumericData.MultiFieldPrint)
-                            {
-                                listOfFields[i].IsPrinted = false; // by default - printing first N fields
-                            }
                         }
+                        SetPrintedFields();
                         break;   
                     }
                 case Option.Restore:
@@ -87,9 +85,8 @@ namespace GameOfLife
                         RestoreGame();
                         break;
                     }
-
             }
-            printedFields = listOfFields.Where(field => field.IsPrinted == true).ToList();
+            
         }
         private void ShiftGenerations()
         {
@@ -108,38 +105,50 @@ namespace GameOfLife
 
         private void RunGameField()
         {
-            //LoopFieldData();
-
-            _application.PrintFields(printedFields);
-            LoopFieldData();  // First print init state, then loop&update
+            if (printedFields.Count == 1)
+            {
+                _application.PrintFields(listOfFields);
+            }
+            else
+            {
+                _application.PrintFields(printedFields);
+            }
+           
+            LoopFieldData(); 
+        }
+        private void SetPrintedFields()
+        {
+            printedFields = listOfFields.Where(f => f.Index > 0 && f.Index <= NumericData.PrintedFieldCount).ToList();
         }
         private void ChangePrintedFields()
         {
             _application.ClearScreen();
-            printedFields.ForEach(field => field.IsPrinted = false);
+         
             printedFields.Clear();
             List<int> fieldIndexes = _inputCapture.GetPlayersFieldSelection();
+            SetPrintedListByFieldIndexes(fieldIndexes);
 
-            foreach (int index in fieldIndexes)
-            {
-                IField field = listOfFields.FirstOrDefault(field => field.Index == index);
-                if (field != null)
-                {
-                    field.IsPrinted = true;
-                    printedFields.Add(field); 
-                }
-            }
+            _application.ClearScreen();
+        }
+
+        private void SetPrintedListByFieldIndexes(List<int> indexes)
+        {
+            printedFields = listOfFields.Where(f => indexes.Contains(f.Index)).ToList();
+           
+            //foreach (int index in indexes)
+            //{
+            //    IField field = listOfFields.FirstOrDefault(field => field.Index == index);
+            //    if (field != null)
+            //    {
+            //        printedFields.Add(field);
+            //    }
+            //}
         }
         private void LoopFieldData()  
         {
             Parallel.ForEach(listOfFields, field =>
             {
-                _fieldManager.CheckCellsForSurvival(field); //TODO: ? executes 2  methods simultaneously?
-               // _fieldManager.UpdateFieldData(field);
-            });
-            Parallel.ForEach(listOfFields, field =>
-            {
-              //  _fieldManager.CheckCellsForSurvival(field);
+                _fieldManager.CheckCellsForSurvival(field); 
                 _fieldManager.UpdateFieldData(field);
             });
         }
@@ -235,11 +244,14 @@ namespace GameOfLife
         }
         private void RestoreGame() 
         {
-            listOfFields = _dataStorage.Restore(PlayerInput.PlayerName);
+          var tuple = _dataStorage.Restore(PlayerInput.PlayerName);
+            listOfFields = tuple.Item1;
+            SetPrintedListByFieldIndexes(tuple.Item2);
         }
         private void SaveGame()
         {
-            _dataStorage.Save(PlayerInput.PlayerName, listOfFields);
+            List<int> printedFieldIndexes = printedFields.Select(field => field.Index).ToList();
+            _dataStorage.Save(PlayerInput.PlayerName, listOfFields, printedFieldIndexes);
             
             ModifyInfoBar($" Game for Player {PlayerInput.PlayerName} saved. ");
             Thread.Sleep(2000);
@@ -270,7 +282,6 @@ namespace GameOfLife
             && (listOfFields.Count == 1 && keyPressed == KeyAction.ChangeFieldSelection));
 
             return keyPressed;
-          
         }
        
     }

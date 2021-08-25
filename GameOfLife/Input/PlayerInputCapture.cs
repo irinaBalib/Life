@@ -54,7 +54,7 @@ namespace GameOfLife.Input
             List<int> indexes = new List<int>();
             _application.WriteText(TextMessages.AskFields);
 
-            for (int i = 1; i <= NumericData.MultiFieldPrint; i++)
+            for (int i = 1; i <= NumericData.PrintedFieldCount; i++)
             {
                 int input = _validator.GetValidatedIndex(indexes, i);
                 indexes.Add(input);

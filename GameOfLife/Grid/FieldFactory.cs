@@ -26,21 +26,10 @@ namespace GameOfLife.Grid
                 Dimension = size,
                 Generation = 0,
                 Index = 1,
-                IsPrinted = true,
                 Cells = new bool[size, size]
             };
             return field;
         }
-        //private IField Create(int size, bool[,] cells, int generation) 
-        //{
-        //    IField field = new SquareField()
-        //    {
-        //        Dimension = size,
-        //        Generation = generation,
-        //        Cells = cells
-        //    };
-        //   return field;
-        //}
         private void FillRandomly(IField field)
         {
             var random = new Random();
