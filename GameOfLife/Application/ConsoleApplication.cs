@@ -85,7 +85,7 @@ namespace GameOfLife
             var fieldHeight = fieldsTemp.FirstOrDefault().Dimension;
             var columnCount = NumericData.ColumnCount;
             var rowCount = fieldsTemp.Count / NumericData.ColumnCount; 
-            if (fieldsTemp.Count % NumericData.ColumnCount > 0) // for 1field, or for fields qty not fully dividable to columns 
+            if (fieldsTemp.Count % NumericData.ColumnCount > 0) 
             {
                 rowCount++;
             }

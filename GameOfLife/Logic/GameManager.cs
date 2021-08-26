@@ -135,14 +135,7 @@ namespace GameOfLife
         {
             printedFields = listOfFields.Where(f => indexes.Contains(f.Index)).ToList();
            
-            //foreach (int index in indexes)
-            //{
-            //    IField field = listOfFields.FirstOrDefault(field => field.Index == index);
-            //    if (field != null)
-            //    {
-            //        printedFields.Add(field);
-            //    }
-            //}
+            
         }
         private void LoopFieldData()  
         {
