@@ -16,7 +16,7 @@ namespace GameOfLife.Input
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
-        public string ValidateName()
+        public string GetValidatedName()
         {
             var input = _application.ReadInput();
             var nameIsValid = string.IsNullOrEmpty(input) && input.Length > NumericData.NameMaxLength;
@@ -41,7 +41,7 @@ namespace GameOfLife.Input
             }
             return input;
         }
-        public int ValidateDimension()
+        public int GetValidatedDimension()
         {
             var inputIsValid = false;
             var dimensionInput = 0;
@@ -63,7 +63,7 @@ namespace GameOfLife.Input
             }
             return dimensionInput;
         }
-        public Option ValidateOption(List<Option> listOfAvailableOptions)
+        public Option GetValidatedOption(List<Option> listOfAvailableOptions)
         {
             var optionIndex = 0;
             var isOptionValid = false;
@@ -80,7 +80,6 @@ namespace GameOfLife.Input
             }
             return (Option)optionIndex;
         }
-
         public int GetValidatedIndex(List<int> indexes, int i)
         {
             var inputIsValid = false;

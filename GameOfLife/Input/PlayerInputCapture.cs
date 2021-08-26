@@ -30,12 +30,12 @@ namespace GameOfLife.Input
             PlayerInput playerInput = new PlayerInput();
 
             _application.WriteText(TextMessages.AskName);
-            playerInput.PlayerName = _validator.ValidateName();
+            playerInput.PlayerName = _validator.GetValidatedName();
 
             listOfAvailableOptions = _options.GetList(playerInput.PlayerName);
 
             _application.WriteText(AskStartOption());
-            playerInput.StartOption = _validator.ValidateOption(listOfAvailableOptions);
+            playerInput.StartOption = _validator.GetValidatedOption(listOfAvailableOptions);
             if (playerInput.StartOption == Option.Multiple)
             {
                 playerInput.FieldSize = NumericData.MultiFieldSize;
@@ -44,7 +44,7 @@ namespace GameOfLife.Input
             if (playerInput.StartOption != Option.Restore && playerInput.StartOption != Option.Multiple) 
             {
                 _application.WriteText(TextMessages.AskFieldSize);
-                playerInput.FieldSize = _validator.ValidateDimension();
+                playerInput.FieldSize = _validator.GetValidatedDimension();
             }
             return playerInput;
         }

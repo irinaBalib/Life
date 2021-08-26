@@ -14,12 +14,10 @@ namespace GameOfLife
             Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
             Console.WriteLine(text);
         }
-
         public void Write(string text)
         {
             Console.Write(text);
         }
-
         public void Rewrite(string text)
         {
             ClearLine();
@@ -29,7 +27,6 @@ namespace GameOfLife
         {
             return Console.ReadLine();
         }
-
         public void ShowErrorMessage(string message)
         {
             ClearLine();
@@ -39,7 +36,6 @@ namespace GameOfLife
             ReturnCursor();
             Console.ResetColor();
         }
-
         public void ShowFieldInfoBar(int generation, int liveCellCount, int liveFieldCount, string message)
         {
             string firstLine = TextMessages.InfoBar1Line;
@@ -63,7 +59,6 @@ namespace GameOfLife
             Console.ResetColor();
             Console.SetCursorPosition(0, 3);
         }
-
         public void ClearScreen()
         {
             Console.Clear();
@@ -76,44 +71,42 @@ namespace GameOfLife
             Console.SetCursorPosition(Console.WindowWidth / 2 - 9, Console.WindowHeight / 2);
             Console.WriteLine(TextMessages.NewGame);
         }
-
         public void PrintFields(List<IField> fieldsToPrint)
         {
-            List<IField> fieldsTemp = new List<IField>();    // TODO: to improve
-            fieldsToPrint.ForEach(field => fieldsTemp.Add(field));
-
-            var fieldHeight = fieldsTemp.FirstOrDefault().Dimension;
+            var index = 0;
+            var fieldHeight = fieldsToPrint.FirstOrDefault().Dimension;
             var columnCount = NumericData.ColumnCount;
-            var rowCount = fieldsTemp.Count / NumericData.ColumnCount; 
-            if (fieldsTemp.Count % NumericData.ColumnCount > 0) 
+            var rowCount = fieldsToPrint.Count / NumericData.ColumnCount;
+            if (fieldsToPrint.Count % NumericData.ColumnCount > 0)
             {
                 rowCount++;
             }
 
-                for (int row = 0; row < rowCount; row++)
+            for (int row = 0; row < rowCount; row++)
+            {
+                for (int column = 0; column < columnCount; column++)
                 {
-                    for (int column = 0; column < columnCount; column++)
+                    var cursorLeft = 0;
+                    var cursorTop = Console.CursorTop;
+
+                    if (column > 0)
                     {
-                        var cursorLeft = 0;
-                        var cursorTop = Console.CursorTop;
-                       
-                        if (column > 0)
-                        {
-                            cursorLeft = Console.WindowWidth / NumericData.ColumnCount * column;
-                            cursorTop = Console.CursorTop - fieldHeight - 1;
-                        }
-
-                        PrintField(fieldsTemp[0], cursorTop, cursorLeft);
-                        fieldsTemp.RemoveAt(0);
-
-                        if (fieldsTemp.Count == 0)
-                        {
-                            columnCount = column;
-                            break;
-                        }
+                        cursorLeft = Console.WindowWidth / NumericData.ColumnCount * column;
+                        cursorTop = Console.CursorTop - fieldHeight - 1;
                     }
-                    Console.WriteLine();  
+
+                    PrintField(fieldsToPrint[index], cursorTop, cursorLeft);
+                
+                    index++;
+                    if (fieldsToPrint.Count <= index)
+                    {
+                        columnCount = column;
+                        break;
+                    }
+                   
                 }
+                Console.WriteLine();
+            }
         }
         private void PrintField(IField field, int cursorTop, int cursorLeft) 
         {

@@ -6,9 +6,9 @@ namespace GameOfLife.Input
 {
     public interface IValidator
     {
-        int ValidateDimension();
-        string ValidateName();
-        Option ValidateOption(List<Option> listOfAvailableOptions);
+        int GetValidatedDimension();
+        string GetValidatedName();
+        Option GetValidatedOption(List<Option> listOfAvailableOptions);
         int GetValidatedIndex(List<int> indexes, int i);
     }
 }
