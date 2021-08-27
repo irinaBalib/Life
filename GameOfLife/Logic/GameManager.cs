@@ -68,6 +68,7 @@ namespace GameOfLife
                 case Option.Preset:
                     {
                         listOfFields.Add(_factory.BuildPresetField(PlayerInput.FieldSize));
+                        printedFields = listOfFields;
                         break;
                     }
                 case Option.Multiple:
@@ -105,15 +106,7 @@ namespace GameOfLife
 
         private void RunGameField()
         {
-            if (printedFields.Count == 1)
-            {
-                _application.PrintFields(listOfFields);
-            }
-            else
-            {
-                _application.PrintFields(printedFields);
-            }
-           
+            _application.PrintFields(printedFields);
             LoopFieldData(); 
         }
         private void SetPrintedFields()
