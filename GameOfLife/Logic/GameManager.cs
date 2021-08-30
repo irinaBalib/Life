@@ -17,7 +17,7 @@ namespace GameOfLife
         private PlayerInput PlayerInput;
         private List<IField> listOfFields;
         private List<IField> printedFields;
-       IFieldManager _fieldManager;
+        IFieldManager _fieldManager;
         IFieldFactory _factory;
         IPlayerInputCapture _inputCapture;
         IGameStorage _dataStorage;
@@ -245,12 +245,9 @@ namespace GameOfLife
         private bool RestartGame()
         {
             _application.ShowPreExitScreen();
-
-            if (_keyControls.GetKeyAction() == KeyAction.Restart)
-            {
-                return true;
-            }
-            return false;
+            bool isRestarted = _keyControls.GetKeyAction() == KeyAction.Restart;
+            
+            return isRestarted;
         }
         private void ModifyInfoBar(string message)
         {
