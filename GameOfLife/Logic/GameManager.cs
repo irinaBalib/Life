@@ -61,7 +61,7 @@ namespace GameOfLife
             {
                 case Option.Random:
                     {
-                        listOfFields.Add(_factory.BuildRandomField(PlayerInput.FieldSize));
+                        listOfFields.Add(_factory.BuildPresetField(PlayerInput.FieldSize));
                         printedFields = listOfFields;
                         break;
                     }
@@ -75,7 +75,7 @@ namespace GameOfLife
                     {
                         for (int i = 0; i < NumericData.MultiFieldCount; i++)
                         {
-                            listOfFields.Add(_factory.BuildRandomField(PlayerInput.FieldSize));
+                            listOfFields.Add(_factory.BuildPresetField(PlayerInput.FieldSize));
                             listOfFields[i].Index = i+1;
                         }
                         SetPrintedFields();

@@ -12,13 +12,13 @@ namespace GameOfLife.Input
     {
         IApplication _application;
 
-        public InputValidator(IApplication application, IOptions options)
+        public InputValidator(IApplication application)
         {
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
         public string GetValidatedName()
         {
-            var input = _application.ReadInput();
+            var input = GetInput();
             var nameIsValid = string.IsNullOrEmpty(input) && input.Length > NumericData.NameMaxLength;
 
             while (!nameIsValid)   
@@ -37,7 +37,7 @@ namespace GameOfLife.Input
                     break;
                 }
 
-                input = _application.ReadInput();
+                input = GetInput();
             }
             return input;
         }
@@ -48,7 +48,7 @@ namespace GameOfLife.Input
 
             while (!inputIsValid)
             {
-                if (!int.TryParse(_application.ReadInput(), out dimensionInput))
+                if (!int.TryParse(GetInput(), out dimensionInput))
                 {
                     _application.ShowErrorMessage(TextMessages.InvalidInput);
                 }
@@ -70,7 +70,7 @@ namespace GameOfLife.Input
 
             while (!isOptionValid)
             {
-                isOptionValid = (int.TryParse(_application.ReadInput(), out optionIndex))
+                isOptionValid = (int.TryParse(GetInput(), out optionIndex))
                 && listOfAvailableOptions.Exists(option => (int)option == optionIndex);
                 
                 if (!isOptionValid)
@@ -88,7 +88,7 @@ namespace GameOfLife.Input
             while (!inputIsValid)
             {
                  _application.Rewrite(i + ": ");
-                if (!int.TryParse(_application.ReadInput(), out indexInput))
+                if (!int.TryParse(GetInput(), out indexInput))
                 {
                     _application.ShowErrorMessage(TextMessages.InvalidInput);
                 }
@@ -106,6 +106,11 @@ namespace GameOfLife.Input
                 }
             }
             return indexInput;
+        }
+
+        private string GetInput()
+        {
+            return GetInput();
         }
     }
 }
