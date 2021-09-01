@@ -6,5 +6,6 @@ namespace GameOfLife.Grid
     {
         IField BuildRandomField(int fieldSize);
         IField BuildPresetField(int fieldSize);
+        IField Create(int fieldSize);
     }
 }

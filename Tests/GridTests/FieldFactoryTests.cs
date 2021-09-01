@@ -1,4 +1,5 @@
 ﻿using GameOfLife;
+using GameOfLife.Constants;
 using GameOfLife.Grid;
 using System;
 using System.Collections.Generic;
@@ -15,16 +16,39 @@ namespace Tests.GridTests
             _factory = new FieldFactory();
         }
 
+        [Fact]
+        public void BuildPresetField_ShouldReturnFieldOfTheDefinedSize()
+        {
+            int fieldSize = 20;
+            var output = _factory.BuildPresetField(fieldSize);
+            Assert.NotNull(output);
+            Assert.True(output.Dimension == fieldSize);
+
+        }
+
+
         [Theory]
         [MemberData(nameof(TestData))]
-        public void BuildPresetField_ValidParamPassedShouldReturnField(IField expected, int fieldSize)
+        public void CreateField_ShouldPass(IField expected, int fieldSize)
         {
-            var output = _factory.BuildPresetField(fieldSize);
-            Assert.Equal(expected, output);
+            var output = _factory.Create(fieldSize);
+            Assert.NotNull(output);
+            Assert.Equal(expected.Dimension, output.Dimension);
+            Assert.Equal(expected.Generation, output.Generation);
+            Assert.Equal(expected.Index, output.Index);
         }
         public static IEnumerable<object[]> TestData()
         {
-            int sizeMin = 15;
+            int size = 25;
+            IField field = new SquareField()
+            {
+                Dimension = size,
+                Generation = 0,
+                Index = 1,
+                Cells = new bool[size, size]
+            };
+
+            int sizeMin = NumericData.FieldMinSize;
             IField fieldMin = new SquareField()
             {
                 Dimension = sizeMin,
@@ -33,7 +57,7 @@ namespace Tests.GridTests
                 Cells = new bool[sizeMin, sizeMin]
             };
 
-            int sizeMax = 40;
+            int sizeMax = NumericData.FieldMaxSize;
             IField fieldMax = new SquareField()
             {
                 Dimension = sizeMax,
@@ -42,54 +66,19 @@ namespace Tests.GridTests
                 Cells = new bool[sizeMax, sizeMax]
             };
 
-            #region fill
-            fieldMin.Cells[0, 10] = true; // "Glider"
-            fieldMin.Cells[1, 8] = true;
-            fieldMin.Cells[1, 10] = true;
-            fieldMin.Cells[2, 9] = true;
-            fieldMin.Cells[2, 10] = true;
-
-            fieldMin.Cells[5, 5] = true; //"0+"
-            fieldMin.Cells[6, 4] = true;
-            fieldMin.Cells[6, 5] = true;
-            fieldMin.Cells[6, 6] = true;
-
-            fieldMin.Cells[1, 0] = true; // "Blinker" at the edge
-            fieldMin.Cells[2, 0] = true;
-            fieldMin.Cells[3, 0] = true;
-
-            fieldMax.Cells[0, 10] = true; // "Glider"
-            fieldMax.Cells[1, 8] = true;
-            fieldMax.Cells[1, 10] = true;
-            fieldMax.Cells[2, 9] = true;
-            fieldMax.Cells[2, 10] = true;
-
-            fieldMax.Cells[5, 5] = true; //"0+"
-            fieldMax.Cells[6, 4] = true;
-            fieldMax.Cells[6, 5] = true;
-            fieldMax.Cells[6, 6] = true;
-
-            fieldMax.Cells[1, 0] = true; // "Blinker" at the edge
-            fieldMax.Cells[2, 0] = true;
-            fieldMax.Cells[3, 0] = true;
-            #endregion
+            yield return new object[] { field, size};
             yield return new object[] { fieldMin, sizeMin };
-         //   yield return new object[] { fieldMax, sizeMax };
+            yield return new object[] { fieldMax, sizeMax };
         }
 
         [Theory]
-        [MemberData(nameof(InvalidTestData))]
-        public void BuildPresetField_InvalidParamPassedShouldFail(IField expected, int fieldSize)
+        [InlineData(-10)]
+        [InlineData(0)]
+        [InlineData(100000)]
+        public void CreateField_ShouldFail_InvalidParametersPassed(int fieldSize)
         {
-           var output = _factory.BuildPresetField(fieldSize);
-           Assert.Equal(expected, output);
+          Assert.Throws<ArgumentOutOfRangeException>(()=> _factory.Create(fieldSize));
         }
-        public static IEnumerable<object[]> InvalidTestData()
-        {
-            yield return new object[] {null, 0 };
-            yield return new object[] {null, 100 };
-            yield return new object[] {null, -10 };
-
-        }
+       
     }
 }

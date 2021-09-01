@@ -1,4 +1,5 @@
-﻿using GameOfLife.Enums;
+﻿using GameOfLife.Constants;
+using GameOfLife.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,15 +20,21 @@ namespace GameOfLife.Grid
             SetPredefined(presetField);
             return presetField;
         }
-        private IField Create(int size)
+        public IField Create(int size)
         {
-            IField field = new SquareField()
+            if (size < NumericData.FieldMinSize || size > NumericData.FieldMaxSize)
             {
-                Dimension = size,
-                Generation = 0,
-                Index = 1,
-                Cells = new bool[size, size]
-            };
+                throw new ArgumentOutOfRangeException(nameof(size));
+            }
+
+            IField field = new SquareField()
+                {
+                    Dimension = size,
+                    Generation = 0,
+                    Index = 1,
+                    Cells = new bool[size, size]
+                }; 
+
             return field;
         }
         private void FillRandomly(IField field)
