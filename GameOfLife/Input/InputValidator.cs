@@ -18,7 +18,7 @@ namespace GameOfLife.Input
         }
         public string GetValidatedName()
         {
-            var input = GetInput();
+            var input = _application.ReadInput(); ;
             var nameIsValid = string.IsNullOrEmpty(input) && input.Length > NumericData.NameMaxLength;
 
             while (!nameIsValid)   
@@ -37,7 +37,7 @@ namespace GameOfLife.Input
                     break;
                 }
 
-                input = GetInput();
+                input = _application.ReadInput();
             }
             return input;
         }
@@ -48,7 +48,7 @@ namespace GameOfLife.Input
 
             while (!inputIsValid)
             {
-                if (!int.TryParse(GetInput(), out dimensionInput))
+                if (!int.TryParse(_application.ReadInput(), out dimensionInput))
                 {
                     _application.ShowErrorMessage(TextMessages.InvalidInput);
                 }
@@ -70,7 +70,7 @@ namespace GameOfLife.Input
 
             while (!isOptionValid)
             {
-                isOptionValid = (int.TryParse(GetInput(), out optionIndex))
+                isOptionValid = (int.TryParse(_application.ReadInput(), out optionIndex))
                 && listOfAvailableOptions.Exists(option => (int)option == optionIndex);
                 
                 if (!isOptionValid)
@@ -88,7 +88,7 @@ namespace GameOfLife.Input
             while (!inputIsValid)
             {
                  _application.Rewrite(i + ": ");
-                if (!int.TryParse(GetInput(), out indexInput))
+                if (!int.TryParse(_application.ReadInput(), out indexInput))
                 {
                     _application.ShowErrorMessage(TextMessages.InvalidInput);
                 }
@@ -108,9 +108,5 @@ namespace GameOfLife.Input
             return indexInput;
         }
 
-        private string GetInput()
-        {
-            return GetInput();
-        }
     }
 }

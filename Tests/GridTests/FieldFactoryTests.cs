@@ -1,4 +1,5 @@
-﻿using GameOfLife;
+﻿using Autofac.Extras.Moq;
+using GameOfLife;
 using GameOfLife.Constants;
 using GameOfLife.Grid;
 using System;
@@ -23,7 +24,6 @@ namespace Tests.GridTests
             var output = _factory.BuildPresetField(fieldSize);
             Assert.NotNull(output);
             Assert.True(output.Dimension == fieldSize);
-
         }
 
 
